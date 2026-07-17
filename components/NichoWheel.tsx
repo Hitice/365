@@ -113,9 +113,17 @@ export default function NichoWheel() {
             : nicho.laranja
               ? "var(--accent-500)"
               : "var(--ink-300)";
-          const [tx, ty] = polar((R1 + R2) / 2, mid);
+
+          // Arco no meio da fatia para o texto curvo (textPath). Nas fatias
+          // da metade de baixo o arco é invertido para o texto ficar legível.
+          const rMeio = (R1 + R2) / 2;
           const flip = mid > 0 && mid < 180;
-          const rotation = flip ? mid - 90 : mid + 90;
+          const [ax1, ay1] = polar(rMeio, start);
+          const [ax2, ay2] = polar(rMeio, end);
+          const arcoId = `nicho-arco-${i}`;
+          const arco = flip
+            ? `M${ax2.toFixed(2)} ${ay2.toFixed(2)} A${rMeio} ${rMeio} 0 0 0 ${ax1.toFixed(2)} ${ay1.toFixed(2)}`
+            : `M${ax1.toFixed(2)} ${ay1.toFixed(2)} A${rMeio} ${rMeio} 0 0 1 ${ax2.toFixed(2)} ${ay2.toFixed(2)}`;
 
           return (
             <a
@@ -154,12 +162,10 @@ export default function NichoWheel() {
                     opacity: isActive || nicho.laranja ? 1 : 0.9,
                   }}
                 />
+                <path id={arcoId} d={arco} fill="none" />
                 <text
-                  x={tx}
-                  y={ty}
                   textAnchor="middle"
                   dominantBaseline="central"
-                  transform={`rotate(${rotation} ${tx} ${ty})`}
                   style={{
                     fill:
                       isActive || nicho.laranja
@@ -173,7 +179,9 @@ export default function NichoWheel() {
                     pointerEvents: "none",
                   }}
                 >
-                  {nicho.label}
+                  <textPath href={`#${arcoId}`} startOffset="50%">
+                    {nicho.label}
+                  </textPath>
                 </text>
               </g>
             </a>
