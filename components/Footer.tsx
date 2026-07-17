@@ -14,6 +14,14 @@ export default function Footer() {
         <p>CNPJ: 39.914.870/0001-01 · Tubalina, Uberlândia - MG, CEP 38412-044</p>
         <p>
           <a
+            href="/catalogo-catech360.pdf"
+            download
+            className="font-semibold text-accent-600 transition-colors hover:text-accent-500"
+          >
+            Baixar catálogo (PDF)
+          </a>{" "}
+          ·{" "}
+          <a
             href="mailto:adm.nuvem@protonmail.com"
             className="transition-colors hover:text-ink-900"
           >

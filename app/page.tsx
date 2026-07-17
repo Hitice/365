@@ -85,6 +85,27 @@ export default function Home() {
                   Solicitar orçamento
                 </a>
                 <a
+                  href="/catalogo-catech360.pdf"
+                  download
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-accent-500/60 px-6 text-sm font-semibold text-accent-600 transition-colors hover:bg-accent-500/10"
+                >
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14"
+                    />
+                  </svg>
+                  Baixar catálogo (PDF)
+                </a>
+                <a
                   href="#pilares"
                   className="inline-flex min-h-11 items-center justify-center rounded-md border border-ink-300 px-6 text-sm font-semibold text-ink-900 transition-colors hover:bg-ink-50"
                 >

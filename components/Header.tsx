@@ -67,6 +67,13 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <a
+            href="/catalogo-catech360.pdf"
+            download
+            className="whitespace-nowrap text-sm font-semibold text-accent-600 transition-colors hover:text-accent-500"
+          >
+            Portfólio (PDF)
+          </a>
           <Link
             href="#contato"
             className="ml-2 inline-flex h-9 items-center whitespace-nowrap rounded-md bg-accent-500 px-4 text-sm font-semibold text-white transition-colors hover:bg-accent-600"
@@ -118,6 +125,14 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <a
+            href="/catalogo-catech360.pdf"
+            download
+            className="rounded-md px-3 py-3 text-lg font-medium text-accent-600 transition-colors hover:bg-ink-50"
+            onClick={() => setOpen(false)}
+          >
+            Portfólio (PDF)
+          </a>
           <Link
             href="#contato"
             className="mt-4 self-start rounded-md bg-accent-500 px-6 py-3 text-center text-sm font-semibold text-white"
