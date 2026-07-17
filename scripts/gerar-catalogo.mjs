@@ -300,7 +300,7 @@ doc
   .fillColor(LARANJA)
   .text(String(ANO), M, 326, { width: LARGURA, align: "center" });
 
-faixaFoto(await foto("/images/catech/cnc-real.jpg", 1100), 412, 158);
+faixaFoto(await foto("/images/hero/cnc-usinagem.png", 1100), 412, 158);
 
 doc
   .font("Helvetica")
