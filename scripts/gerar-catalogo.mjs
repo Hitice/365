@@ -300,7 +300,7 @@ doc
   .fillColor(LARANJA)
   .text(String(ANO), M, 326, { width: LARGURA, align: "center" });
 
-faixaFoto(await foto("/images/hero/cnc-usinagem.png", 1100), 412, 158);
+faixaFoto(await foto("/images/hero/cnc-usinagem.png", 1100), 430, 240);
 
 doc
   .font("Helvetica")
@@ -309,36 +309,9 @@ doc
   .text(
     "Plásticos industriais em estoque · Usinagem e moldes sob demanda · Máquinas CNC de fabricação própria",
     M + 30,
-    588,
+    706,
     { width: LARGURA - 60, align: "center", lineGap: 3 },
   );
-
-doc.rect(M, 660, LARGURA, 96).fill(CINZA_CLARO);
-doc.rect(M, 660, LARGURA, 3).fill(LARANJA);
-doc
-  .font("Helvetica-Bold")
-  .fontSize(9)
-  .fillColor(LARANJA_ESCURO)
-  .text("FALE COM A GENTE", M, 676, {
-    width: LARGURA,
-    align: "center",
-    characterSpacing: 2,
-  });
-doc
-  .font("Helvetica-Bold")
-  .fontSize(11)
-  .fillColor(INK)
-  .text(`WhatsApp ${CONTATO.fone}`, M, 694, { width: LARGURA, align: "center" });
-doc
-  .font("Helvetica")
-  .fontSize(9)
-  .fillColor(TEXTO)
-  .text(CONTATO.email, M, 712, { width: LARGURA, align: "center" })
-  .fillColor(CINZA)
-  .text(`${CONTATO.cidade} · ${CONTATO.cnpj}`, M, 728, {
-    width: LARGURA,
-    align: "center",
-  });
 
 /* ==================== QUEM SOMOS ==================== */
 
