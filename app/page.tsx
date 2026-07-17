@@ -32,7 +32,7 @@ const pilares = [
     titulo: "Máquinas",
     descricao:
       "Duas linhas CNC de fabricação própria, seis modelos a partir de R$ 25.000, com suporte direto de quem projetou e montou.",
-    imagem: "/images/catech/cnc-real.jpg",
+    imagem: "/images/hero/cnc-usinagem.png",
   },
 ];
 

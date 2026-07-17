@@ -195,7 +195,7 @@ export const maquinasProdutos: MaquinaProduto[] = [
         area: "Área útil 500 x 500 mm",
         preco: "a partir de R$ 38.000",
         specs: ["Spindle 4 CV", "Controlador DDCS Expert"],
-        imagem: "/images/catech/cnc-real.jpg",
+        imagem: "/images/hero/cnc-usinagem.png",
       },
     ],
   },
@@ -416,7 +416,7 @@ export const vitrine: VitrineItem[] = [
     id: "maquinas-cnc",
     titulo: "Máquinas CNC",
     nota: "Duas linhas, seis modelos, a partir de R$ 25.000",
-    imagem: "/images/catech/cnc-real.jpg",
+    imagem: "/images/hero/cnc-usinagem.png",
     href: "/maquinas",
   },
   {
