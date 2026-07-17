@@ -265,13 +265,16 @@ doc.rect(0, A4.height - 10, A4.width, 10).fill(LARANJA);
 
 doc.image(logoClaro, A4.width / 2 - 55, 74, { width: 110 });
 
-doc
-  .font("Helvetica-Bold")
-  .fontSize(38)
-  .fillColor(INK)
-  .text("Catech ", M, 208, { width: LARGURA, align: "center", continued: true })
-  .fillColor(LARANJA)
-  .text("360");
+doc.font("Helvetica-Bold").fontSize(38);
+{
+  const parte1 = "Catech ";
+  const parte2 = "360";
+  const w1 = doc.widthOfString(parte1);
+  const w2 = doc.widthOfString(parte2);
+  const x0 = (A4.width - (w1 + w2)) / 2;
+  doc.fillColor(INK).text(parte1, x0, 208, { lineBreak: false });
+  doc.fillColor(LARANJA).text(parte2, x0 + w1, 208, { lineBreak: false });
+}
 
 doc
   .font("Helvetica")
