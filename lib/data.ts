@@ -434,11 +434,11 @@ export const vitrine: VitrineItem[] = [
     href: "/servicos#usinagem",
   },
   {
-    id: "torno",
-    titulo: "Torno e peças plásticas",
-    nota: "Buchas, engrenagens e roletes em POM, PEAD e nylon",
-    imagem: "/images/usinagem/torno.jpg",
-    href: "/servicos#usinagem",
+    id: "manutencao",
+    titulo: "Manutenção e Retrofit",
+    nota: "Reparos, atendimento remoto e migração para DDCS",
+    imagem: "/images/catech/industrial-maintenance.png",
+    href: "/servicos#manutencao",
   },
   {
     id: "ferramentaria",

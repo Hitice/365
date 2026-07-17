@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactCta from "@/components/ContactCta";
@@ -8,33 +6,6 @@ import FadeUp from "@/components/FadeUp";
 import NichoWheel from "@/components/NichoWheel";
 import SectionHeading from "@/components/SectionHeading";
 import { vitrine, valores } from "@/lib/data";
-
-const pilares = [
-  {
-    numero: "01",
-    href: "/produtos",
-    titulo: "Produtos",
-    descricao:
-      "Chapas, buchas e tarugos em plásticos industriais semiacabados. PEAD, POM, Nylon, PTFE, UHMW e mais, em estoque para entrega.",
-    imagem: "/images/catech/industry-workshop.jpg",
-  },
-  {
-    numero: "02",
-    href: "/servicos",
-    titulo: "Serviços",
-    descricao:
-      "Usinagem de precisão, moldes injetáveis, torno de plásticos, ferramentaria, manutenção e retrofit. Sem pedido mínimo.",
-    imagem: "/images/catech/USI1.jpg",
-  },
-  {
-    numero: "03",
-    href: "/maquinas",
-    titulo: "Máquinas",
-    descricao:
-      "Duas linhas CNC de fabricação própria, seis modelos a partir de R$ 25.000, com suporte direto de quem projetou e montou.",
-    imagem: "/images/hero/cnc-usinagem.png",
-  },
-];
 
 const stats = [
   { valor: "+5", rotulo: "máquinas entregues" },
@@ -105,12 +76,6 @@ export default function Home() {
                   </svg>
                   Baixar catálogo (PDF)
                 </a>
-                <a
-                  href="#pilares"
-                  className="inline-flex min-h-11 items-center justify-center rounded-md border border-ink-300 px-6 text-sm font-semibold text-ink-900 transition-colors hover:bg-ink-50"
-                >
-                  Ver o que fazemos
-                </a>
               </div>
 
               <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:max-w-lg">
@@ -137,78 +102,14 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pilares: Produtos > Serviços > Máquinas */}
-        <section
-          id="pilares"
-          className="border-t border-ink-100 bg-ink-50 py-8 sm:py-10"
-        >
-          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <FadeUp>
-              <SectionHeading
-                eyebrow="O que fazemos"
-                title="Três frentes, uma oficina"
-                subtitle="Escolha por onde começar. O orçamento é sempre individual e sem compromisso."
-              />
-            </FadeUp>
-            <div className="mt-8 grid gap-5 sm:mt-10 md:grid-cols-3">
-              {pilares.map((pilar, i) => (
-                <FadeUp key={pilar.href} delay={i * 120}>
-                  <Link
-                    href={pilar.href}
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-accent-500/50 hover:shadow-lg"
-                  >
-                    <div className="relative aspect-[16/10] overflow-hidden">
-                      <Image
-                        src={pilar.imagem}
-                        alt=""
-                        fill
-                        sizes="(min-width: 768px) 33vw, 100vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <span className="absolute left-4 top-4 rounded-md bg-navy-950/85 px-2.5 py-1 font-mono text-xs font-bold text-white backdrop-blur-sm">
-                        {pilar.numero}
-                      </span>
-                    </div>
-                    <div className="flex flex-1 flex-col p-6">
-                      <h3 className="text-xl font-bold uppercase tracking-wide text-ink-900">
-                        {pilar.titulo}
-                      </h3>
-                      <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-700">
-                        {pilar.descricao}
-                      </p>
-                      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-600">
-                        Entrar
-                        <svg
-                          className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2.5}
-                          aria-hidden="true"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M13 5l7 7-7 7M5 12h14"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </Link>
-                </FadeUp>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Vitrine */}
         <section className="border-t border-ink-100 bg-white py-14 sm:py-16">
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <FadeUp>
               <SectionHeading
                 eyebrow="Vitrine"
-                title="Produtos e peças da nossa fábrica"
-                subtitle="Uma amostra do que sai da bancada: máquinas, usinagem, moldes, ferramentaria e insumos."
+                title="O que sai da nossa bancada"
+                subtitle="Uma amostra real do que produzimos. Toque em um card para ver os detalhes daquela frente."
               />
             </FadeUp>
             <FadeUp delay={120} className="mt-10">
