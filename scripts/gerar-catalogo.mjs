@@ -1,7 +1,10 @@
 /*
   Gera o catálogo em PDF da Catech 360 em public/catalogo-catech360.pdf.
-  Usa os mesmos dados do site (lib/data.ts, via type stripping do Node).
-  Rodar com: npm run catalogo
+  Usa os mesmos dados do site (lib/data.ts, via type stripping do Node)
+  e as mesmas fotos de public/images. Rodar com: npm run catalogo.
+
+  Cada seção é diagramada para caber inteira na própria página; se o
+  total de páginas sair do esperado, o script avisa no final.
 */
 import PDFDocument from "pdfkit";
 import sharp from "sharp";
@@ -19,14 +22,17 @@ import {
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SAIDA = path.join(ROOT, "public", "catalogo-catech360.pdf");
+const ANO = 2026;
 
 const LARANJA = "#f2680f";
 const LARANJA_ESCURO = "#d9530b";
 const NAVY = "#0b1626";
 const INK = "#101828";
+const TEXTO = "#344054";
 const CINZA = "#667085";
 const CINZA_CLARO = "#f2f4f7";
 const BORDA = "#e4e7ec";
+const FANTASMA = "#e9edf3";
 
 const A4 = { width: 595.28, height: 841.89 };
 const M = 56;
@@ -39,25 +45,62 @@ const CONTATO = {
   cnpj: "CNPJ 39.914.870/0001-01",
 };
 
-const logoBuffer = await sharp(
-  path.join(ROOT, "public", "images", "brand", "logo.png"),
-)
-  .resize({ width: 480 })
-  .png()
-  .toBuffer();
+/* ---------- imagens ---------- */
+
+function logoSvg(corMira) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="480" height="480">
+  <path d="M20 5 a15 15 0 1 1 -13 7.5" fill="none" stroke="${LARANJA}" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M9.3 8.6 L10.2 14.4 L4.2 11.3 Z" fill="${LARANJA}"/>
+  <circle cx="20" cy="20" r="6.5" fill="none" stroke="${corMira}" stroke-width="2.5"/>
+  <line x1="20" y1="11" x2="20" y2="14.5" stroke="${corMira}" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="20" y1="25.5" x2="20" y2="29" stroke="${corMira}" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="11" y1="20" x2="14.5" y2="20" stroke="${corMira}" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="25.5" y1="20" x2="29" y2="20" stroke="${corMira}" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="20" cy="20" r="2" fill="${corMira}"/>
+</svg>`;
+}
+
+const logoClaro = await sharp(Buffer.from(logoSvg(INK))).png().toBuffer();
+const logoEscuro = await sharp(Buffer.from(logoSvg("#ffffff"))).png().toBuffer();
+
+const fotoCache = new Map();
+async function foto(sitePath, largura = 900) {
+  const chave = `${sitePath}@${largura}`;
+  if (!fotoCache.has(chave)) {
+    const abs = path.join(ROOT, "public", sitePath.replace(/^\//, ""));
+    fotoCache.set(
+      chave,
+      await sharp(abs).resize({ width: largura }).jpeg({ quality: 72 }).toBuffer(),
+    );
+  }
+  return fotoCache.get(chave);
+}
+
+/* ---------- documento ---------- */
 
 const doc = new PDFDocument({ size: "A4", margin: M, autoFirstPage: false });
 doc.pipe(createWriteStream(SAIDA));
+let paginas = 0;
+doc.on("pageAdded", () => paginas++);
 
-/* ---------- helpers ---------- */
+function faixaFoto(buf, y, h, x = M, w = LARGURA, raio = 10) {
+  doc.save();
+  doc.roundedRect(x, y, w, h, raio).clip();
+  doc.image(buf, x, y, { cover: [w, h], align: "center", valign: "center" });
+  doc.restore();
+  doc.roundedRect(x, y, w, h, raio).lineWidth(0.75).strokeColor(BORDA).stroke();
+}
+
+function trilhaFotos(bufs, y, h) {
+  const gap = 12;
+  const w = (LARGURA - gap * (bufs.length - 1)) / bufs.length;
+  bufs.forEach((buf, i) => faixaFoto(buf, y, h, M + i * (w + gap), w, 8));
+}
 
 function rodape(secao) {
-  const yAntes = doc.y;
-  const xAntes = doc.x;
-  const margemAntes = doc.page.margins.bottom;
+  const margem = doc.page.margins.bottom;
   doc.page.margins.bottom = 0;
-
-  const y = A4.height - 44;
+  const y = A4.height - 42;
   doc
     .font("Helvetica")
     .fontSize(7.5)
@@ -71,125 +114,94 @@ function rodape(secao) {
   doc
     .fontSize(7.5)
     .fillColor(LARANJA_ESCURO)
-    .text(secao.toUpperCase(), M, y + 12, {
+    .text(`${secao.toUpperCase()} · CATÁLOGO ${ANO}`, M, y + 12, {
       width: LARGURA,
       align: "center",
       characterSpacing: 1.5,
       lineBreak: false,
     });
-
-  doc.page.margins.bottom = margemAntes;
-  doc.y = yAntes;
-  doc.x = xAntes;
+  doc.page.margins.bottom = margem;
 }
 
-function novaPagina(secao, titulo, subtitulo) {
+/* Cabeçalho padrão; devolve o y onde o conteúdo começa. */
+function novaPagina({ secao, numero, titulo, subtitulo }) {
   doc.addPage();
   doc.rect(0, 0, A4.width, 6).fill(LARANJA);
+
+  if (numero) {
+    doc
+      .font("Helvetica-Bold")
+      .fontSize(88)
+      .fillColor(FANTASMA)
+      .text(numero, A4.width - M - 120, 22, {
+        width: 120,
+        align: "right",
+        lineBreak: false,
+      });
+  }
+
   doc
     .font("Helvetica-Bold")
     .fontSize(8)
     .fillColor(LARANJA_ESCURO)
-    .text(secao.toUpperCase(), M, 34, { characterSpacing: 2.5 });
+    .text(secao.toUpperCase(), M, 36, { characterSpacing: 2.5, lineBreak: false });
   doc
     .font("Helvetica-Bold")
     .fontSize(21)
     .fillColor(INK)
-    .text(titulo, M, 48, { width: LARGURA });
+    .text(titulo, M, 50, { width: LARGURA - 90 });
+  let y = doc.y + 4;
   if (subtitulo) {
     doc
       .font("Helvetica")
       .fontSize(9.5)
       .fillColor(CINZA)
-      .text(subtitulo, M, doc.y + 4, { width: LARGURA, lineGap: 2 });
+      .text(subtitulo, M, y, { width: LARGURA - 90, lineGap: 2 });
+    y = doc.y;
   }
-  doc
-    .moveTo(M, doc.y + 12)
-    .lineTo(A4.width - M, doc.y + 12)
-    .lineWidth(0.75)
-    .strokeColor(BORDA)
-    .stroke();
-  doc.y += 24;
+  y += 14;
+  doc.moveTo(M, y).lineTo(A4.width - M, y).lineWidth(0.75).strokeColor(BORDA).stroke();
   rodape(secao);
-  doc.font("Helvetica").fontSize(9.5).fillColor(INK);
+  return y + 16;
 }
 
-function tituloBloco(texto) {
+function tituloBloco(texto, y) {
   doc
     .font("Helvetica-Bold")
     .fontSize(11.5)
     .fillColor(INK)
-    .text(texto, M, doc.y, { width: LARGURA });
-  doc.y += 4;
+    .text(texto, M, y, { width: LARGURA, lineBreak: false });
+  return y + 20;
 }
 
-function itemLista(titulo, descricao, x, largura) {
-  const y0 = doc.y;
-  doc.circle(x + 3, y0 + 4.5, 2).fill(LARANJA);
-  doc
-    .font("Helvetica-Bold")
-    .fontSize(9)
-    .fillColor(INK)
-    .text(titulo, x + 12, y0, { width: largura - 12 });
-  doc
-    .font("Helvetica")
-    .fontSize(8.5)
-    .fillColor(CINZA)
-    .text(descricao, x + 12, doc.y + 1, { width: largura - 12, lineGap: 1.5 });
-  doc.y += 8;
-}
-
-function listaDuasColunas(itens) {
-  const larguraCol = (LARGURA - 20) / 2;
-  const metade = Math.ceil(itens.length / 2);
-  const yInicio = doc.y;
-  let yMax = yInicio;
-
-  for (const [coluna, grupo] of [
-    [0, itens.slice(0, metade)],
-    [1, itens.slice(metade)],
-  ]) {
-    const x = M + coluna * (larguraCol + 20);
-    doc.y = yInicio;
-    for (const item of grupo) {
-      itemLista(item.titulo, item.descricao, x, larguraCol);
-    }
-    yMax = Math.max(yMax, doc.y);
-  }
-  doc.y = yMax + 4;
-  doc.x = M;
-}
-
-function tabela(colunas, linhas, opcoes = {}) {
-  const larguras = opcoes.larguras ?? colunas.map(() => LARGURA / colunas.length);
+function tabela(colunas, linhas, y, larguras) {
   const pad = 7;
-  let y = doc.y;
+  const yTopo = y;
 
-  const linhaAltura = (celulas, fonte, tamanho) => {
+  const altura = (celulas, fonte, tamanho) => {
     doc.font(fonte).fontSize(tamanho);
     return (
       Math.max(
-        ...celulas.map((texto, i) =>
-          doc.heightOfString(String(texto), { width: larguras[i] - pad * 2 }),
+        ...celulas.map((t, i) =>
+          doc.heightOfString(String(t), { width: larguras[i] - pad * 2 }),
         ),
       ) +
       pad * 2
     );
   };
 
-  const desenharLinha = (celulas, { header = false, zebra = false } = {}) => {
+  const linha = (celulas, { header = false, zebra = false } = {}) => {
     const fonte = header ? "Helvetica-Bold" : "Helvetica";
-    const tamanho = header ? 8.5 : 8.5;
-    const h = linhaAltura(celulas, fonte, tamanho);
+    const h = altura(celulas, fonte, 8.5);
     if (header) doc.rect(M, y, LARGURA, h).fill(NAVY);
     else if (zebra) doc.rect(M, y, LARGURA, h).fill(CINZA_CLARO);
     let x = M;
-    celulas.forEach((texto, i) => {
+    celulas.forEach((t, i) => {
       doc
         .font(i === 0 && !header ? "Helvetica-Bold" : fonte)
-        .fontSize(tamanho)
-        .fillColor(header ? "#ffffff" : i === 0 ? INK : "#344054")
-        .text(String(texto), x + pad, y + pad, {
+        .fontSize(8.5)
+        .fillColor(header ? "#ffffff" : i === 0 ? INK : TEXTO)
+        .text(String(t), x + pad, y + pad, {
           width: larguras[i] - pad * 2,
           lineGap: 1,
         });
@@ -198,302 +210,396 @@ function tabela(colunas, linhas, opcoes = {}) {
     y += h;
   };
 
-  const yTopo = y;
-  desenharLinha(colunas, { header: true });
-  linhas.forEach((linha, i) => desenharLinha(linha, { zebra: i % 2 === 1 }));
-  doc
-    .rect(M, yTopo, LARGURA, y - yTopo)
-    .lineWidth(0.75)
-    .strokeColor(BORDA)
-    .stroke();
-  doc.y = y + 10;
-  doc.x = M;
+  linha(colunas, { header: true });
+  linhas.forEach((l, i) => linha(l, { zebra: i % 2 === 1 }));
+  doc.rect(M, yTopo, LARGURA, y - yTopo).lineWidth(0.75).strokeColor(BORDA).stroke();
+  return y + 12;
 }
 
-/* ---------- capa ---------- */
+function listaDuasColunas(itens, y) {
+  const gap = 20;
+  const larguraCol = (LARGURA - gap) / 2;
+  const metade = Math.ceil(itens.length / 2);
+  let yMax = y;
+
+  [itens.slice(0, metade), itens.slice(metade)].forEach((grupo, coluna) => {
+    const x = M + coluna * (larguraCol + gap);
+    let yc = y;
+    for (const item of grupo) {
+      doc.circle(x + 3, yc + 4.5, 2).fill(LARANJA);
+      doc
+        .font("Helvetica-Bold")
+        .fontSize(9)
+        .fillColor(INK)
+        .text(item.titulo, x + 12, yc, { width: larguraCol - 12 });
+      doc
+        .font("Helvetica")
+        .fontSize(8.5)
+        .fillColor(CINZA)
+        .text(item.descricao, x + 12, doc.y + 1, {
+          width: larguraCol - 12,
+          lineGap: 1.5,
+        });
+      yc = doc.y + 9;
+    }
+    yMax = Math.max(yMax, yc);
+  });
+  return yMax + 4;
+}
+
+function chips(texto, y, largura = LARGURA) {
+  doc
+    .font("Helvetica")
+    .fontSize(8.5)
+    .fillColor(TEXTO)
+    .text(texto, M, y, { width: largura, lineGap: 3.5 });
+  return doc.y + 12;
+}
+
+/* ==================== CAPA ==================== */
 
 doc.addPage();
+paginas = 1;
 doc.rect(0, 0, A4.width, 10).fill(LARANJA);
 doc.rect(0, A4.height - 10, A4.width, 10).fill(LARANJA);
 
-doc.image(logoBuffer, A4.width / 2 - 60, 150, { width: 120 });
+doc.image(logoClaro, A4.width / 2 - 55, 74, { width: 110 });
 
 doc
   .font("Helvetica-Bold")
-  .fontSize(40)
+  .fontSize(38)
   .fillColor(INK)
-  .text("Catech ", M, 300, { width: LARGURA, align: "center", continued: true })
+  .text("Catech ", M, 208, { width: LARGURA, align: "center", continued: true })
   .fillColor(LARANJA)
   .text("360");
 
 doc
   .font("Helvetica")
-  .fontSize(10)
+  .fontSize(9.5)
   .fillColor(CINZA)
-  .text("INDÚSTRIA COMPLETA · UBERLÂNDIA MG", M, doc.y + 8, {
+  .text("INDÚSTRIA COMPLETA · UBERLÂNDIA MG", M, 258, {
     width: LARGURA,
     align: "center",
-    characterSpacing: 2,
+    characterSpacing: 2.5,
   });
 
 doc
   .font("Helvetica-Bold")
-  .fontSize(17)
+  .fontSize(16)
   .fillColor(INK)
-  .text("Catálogo de Produtos, Serviços e Máquinas", M, 430, {
+  .text("Catálogo de Produtos, Serviços e Máquinas", M, 300, {
     width: LARGURA,
     align: "center",
   });
+doc
+  .font("Helvetica-Bold")
+  .fontSize(46)
+  .fillColor(LARANJA)
+  .text(String(ANO), M, 326, { width: LARGURA, align: "center" });
+
+faixaFoto(await foto("/images/catech/cnc-real.jpg", 1100), 412, 158);
 
 doc
   .font("Helvetica")
-  .fontSize(10)
+  .fontSize(9)
   .fillColor(CINZA)
   .text(
     "Plásticos industriais em estoque · Usinagem e moldes sob demanda · Máquinas CNC de fabricação própria",
-    M + 40,
-    doc.y + 10,
-    { width: LARGURA - 80, align: "center", lineGap: 3 },
+    M + 30,
+    588,
+    { width: LARGURA - 60, align: "center", lineGap: 3 },
   );
 
-const yContatoCapa = 690;
-doc.rect(M, yContatoCapa, LARGURA, 74).fill(CINZA_CLARO);
+doc.rect(M, 660, LARGURA, 96).fill(CINZA_CLARO);
+doc.rect(M, 660, LARGURA, 3).fill(LARANJA);
 doc
   .font("Helvetica-Bold")
   .fontSize(9)
   .fillColor(LARANJA_ESCURO)
-  .text("FALE COM A GENTE", M, yContatoCapa + 14, {
+  .text("FALE COM A GENTE", M, 676, {
     width: LARGURA,
     align: "center",
     characterSpacing: 2,
   });
 doc
-  .font("Helvetica")
-  .fontSize(9.5)
+  .font("Helvetica-Bold")
+  .fontSize(11)
   .fillColor(INK)
-  .text(
-    `WhatsApp ${CONTATO.fone} · ${CONTATO.email}`,
-    M,
-    yContatoCapa + 30,
-    { width: LARGURA, align: "center" },
-  )
+  .text(`WhatsApp ${CONTATO.fone}`, M, 694, { width: LARGURA, align: "center" });
+doc
+  .font("Helvetica")
+  .fontSize(9)
+  .fillColor(TEXTO)
+  .text(CONTATO.email, M, 712, { width: LARGURA, align: "center" })
   .fillColor(CINZA)
-  .text(`${CONTATO.cidade} · ${CONTATO.cnpj} · ${new Date().getFullYear()}`, M, doc.y + 4, {
+  .text(`${CONTATO.cidade} · ${CONTATO.cnpj}`, M, 728, {
     width: LARGURA,
     align: "center",
   });
 
-/* ---------- quem somos ---------- */
+/* ==================== QUEM SOMOS ==================== */
 
-novaPagina(
-  "Quem somos",
-  "Nascemos da vontade de juntar tudo em um lugar só",
-  "Transformamos conhecimento técnico em soluções que aumentam a eficiência, reduzem desperdícios e impulsionam a competitividade industrial.",
-);
+{
+  let y = novaPagina({
+    secao: "Quem somos",
+    titulo: "Nascemos da vontade de juntar tudo em um lugar só",
+    subtitulo:
+      "Transformamos conhecimento técnico em soluções que aumentam a eficiência, reduzem desperdícios e impulsionam a competitividade industrial.",
+  });
 
-doc
-  .font("Helvetica")
-  .fontSize(9.5)
-  .fillColor("#344054")
-  .text(
-    "A Catech 360 reúne três frentes em uma única oficina em Uberlândia MG: revenda de plásticos industriais com estoque próprio, serviços de usinagem, moldes e ferramentaria sob demanda, e a fabricação de máquinas CNC com suporte direto de quem projetou e montou.",
+  faixaFoto(await foto("/images/catech/USI1.jpg", 1100), y, 118);
+  y += 134;
+
+  doc
+    .font("Helvetica")
+    .fontSize(9.5)
+    .fillColor(TEXTO)
+    .text(
+      "A Catech 360 reúne três frentes em uma única oficina em Uberlândia MG: revenda de plásticos industriais com estoque próprio, serviços de usinagem, moldes e ferramentaria sob demanda, e a fabricação de máquinas CNC com suporte direto de quem projetou e montou.",
+      M,
+      y,
+      { width: LARGURA, lineGap: 3 },
+    );
+  y = doc.y + 8;
+  doc.text(
+    "Somos uma equipe enxuta, e é por isso que conseguimos atender com rapidez o que as fábricas grandes deixam na fila: peça avulsa, reposição urgente e lote pequeno, sem pedido mínimo. Todo serviço é orçado individualmente: mande uma peça, foto ou desenho pelo WhatsApp e devolvemos o orçamento sem compromisso.",
     M,
-    doc.y,
-    { width: LARGURA, lineGap: 3 },
-  )
-  .moveDown(0.6)
-  .text(
-    "Somos uma equipe enxuta, e é por isso que conseguimos atender com rapidez o que as fábricas grandes deixam na fila: peça avulsa, reposição urgente e lote pequeno, sem pedido mínimo. Todo serviço é orçado individualmente: mande uma peça, foto ou desenho pelo WhatsApp e devolvemos o orçamento sem compromisso, com prazo e valores claros.",
+    y,
     { width: LARGURA, lineGap: 3 },
   );
+  y = doc.y + 18;
 
-doc.y += 14;
-const cards = [
-  ["Missão", "Transformar desafios em soluções através da engenharia, tecnologia e inovação aplicada."],
-  ["Visão", "Construir um futuro onde conhecimento, tecnologia e produção ampliem continuamente o potencial das pessoas e das organizações."],
-];
-const cardLargura = (LARGURA - 16) / 2;
-const cardY = doc.y;
-let cardAltura = 0;
-cards.forEach(([titulo, texto], i) => {
-  const x = M + i * (cardLargura + 16);
-  doc.font("Helvetica").fontSize(8.5);
-  const h = doc.heightOfString(texto, { width: cardLargura - 24 }) + 44;
-  cardAltura = Math.max(cardAltura, h);
-  doc.rect(x, cardY, cardLargura, h).fill(CINZA_CLARO);
-  doc.rect(x, cardY, 3, h).fill(LARANJA);
-  doc
-    .font("Helvetica-Bold")
-    .fontSize(10.5)
-    .fillColor(INK)
-    .text(titulo, x + 14, cardY + 12);
+  const cards = [
+    ["Missão", "Transformar desafios em soluções através da engenharia, tecnologia e inovação aplicada."],
+    ["Visão", "Construir um futuro onde conhecimento, tecnologia e produção ampliem continuamente o potencial das pessoas e das organizações."],
+  ];
+  const cardLargura = (LARGURA - 16) / 2;
+  let cardAltura = 0;
+  cards.forEach(([titulo, texto], i) => {
+    const x = M + i * (cardLargura + 16);
+    doc.font("Helvetica").fontSize(8.5);
+    const h = doc.heightOfString(texto, { width: cardLargura - 26 }) + 42;
+    cardAltura = Math.max(cardAltura, h);
+    doc.roundedRect(x, y, cardLargura, h, 8).fill(CINZA_CLARO);
+    doc.rect(x, y, 3, h).fill(LARANJA);
+    doc
+      .font("Helvetica-Bold")
+      .fontSize(10.5)
+      .fillColor(INK)
+      .text(titulo, x + 15, y + 12);
+    doc
+      .font("Helvetica")
+      .fontSize(8.5)
+      .fillColor(CINZA)
+      .text(texto, x + 15, y + 27, { width: cardLargura - 26, lineGap: 2 });
+  });
+  y += cardAltura + 22;
+
+  const numeros = [
+    ["+5", "máquinas entregues"],
+    ["17", "materiais em catálogo"],
+    ["72h", "reposição recorde de peça"],
+    ["0", "pedido mínimo"],
+  ];
+  const numLargura = LARGURA / 4;
+  numeros.forEach(([valor, rotulo], i) => {
+    const x = M + i * numLargura;
+    doc.rect(x, y, 2.5, 32).fill(LARANJA);
+    doc
+      .font("Helvetica-Bold")
+      .fontSize(16)
+      .fillColor(INK)
+      .text(valor, x + 11, y, { width: numLargura - 14, lineBreak: false });
+    doc
+      .font("Helvetica")
+      .fontSize(7.5)
+      .fillColor(CINZA)
+      .text(rotulo, x + 11, y + 19, { width: numLargura - 14 });
+  });
+}
+
+/* ==================== 01 PRODUTOS ==================== */
+
+{
+  let y = novaPagina({
+    secao: "01 · Produtos",
+    numero: "01",
+    titulo: "Plásticos industriais em estoque",
+    subtitulo:
+      "Chapas, buchas e tarugos em plásticos industriais semiacabados, prontos para entrega. Quem usina internamente também pode comprar direto.",
+  });
+
+  faixaFoto(await foto("/images/catech/industry-workshop.jpg", 1100), y, 104);
+  y += 122;
+
+  y = tituloBloco("Guia rápido: qual material para qual peça?", y);
+  tabela(
+    ["Material", "Característica", "Onde usamos"],
+    materiais.map((m) => [m.nome, m.caracteristica, m.usos]),
+    y,
+    [LARGURA * 0.24, LARGURA * 0.33, LARGURA * 0.43],
+  );
+}
+
+{
+  let y = novaPagina({
+    secao: "01 · Produtos",
+    numero: "01",
+    titulo: "Catálogo e aplicações",
+    subtitulo:
+      "Dezessete materiais em catálogo e peças técnicas para os principais setores da indústria.",
+  });
+
+  trilhaFotos(
+    [
+      await foto("/images/usinagem/moldes-plasticos.jpg", 600),
+      await foto("/images/usinagem/torno.jpg", 600),
+      await foto("/images/usinagem/acrilicos.jpg", 600),
+    ],
+    y,
+    96,
+  );
+  y += 114;
+
+  y = tituloBloco("Catálogo completo", y);
+  y = chips(materiaisCatalogo.join("  ·  "), y);
+  y += 4;
+
+  y = tituloBloco("Aplicações por setor", y);
+  y = tabela(
+    ["Setor", "Peças típicas"],
+    suprimentosSetores.map((s) => [s.setor, s.itens]),
+    y,
+    [LARGURA * 0.38, LARGURA * 0.62],
+  );
+
   doc
     .font("Helvetica")
     .fontSize(8.5)
     .fillColor(CINZA)
-    .text(texto, x + 14, cardY + 28, { width: cardLargura - 24, lineGap: 2 });
-});
-doc.y = cardY + cardAltura + 18;
-doc.x = M;
+    .text(
+      "Também fornecemos vedações de válvulas e cilindros hidráulicos, roldanas em nylon, poliacetal e polipropileno, e perfis guia para todos os segmentos industriais.",
+      M,
+      y,
+      { width: LARGURA, lineGap: 2 },
+    );
+}
 
-tituloBloco("Números que resumem o nosso jeito de trabalhar");
-doc.y += 4;
-const numeros = [
-  ["+5", "máquinas entregues"],
-  ["17", "materiais em catálogo"],
-  ["72h", "reposição recorde de peça"],
-  ["0", "pedido mínimo"],
-];
-const numLargura = LARGURA / 4;
-const numY = doc.y;
-numeros.forEach(([valor, rotulo], i) => {
-  const x = M + i * numLargura;
-  doc.rect(x, numY, 2.5, 34).fill(LARANJA);
-  doc
-    .font("Helvetica-Bold")
-    .fontSize(17)
-    .fillColor(INK)
-    .text(valor, x + 12, numY, { width: numLargura - 16 });
-  doc
-    .font("Helvetica")
-    .fontSize(8)
-    .fillColor(CINZA)
-    .text(rotulo, x + 12, numY + 20, { width: numLargura - 16 });
-});
-doc.y = numY + 52;
-doc.x = M;
+/* ==================== 02 SERVIÇOS ==================== */
 
-/* ---------- 01 produtos ---------- */
-
-novaPagina(
-  "01 · Produtos",
-  "Plásticos industriais em estoque",
-  "Chapas, buchas e tarugos em plásticos industriais semiacabados, prontos para entrega. Quem usina internamente também pode comprar direto.",
-);
-
-tituloBloco("Guia rápido: qual material para qual peça?");
-tabela(
-  ["Material", "Característica", "Onde usamos"],
-  materiais.map((m) => [m.nome, m.caracteristica, m.usos]),
-  { larguras: [LARGURA * 0.24, LARGURA * 0.33, LARGURA * 0.43] },
-);
-
-novaPagina(
-  "01 · Produtos",
-  "Catálogo e aplicações",
-  "Dezessete materiais em catálogo e peças técnicas para os principais setores da indústria.",
-);
-
-tituloBloco("Catálogo completo");
-doc
-  .font("Helvetica")
-  .fontSize(8.5)
-  .fillColor("#344054")
-  .text(materiaisCatalogo.join("  ·  "), M, doc.y + 2, {
-    width: LARGURA,
-    lineGap: 3,
+{
+  let y = novaPagina({
+    secao: "02 · Serviços",
+    numero: "02",
+    titulo: "Usinagem, moldes e fabricação sob demanda",
+    subtitulo:
+      "Todo serviço é orçado individualmente por foto, desenho ou amostra. Sem pedido mínimo.",
   });
-doc.y += 12;
 
-tituloBloco("Aplicações por setor");
-tabela(
-  ["Setor", "Peças típicas"],
-  suprimentosSetores.map((s) => [s.setor, s.itens]),
-  { larguras: [LARGURA * 0.38, LARGURA * 0.62] },
-);
-doc
-  .font("Helvetica")
-  .fontSize(8.5)
-  .fillColor(CINZA)
-  .text(
-    "Também fornecemos vedações de válvulas e cilindros hidráulicos, roldanas em nylon, poliacetal e polipropileno, e perfis guia para todos os segmentos industriais.",
-    M,
-    doc.y,
-    { width: LARGURA, lineGap: 2 },
+  trilhaFotos(
+    [
+      await foto("/images/usinagem/moldes-injetaveis.jpg", 600),
+      await foto("/images/usinagem/gravacoes.jpg", 600),
+      await foto("/images/usinagem/eletrodos.jpg", 600),
+    ],
+    y,
+    96,
   );
+  y += 114;
 
-/* ---------- 02 serviços ---------- */
+  y = tituloBloco("Usinagem e moldes", y);
+  y = listaDuasColunas(usinagem, y);
+  y += 6;
 
-novaPagina(
-  "02 · Serviços",
-  "Usinagem, moldes e fabricação sob demanda",
-  "Todo serviço é orçado individualmente por foto, desenho ou amostra. Sem pedido mínimo.",
-);
+  y = tituloBloco("Metal e ferramentaria", y);
+  listaDuasColunas(ferramentaria, y);
+}
 
-tituloBloco("Usinagem e moldes");
-listaDuasColunas(usinagem);
-doc.y += 6;
+{
+  let y = novaPagina({
+    secao: "02 · Serviços",
+    numero: "02",
+    titulo: "Manutenção e Retrofit de CNC",
+    subtitulo:
+      "Suporte técnico completo em Uberlândia e região, do reparo emergencial à modernização total da sua máquina.",
+  });
 
-tituloBloco("Metal e ferramentaria");
-listaDuasColunas(ferramentaria);
+  faixaFoto(
+    await foto("/images/catech/industrial-maintenance.png", 1100),
+    y,
+    118,
+  );
+  y += 136;
 
-novaPagina(
-  "02 · Serviços",
-  "Manutenção e Retrofit de CNC",
-  "Suporte técnico completo em Uberlândia e região, do reparo emergencial à modernização total da sua máquina.",
-);
+  y = tituloBloco("Manutenção", y);
+  y = listaDuasColunas(
+    [
+      {
+        titulo: "Reparos e peças",
+        descricao:
+          "Diagnóstico, troca de componentes e recuperação de máquinas CNC de qualquer fabricante.",
+      },
+      {
+        titulo: "Atendimento remoto",
+        descricao:
+          "Suporte por acesso remoto para configuração, parametrização e resolução rápida de falhas de software.",
+      },
+      {
+        titulo: "Atendimento presencial",
+        descricao:
+          "Equipe técnica em Uberlândia e região para visitas programadas e chamados emergenciais.",
+      },
+    ],
+    y,
+  );
+  y += 8;
 
-tituloBloco("Manutenção");
-listaDuasColunas([
-  {
-    titulo: "Reparos e peças",
-    descricao:
-      "Diagnóstico, troca de componentes e recuperação de máquinas CNC de qualquer fabricante.",
-  },
-  {
-    titulo: "Atendimento remoto",
-    descricao:
-      "Suporte por acesso remoto para configuração, parametrização e resolução rápida de falhas de software.",
-  },
-  {
-    titulo: "Atendimento presencial",
-    descricao:
-      "Equipe técnica em Uberlândia e região para visitas programadas e chamados emergenciais.",
-  },
-]);
-doc.y += 6;
+  y = tituloBloco("Retrofit", y);
+  listaDuasColunas(
+    [
+      {
+        titulo: "Atualização de comandos",
+        descricao:
+          "Migração para DDCS e controladores atuais, com ganho real de velocidade, precisão e confiabilidade.",
+      },
+      {
+        titulo: "Nova eletrônica",
+        descricao:
+          "Substituição de drivers, motores e fiação por componentes modernos com peças de reposição disponíveis.",
+      },
+      {
+        titulo: "Sua máquina valorizada",
+        descricao:
+          "A estrutura mecânica que você já tem passa a operar como uma máquina nova, por uma fração do custo.",
+      },
+    ],
+    y,
+  );
+}
 
-tituloBloco("Retrofit");
-listaDuasColunas([
-  {
-    titulo: "Atualização de comandos",
-    descricao:
-      "Migração para DDCS e controladores atuais, com ganho real de velocidade, precisão e confiabilidade.",
-  },
-  {
-    titulo: "Nova eletrônica",
-    descricao:
-      "Substituição de drivers, motores e fiação por componentes modernos com peças de reposição disponíveis.",
-  },
-  {
-    titulo: "Sua máquina valorizada",
-    descricao:
-      "A estrutura mecânica que você já tem passa a operar como uma máquina nova, por uma fração do custo.",
-  },
-]);
-
-/* ---------- 03 máquinas ---------- */
+/* ==================== 03 MÁQUINAS ==================== */
 
 for (const [i, produto] of maquinasProdutos.entries()) {
-  novaPagina(
-    `03 · Máquinas · Linha ${String(i + 1).padStart(2, "0")}`,
-    produto.titulo,
-    produto.descricao,
+  let y = novaPagina({
+    secao: `03 · Máquinas · Linha ${String(i + 1).padStart(2, "0")}`,
+    numero: "03",
+    titulo: produto.titulo,
+    subtitulo: produto.descricao,
+  });
+
+  trilhaFotos(
+    await Promise.all(produto.modelos.map((m) => foto(m.imagem, 600))),
+    y,
+    104,
   );
+  y += 122;
 
-  tituloBloco("Itens de série em todos os modelos");
-  doc
-    .font("Helvetica")
-    .fontSize(8.5)
-    .fillColor("#344054")
-    .text(produto.base.join("  ·  "), M, doc.y + 2, {
-      width: LARGURA,
-      lineGap: 3,
-    });
-  doc.y += 14;
+  y = tituloBloco("Itens de série em todos os modelos", y);
+  y = chips(produto.base.join("  ·  "), y);
+  y += 4;
 
-  tituloBloco("Modelos e preços de referência");
-  tabela(
+  y = tituloBloco("Modelos e preços de referência", y);
+  y = tabela(
     ["Modelo", "Área útil", "Diferenciais", "Preço"],
     produto.modelos.map((m) => [
       m.nome,
@@ -501,9 +607,8 @@ for (const [i, produto] of maquinasProdutos.entries()) {
       m.specs.join(", "),
       m.preco,
     ]),
-    {
-      larguras: [LARGURA * 0.24, LARGURA * 0.2, LARGURA * 0.34, LARGURA * 0.22],
-    },
+    y,
+    [LARGURA * 0.24, LARGURA * 0.2, LARGURA * 0.34, LARGURA * 0.22],
   );
 
   doc
@@ -513,25 +618,25 @@ for (const [i, produto] of maquinasProdutos.entries()) {
     .text(
       "Valores aproximados. O preço final sai junto com a cotação e o desenvolvimento do projeto, conforme a configuração escolhida. Todas as máquinas saem com inversor WEG e suporte direto de quem projetou e montou.",
       M,
-      doc.y,
+      y,
       { width: LARGURA, lineGap: 2 },
     );
 }
 
-/* ---------- contracapa ---------- */
+/* ==================== CONTRACAPA ==================== */
 
 doc.addPage();
 doc.rect(0, 0, A4.width, A4.height).fill(NAVY);
 doc.rect(0, 0, A4.width, 8).fill(LARANJA);
 doc.rect(0, A4.height - 8, A4.width, 8).fill(LARANJA);
 
-doc.image(logoBuffer, A4.width / 2 - 42, 240, { width: 84 });
+doc.image(logoEscuro, A4.width / 2 - 46, 214, { width: 92 });
 
 doc
   .font("Helvetica-Bold")
   .fontSize(24)
   .fillColor("#ffffff")
-  .text("Vamos tirar o seu projeto do papel?", M, 370, {
+  .text("Vamos tirar o seu projeto do papel?", M, 356, {
     width: LARGURA,
     align: "center",
   });
@@ -543,7 +648,7 @@ doc
   .text(
     "Mande uma peça, foto ou desenho pelo WhatsApp e devolvemos o orçamento sem compromisso, com prazo e valores claros.",
     M + 60,
-    doc.y + 12,
+    398,
     { width: LARGURA - 120, align: "center", lineGap: 3 },
   );
 
@@ -551,26 +656,42 @@ doc
   .font("Helvetica-Bold")
   .fontSize(13)
   .fillColor(LARANJA)
-  .text(`WhatsApp ${CONTATO.fone}`, M, doc.y + 26, {
-    width: LARGURA,
-    align: "center",
-  });
+  .text(`WhatsApp ${CONTATO.fone}`, M, 460, { width: LARGURA, align: "center" });
 doc
   .font("Helvetica")
   .fontSize(10)
   .fillColor("#ffffff")
-  .text(CONTATO.email, M, doc.y + 8, { width: LARGURA, align: "center" })
+  .text(CONTATO.email, M, 482, { width: LARGURA, align: "center" })
   .fillColor("#8a93a3")
-  .text(`${CONTATO.cidade} · ${CONTATO.cnpj}`, M, doc.y + 6, {
+  .text(`${CONTATO.cidade} · ${CONTATO.cnpj}`, M, 500, {
     width: LARGURA,
     align: "center",
   })
   .text(
     "WhatsApp em horário comercial · E-mail respondido em até 24h · Atendimento remoto em todo o Brasil",
     M,
-    doc.y + 18,
+    524,
     { width: LARGURA, align: "center" },
   );
 
+doc
+  .font("Helvetica-Bold")
+  .fontSize(9)
+  .fillColor("#8a93a3")
+  .text(`CATÁLOGO ${ANO}`, M, 760, {
+    width: LARGURA,
+    align: "center",
+    characterSpacing: 3,
+  });
+
 doc.end();
+
+const ESPERADO = 9;
+if (paginas !== ESPERADO) {
+  console.warn(
+    `ATENÇÃO: ${paginas} páginas geradas (esperado ${ESPERADO}). Alguma seção estourou o espaço da página.`,
+  );
+} else {
+  console.log(`OK: ${paginas} páginas.`);
+}
 console.log(`Catálogo gerado em ${SAIDA}`);
