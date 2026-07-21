@@ -44,7 +44,7 @@ export default function PortfolioPage() {
             aria-hidden="true"
             className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,196,0.08),transparent_55%)]"
           />
-          <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="relative mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
                 Portfólio
@@ -61,14 +61,14 @@ export default function PortfolioPage() {
         </section>
 
         <section className="border-t border-border py-14 sm:py-16">
-          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <PortfolioFilter items={items} categorias={categorias} />
           </div>
         </section>
 
         {/* Assistência e Retrofit */}
         <section className="border-t border-border bg-surface-alt py-14 sm:py-16">
-          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div className="grid items-center gap-8 lg:grid-cols-2">
               <FadeUp>
                 <p className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-accent-600">
@@ -105,7 +105,7 @@ export default function PortfolioPage() {
 
         {/* Resultados */}
         <section className="border-t border-border py-14 sm:py-16">
-          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <FadeUp>
               <SectionHeading eyebrow="Resultados" title="Problema, solução e resultado" />
             </FadeUp>

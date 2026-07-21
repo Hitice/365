@@ -29,7 +29,7 @@ export default function Home() {
               color: "var(--foreground)",
             }}
           />
-          <div className="relative mx-auto grid w-full max-w-[1400px] items-center gap-8 px-4 pb-6 pt-8 sm:px-6 sm:pt-10 lg:grid-cols-2 lg:gap-14 lg:px-8">
+          <div className="relative mx-auto grid w-full max-w-[1480px] items-center gap-8 px-4 pb-6 pt-8 sm:px-6 sm:pt-10 lg:grid-cols-2 lg:gap-14 lg:px-8">
             <div className="text-center lg:text-left">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
                 Uberlândia MG · Atendemos todo o Brasil
@@ -58,7 +58,7 @@ export default function Home() {
 
         {/* Vitrine */}
         <section className="border-t border-border bg-background py-14 sm:py-16">
-          <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto w-full max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <FadeUp>
               <SectionHeading
                 eyebrow="Vitrine"

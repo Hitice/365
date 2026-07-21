@@ -3,7 +3,7 @@ import LogoIcon from "./LogoIcon";
 export default function Footer() {
   return (
     <footer className="border-t border-border bg-surface py-5">
-      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-center gap-x-6 gap-y-2 px-4 text-xs text-foreground-subtle sm:justify-between sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1480px] flex-wrap items-center justify-center gap-x-6 gap-y-2 px-4 text-xs text-foreground-subtle sm:justify-between sm:px-6 lg:px-8">
         <p className="flex items-center gap-2 text-foreground">
           <LogoIcon className="h-5 w-5" />
           <span>

@@ -34,7 +34,7 @@ export default function UsinagemPage() {
             aria-hidden="true"
             className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,196,0.08),transparent_55%)]"
           />
-          <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="relative mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
                 Usinagem CNC
@@ -77,7 +77,7 @@ export default function UsinagemPage() {
 
         {/* O que fabricamos */}
         <section className="border-t border-border py-14 sm:py-16">
-          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <SectionHeading eyebrow="Capacidade" title="O que fabricamos" />
             <div className="mt-10 grid grid-cols-2 gap-4 sm:mt-12 sm:grid-cols-3 lg:grid-cols-6">
               {fabricamos.map((servico) => (
@@ -94,7 +94,7 @@ export default function UsinagemPage() {
 
         {/* Cases */}
         <section className="border-t border-border bg-surface-alt py-14 sm:py-16">
-          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <SectionHeading
               eyebrow="Cases"
               title="Problema, solução e resultado"

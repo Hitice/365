@@ -77,7 +77,7 @@ export default function Header() {
         scrolled && !open ? "shadow-sm" : ""
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8 xl:pr-20">
+      <div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between px-4 sm:px-6 lg:px-8 xl:pr-20">
         <Link
           href="/"
           className="flex items-center gap-2.5 text-foreground"
