@@ -1,20 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { VitrineItem } from "@/lib/data";
+import type { Material } from "@/lib/data";
 
 const GAP = 16;
-const CLONE = 3;
+const CLONE = 4;
 const DRAG_THRESHOLD = 40;
 
 /*
-  Carrossel infinito com autoplay, portado do site antigo da Catech.
-  Responsivo: 1 card no celular, 2 no tablet, 3 no desktop.
-  Pausa no hover/arraste; setas, pontos de navegação e swipe por toque.
+  Carrossel infinito com autoplay pro catalogo de materiais. Responsivo:
+  1 card no celular, 2 no tablet, 4 no desktop. Pausa no hover/arraste;
+  setas, pontos de navegacao e swipe por toque. Mesmo padrao do
+  CardCarousel da Vitrine, so que sem link (materiais nao tem pagina
+  propria) e com 4 por vez em vez de 3.
 */
-export default function CardCarousel({ items }: { items: VitrineItem[] }) {
+export default function MaterialCarousel({ items }: { items: Material[] }) {
   const extended = [...items.slice(-CLONE), ...items, ...items.slice(0, CLONE)];
 
   const [index, setIndex] = useState(CLONE);
@@ -25,7 +26,7 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const dragState = useRef<{ startX: number; dragging: boolean } | null>(null);
 
-  const visible = width < 640 ? 1 : width < 960 ? 2 : 3;
+  const visible = width < 640 ? 1 : width < 1024 ? 2 : 4;
   const cardWidth = width > 0 ? (width - GAP * (visible - 1)) / visible : 0;
   const tx = index * (cardWidth + GAP) - dragX;
 
@@ -67,7 +68,7 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
 
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(next, 4000);
+    const t = setInterval(next, 3500);
     return () => clearInterval(t);
   }, [paused, next]);
 
@@ -120,32 +121,27 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
           }}
         >
           {extended.map((item, i) => (
-            <Link
-              key={`${item.id}-${i}`}
-              href={item.href}
-              draggable={false}
+            <div
+              key={`${item.nome}-${i}`}
               className="group flex-shrink-0 overflow-hidden rounded-xl border border-border bg-surface shadow-sm transition-all duration-200 hover:border-accent-500/60 hover:shadow-md"
               style={{
                 width: `calc((100% - ${GAP * (visible - 1)}px) / ${visible})`,
               }}
-              tabIndex={i >= CLONE && i < CLONE + items.length ? 0 : -1}
             >
-              <div className="relative aspect-[2/1] overflow-hidden">
+              <div className="relative aspect-square overflow-hidden bg-surface-alt">
                 <Image
                   src={item.imagem}
-                  alt={item.titulo}
+                  alt={item.nome}
                   fill
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                  draggable={false}
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 23vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
-              <div className="p-4">
-                <h3 className="text-sm font-semibold text-foreground sm:text-base">
-                  {item.titulo}
-                </h3>
-                <p className="mt-1 text-xs text-foreground-subtle">{item.nota}</p>
+              <div className="p-3.5">
+                <h3 className="text-sm font-semibold text-foreground">{item.nome}</h3>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
@@ -188,7 +184,7 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
           <button
             key={i}
             onClick={() => setIndex(i + CLONE)}
-            aria-label={`Item ${i + 1}`}
+            aria-label={`Material ${i + 1}`}
             aria-current={i === realIdx}
             className="flex h-11 w-11 items-center justify-center"
           >

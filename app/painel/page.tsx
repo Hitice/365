@@ -35,7 +35,7 @@ export default async function PainelPage() {
         </form>
       </div>
 
-      <div className="mt-8 rounded-2xl border border-border bg-surface p-8 text-sm text-foreground-muted">
+      <div className="mt-8 rounded-2xl border border-border bg-surface p-8 text-sm text-foreground-muted shadow-sm">
         Base do painel interno da Catech 360. As telas do CRM (clientes,
         orçamentos, ordens de serviço) entram aqui.
       </div>

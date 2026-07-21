@@ -18,7 +18,7 @@ export default function MaquinasPage() {
       <Header />
       <main className="flex-1 bg-background">
         {/* Hero */}
-        <section className="relative overflow-hidden bg-background pb-14 pt-[calc(4rem+10mm)] sm:pb-16">
+        <section className="relative overflow-hidden bg-surface-alt pb-14 pt-[calc(4rem+10mm)] sm:pb-16">
           <HeroBackground />
           <div className="relative mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">

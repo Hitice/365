@@ -80,7 +80,7 @@ export default function ContatoPage() {
     <>
       <Header />
       <main className="flex-1 bg-background">
-        <section className="relative overflow-hidden bg-background pb-14 pt-[calc(4rem+10mm)] sm:pb-16">
+        <section className="relative overflow-hidden bg-surface-alt pb-14 pt-[calc(4rem+10mm)] sm:pb-16">
           <HeroBackground />
           <div className="relative mx-auto max-w-[1480px] px-4 text-center sm:px-6 lg:px-8">
             <FadeUp className="mx-auto max-w-3xl">
@@ -119,7 +119,7 @@ export default function ContatoPage() {
                 {info.map((item) => (
                   <div
                     key={item.label}
-                    className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 text-left"
+                    className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 text-left shadow-sm"
                   >
                     <span
                       aria-hidden="true"

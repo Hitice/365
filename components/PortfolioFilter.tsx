@@ -41,7 +41,7 @@ export default function PortfolioFilter({
         {filtrados.map((item) => (
           <article
             key={item.id}
-            className="group overflow-hidden rounded-2xl border border-border bg-surface transition-shadow duration-300 hover:shadow-lg hover:shadow-navy-900/10"
+            className="group overflow-hidden rounded-2xl border border-border bg-surface shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-navy-900/10"
           >
             <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-alt">
               <Image

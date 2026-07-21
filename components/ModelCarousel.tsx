@@ -55,7 +55,7 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
 
   return (
     <div className="relative">
-      <div className="overflow-hidden rounded-2xl border border-border bg-surface">
+      <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
         <div
           ref={trackRef}
           className="touch-pan-y overflow-hidden"

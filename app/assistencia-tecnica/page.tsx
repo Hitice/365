@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactCta from "@/components/ContactCta";
@@ -83,7 +84,7 @@ export default function AssistenciaTecnicaPage() {
     <>
       <Header />
       <main className="flex-1 bg-background">
-        <section className="relative overflow-hidden bg-background pb-14 pt-[calc(4rem+10mm)] sm:pb-16">
+        <section className="relative overflow-hidden bg-surface-alt pb-14 pt-[calc(4rem+10mm)] sm:pb-16">
           <HeroBackground />
           <div className="relative mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
@@ -103,17 +104,48 @@ export default function AssistenciaTecnicaPage() {
           </div>
         </section>
 
+        {/* Retrofit */}
         <section className="border-t border-border py-14 sm:py-16">
+          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
+            <div className="grid items-center gap-8 lg:grid-cols-2">
+              <FadeUp>
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border shadow-sm">
+                  <Image
+                    src="/images/catech/Retrofit.png"
+                    alt="Retrofit de comando em máquina CNC"
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+              </FadeUp>
+              <FadeUp delay={120}>
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-accent-600">
+                  Retrofit
+                </p>
+                <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                  Comando novo, mecânica que você já confia
+                </h2>
+                <p className="mt-4 max-w-lg text-base leading-relaxed text-foreground-muted">
+                  Migração de CNC antigo para DDCS e controladores atuais,
+                  aproveitando a estrutura mecânica que você já tem.
+                </p>
+              </FadeUp>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-border bg-surface-alt py-14 sm:py-16">
           <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div className="grid gap-6 lg:grid-cols-2">
               <FadeUp>
-                <div className="rounded-2xl border border-border bg-surface p-8">
+                <div className="rounded-2xl border border-border bg-surface p-8 shadow-sm">
                   <h2 className="text-xl font-bold text-foreground">Manutenção</h2>
                   <Lista itens={manutencaoItens} />
                 </div>
               </FadeUp>
               <FadeUp delay={120}>
-                <div className="rounded-2xl border border-border bg-surface p-8">
+                <div className="rounded-2xl border border-border bg-surface p-8 shadow-sm">
                   <h2 className="text-xl font-bold text-foreground">Retrofit</h2>
                   <Lista itens={retrofitItens} />
                 </div>

@@ -35,7 +35,7 @@ export default function ProductCard({
   const [imgOk, setImgOk] = useState(true);
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-shadow duration-300 hover:shadow-lg hover:shadow-navy-900/10">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-navy-900/10">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-alt">
         {imgOk ? (
           <Image
