@@ -172,7 +172,7 @@ export default function NichoWheel() {
                       isActive || nicho.laranja
                         ? "var(--navy-950)"
                         : "var(--foreground-muted)",
-                    fontSize: nicho.label.length > 9 ? "12.5px" : "14px",
+                    fontSize: "14px",
                     fontWeight: 700,
                     letterSpacing: "0.06em",
                     textTransform: "uppercase",
