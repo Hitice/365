@@ -4,13 +4,34 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoIcon from "./LogoIcon";
+import ThemeToggle from "./ThemeToggle";
+import Button from "./Button";
 
 const links = [
-  { href: "/produtos", label: "Produtos" },
-  { href: "/servicos", label: "Serviços" },
+  { href: "/produtos", label: "Plásticos" },
+  { href: "/usinagem", label: "Usinagem" },
   { href: "/maquinas", label: "Máquinas" },
-  { href: "/#sobre", label: "Sobre" },
+  { href: "/assistencia-tecnica", label: "Assistência" },
+  { href: "/portfolio", label: "Portfólio" },
+  { href: "/sobre", label: "Sobre" },
 ];
+
+const DownloadIcon = (
+  <svg
+    className="h-4 w-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14"
+    />
+  </svg>
+);
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -31,19 +52,18 @@ export default function Header() {
     };
   }, [open]);
 
-  const isActive = (href: string) =>
-    href.startsWith("/#") ? false : pathname.startsWith(href);
+  const isActive = (href: string) => pathname.startsWith(href);
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-ink-100 bg-white/95 backdrop-blur transition-shadow duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b border-border bg-surface/95 backdrop-blur transition-shadow duration-300 ${
         scrolled && !open ? "shadow-sm" : ""
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="flex items-center gap-2.5 text-ink-900"
+          className="flex items-center gap-2.5 text-foreground"
           onClick={() => setOpen(false)}
         >
           <LogoIcon className="h-9 w-9" />
@@ -53,7 +73,7 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-5 xl:flex" aria-label="Principal">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -61,64 +81,69 @@ export default function Header() {
               className={`whitespace-nowrap text-sm font-medium transition-colors ${
                 isActive(link.href)
                   ? "font-semibold text-accent-600"
-                  : "text-ink-700 hover:text-ink-900"
+                  : "text-foreground-muted hover:text-foreground"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <a
+
+          <ThemeToggle className="ml-1" />
+
+          <Button
             href="/catalogo-catech360.pdf"
             download
-            className="whitespace-nowrap text-sm font-semibold text-accent-600 transition-colors hover:text-accent-500"
+            variant="secondary"
+            size="compact"
+            icon={DownloadIcon}
           >
-            Portfólio (PDF)
-          </a>
-          <Link
-            href="#contato"
-            className="ml-2 inline-flex h-9 items-center whitespace-nowrap rounded-md bg-accent-500 px-4 text-sm font-semibold text-white transition-colors hover:bg-accent-600"
-          >
+            Catálogo
+          </Button>
+          <Button href="/contato" size="compact">
             Solicitar orçamento
-          </Link>
+          </Button>
         </nav>
 
-        <button
-          type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md text-ink-900 lg:hidden"
-          aria-expanded={open}
-          aria-controls="menu-mobile"
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            aria-hidden="true"
+        <div className="flex items-center gap-1 xl:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground"
+            aria-expanded={open}
+            aria-controls="menu-mobile"
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            onClick={() => setOpen((v) => !v)}
           >
-            {open ? (
-              <path strokeLinecap="round" d="M6 6l12 12M6 18L18 6" />
-            ) : (
-              <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
-            )}
-          </svg>
-        </button>
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+              aria-hidden="true"
+            >
+              {open ? (
+                <path strokeLinecap="round" d="M6 6l12 12M6 18L18 6" />
+              ) : (
+                <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {open && (
         <nav
           id="menu-mobile"
           aria-label="Menu principal"
-          className="flex h-[calc(100dvh-4rem)] flex-col gap-1 bg-white px-4 pb-8 pt-4 lg:hidden"
+          className="flex h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto bg-surface px-4 pb-8 pt-4 xl:hidden"
         >
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-md px-3 py-3 text-lg font-medium transition-colors hover:bg-ink-50 ${
-                isActive(link.href) ? "text-accent-600" : "text-ink-900"
+              className={`rounded-md px-3 py-3 text-lg font-medium transition-colors hover:bg-surface-alt ${
+                isActive(link.href) ? "text-accent-600" : "text-foreground"
               }`}
               onClick={() => setOpen(false)}
             >
@@ -128,13 +153,14 @@ export default function Header() {
           <a
             href="/catalogo-catech360.pdf"
             download
-            className="rounded-md px-3 py-3 text-lg font-medium text-accent-600 transition-colors hover:bg-ink-50"
+            className="flex items-center gap-2 rounded-md px-3 py-3 text-lg font-medium text-foreground-muted transition-colors hover:bg-surface-alt"
             onClick={() => setOpen(false)}
           >
-            Portfólio (PDF)
+            {DownloadIcon}
+            Baixar catálogo (PDF)
           </a>
           <Link
-            href="#contato"
+            href="/contato"
             className="mt-4 self-start rounded-md bg-accent-500 px-6 py-3 text-center text-sm font-semibold text-white"
             onClick={() => setOpen(false)}
           >

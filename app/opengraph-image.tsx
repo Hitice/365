@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Catech 360 | Produtos, Serviços e Máquinas CNC em Uberlândia";
+  "Catech 360 | Usinagem CNC, Plásticos Industriais e Máquinas em Uberlândia";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -50,7 +50,7 @@ export default function OgImage() {
             display: "flex",
           }}
         >
-          Produtos · Serviços · Máquinas CNC
+          Usinagem CNC · Plásticos Industriais · Máquinas
         </div>
         <div
           style={{
@@ -60,7 +60,7 @@ export default function OgImage() {
             display: "flex",
           }}
         >
-          Soluções integradas para a indústria · Uberlândia MG
+          Peças sob desenho e máquinas de fabricação própria · Uberlândia MG
         </div>
         <div
           style={{
