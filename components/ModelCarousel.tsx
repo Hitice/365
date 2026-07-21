@@ -1,26 +1,74 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { MaquinaProduto } from "@/lib/data";
+
+const DRAG_THRESHOLD = 40;
 
 /*
   Carrossel de modelos de uma linha de máquina: um modelo por vez,
   com foto, ficha técnica, preço e CTA de orçamento pelo WhatsApp.
+  Suporta arraste/swipe por toque, além das setas e pontos.
 */
 export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) {
   const [index, setIndex] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dragStartX = useRef(0);
   const total = produto.modelos.length;
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const obs = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const prev = () => setIndex((i) => (i - 1 + total) % total);
   const next = () => setIndex((i) => (i + 1) % total);
 
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragStartX.current = e.clientX;
+    setDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!dragging) return;
+    setDragX(e.clientX - dragStartX.current);
+  };
+
+  const endDrag = () => {
+    if (!dragging) return;
+    setDragging(false);
+    if (dragX <= -DRAG_THRESHOLD) next();
+    else if (dragX >= DRAG_THRESHOLD) prev();
+    setDragX(0);
+  };
+
+  const tx = index * width - dragX;
+
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-surface">
-      <div className="overflow-hidden">
+      <div
+        ref={trackRef}
+        className="touch-pan-y overflow-hidden"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+      >
         <div
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${index * 100}%)` }}
+          className="flex select-none"
+          style={{
+            transform: `translateX(-${tx}px)`,
+            transition: dragging ? "none" : "transform 500ms ease-in-out",
+          }}
         >
           {produto.modelos.map((modelo) => (
             <div
@@ -32,6 +80,7 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
                   src={modelo.imagem}
                   alt={modelo.nome}
                   fill
+                  draggable={false}
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover"
                 />
@@ -92,11 +141,11 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
         </div>
       </div>
 
-      <div className="flex items-center justify-between border-t border-border px-4 py-3">
+      <div className="flex items-center justify-between border-t border-border px-2 py-2">
         <button
           onClick={prev}
           aria-label="Modelo anterior"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border-strong text-foreground-muted transition-colors hover:border-accent-500/60 hover:text-accent-600"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground-muted transition-colors hover:bg-surface-alt hover:text-accent-600"
         >
           <svg
             className="h-4 w-4"
@@ -110,25 +159,28 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
           </svg>
         </button>
 
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           {produto.modelos.map((modelo, i) => (
             <button
               key={modelo.id}
               onClick={() => setIndex(i)}
               aria-label={modelo.nome}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === index
-                  ? "w-6 bg-accent-500"
-                  : "w-1.5 bg-border-strong hover:bg-foreground-subtle"
-              }`}
-            />
+              aria-current={i === index}
+              className="flex h-8 w-8 items-center justify-center"
+            >
+              <span
+                className={`block h-1.5 rounded-full transition-all duration-300 ${
+                  i === index ? "w-6 bg-accent-500" : "w-1.5 bg-border-strong"
+                }`}
+              />
+            </button>
           ))}
         </div>
 
         <button
           onClick={next}
           aria-label="Próximo modelo"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border-strong text-foreground-muted transition-colors hover:border-accent-500/60 hover:text-accent-600"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground-muted transition-colors hover:bg-surface-alt hover:text-accent-600"
         >
           <svg
             className="h-4 w-4"

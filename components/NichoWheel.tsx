@@ -102,16 +102,9 @@ export default function NichoWheel() {
               ? "var(--accent-500)"
               : "var(--border-strong)";
 
-          // Arco no meio da fatia para o texto curvo (textPath). Nas fatias
-          // da metade de baixo o arco é invertido para o texto ficar legível.
+          // Rótulo reto (sem curvar letra a letra), centrado no meio da fatia.
           const rMeio = (R1 + R2) / 2;
-          const flip = mid > 0 && mid < 180;
-          const [ax1, ay1] = polar(rMeio, start);
-          const [ax2, ay2] = polar(rMeio, end);
-          const arcoId = `nicho-arco-${i}`;
-          const arco = flip
-            ? `M${ax2.toFixed(2)} ${ay2.toFixed(2)} A${rMeio} ${rMeio} 0 0 0 ${ax1.toFixed(2)} ${ay1.toFixed(2)}`
-            : `M${ax1.toFixed(2)} ${ay1.toFixed(2)} A${rMeio} ${rMeio} 0 0 1 ${ax2.toFixed(2)} ${ay2.toFixed(2)}`;
+          const [tx, ty] = polar(rMeio, mid);
 
           return (
             <a
@@ -145,13 +138,17 @@ export default function NichoWheel() {
                 <path
                   d={segmentPath(start, end)}
                   fill={fill}
+                  stroke={fill}
+                  strokeWidth={9}
+                  strokeLinejoin="round"
                   style={{
-                    transition: "fill 0.25s ease",
+                    transition: "fill 0.25s ease, stroke 0.25s ease",
                     opacity: isActive || nicho.laranja ? 1 : 0.9,
                   }}
                 />
-                <path id={arcoId} d={arco} fill="none" />
                 <text
+                  x={tx}
+                  y={ty}
                   textAnchor="middle"
                   dominantBaseline="central"
                   style={{
@@ -161,15 +158,13 @@ export default function NichoWheel() {
                         : "var(--foreground-muted)",
                     fontSize: nicho.label.length > 9 ? "12.5px" : "14px",
                     fontWeight: 700,
-                    letterSpacing: "0.1em",
+                    letterSpacing: "0.06em",
                     textTransform: "uppercase",
                     transition: "fill 0.25s ease",
                     pointerEvents: "none",
                   }}
                 >
-                  <textPath href={`#${arcoId}`} startOffset="50%">
-                    {nicho.label}
-                  </textPath>
+                  {nicho.label}
                 </text>
               </g>
             </a>

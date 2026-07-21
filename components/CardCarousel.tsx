@@ -7,11 +7,12 @@ import type { VitrineItem } from "@/lib/data";
 
 const GAP = 16;
 const CLONE = 3;
+const DRAG_THRESHOLD = 40;
 
 /*
   Carrossel infinito com autoplay, portado do site antigo da Catech.
   Responsivo: 1 card no celular, 2 no tablet, 3 no desktop.
-  Pausa no hover; setas e pontos de navegação.
+  Pausa no hover/arraste; setas, pontos de navegação e swipe por toque.
 */
 export default function CardCarousel({ items }: { items: VitrineItem[] }) {
   const extended = [...items.slice(-CLONE), ...items, ...items.slice(0, CLONE)];
@@ -20,11 +21,13 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
   const [animated, setAnimated] = useState(true);
   const [paused, setPaused] = useState(false);
   const [width, setWidth] = useState(0);
+  const [dragX, setDragX] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const dragState = useRef<{ startX: number; dragging: boolean } | null>(null);
 
   const visible = width < 640 ? 1 : width < 960 ? 2 : 3;
   const cardWidth = width > 0 ? (width - GAP * (visible - 1)) / visible : 0;
-  const tx = index * (cardWidth + GAP);
+  const tx = index * (cardWidth + GAP) - dragX;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -68,15 +71,48 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
     return () => clearInterval(t);
   }, [paused, next]);
 
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragState.current = { startX: e.clientX, dragging: true };
+    setAnimated(false);
+    setPaused(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!dragState.current?.dragging) return;
+    setDragX(e.clientX - dragState.current.startX);
+  };
+
+  const endDrag = () => {
+    if (!dragState.current?.dragging) return;
+    dragState.current.dragging = false;
+    setPaused(false);
+    setAnimated(true);
+    if (dragX <= -DRAG_THRESHOLD) {
+      setIndex((i) => i + 1);
+    } else if (dragX >= DRAG_THRESHOLD) {
+      setIndex((i) => i - 1);
+    }
+    setDragX(0);
+  };
+
   return (
     <div
       className="group/carousel relative"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div ref={containerRef} className="overflow-hidden rounded-xl">
+      <div
+        ref={containerRef}
+        className="touch-pan-y overflow-hidden rounded-xl"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+      >
         <div
-          className="flex"
+          className="flex select-none"
           style={{
             gap: `${GAP}px`,
             transform: `translateX(-${tx}px)`,
@@ -87,13 +123,14 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
             <Link
               key={`${item.id}-${i}`}
               href={item.href}
+              draggable={false}
               className="group flex-shrink-0 overflow-hidden rounded-xl border border-border bg-surface transition-colors duration-200 hover:border-accent-500/60 hover:shadow-md"
               style={{
                 width: `calc((100% - ${GAP * (visible - 1)}px) / ${visible})`,
               }}
               tabIndex={i >= CLONE && i < CLONE + items.length ? 0 : -1}
             >
-              <div className="relative aspect-video overflow-hidden">
+              <div className="relative aspect-[2/1] overflow-hidden">
                 <Image
                   src={item.imagem}
                   alt={item.titulo}
@@ -116,7 +153,7 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
       <button
         onClick={prev}
         aria-label="Anterior"
-        className="absolute -left-4 top-[38%] z-10 flex h-9 w-9 items-center justify-center rounded-full border border-border-strong bg-surface text-foreground-muted shadow-sm opacity-0 transition-all duration-200 hover:border-accent-500/60 hover:text-accent-600 group-hover/carousel:opacity-100"
+        className="absolute -left-1 top-[38%] z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border-strong bg-surface text-foreground-muted shadow-sm transition-colors duration-200 hover:border-accent-500/60 hover:text-accent-600 sm:-left-4"
       >
         <svg
           className="h-4 w-4"
@@ -132,7 +169,7 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
       <button
         onClick={next}
         aria-label="Próximo"
-        className="absolute -right-4 top-[38%] z-10 flex h-9 w-9 items-center justify-center rounded-full border border-border-strong bg-surface text-foreground-muted shadow-sm opacity-0 transition-all duration-200 hover:border-accent-500/60 hover:text-accent-600 group-hover/carousel:opacity-100"
+        className="absolute -right-1 top-[38%] z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border-strong bg-surface text-foreground-muted shadow-sm transition-colors duration-200 hover:border-accent-500/60 hover:text-accent-600 sm:-right-4"
       >
         <svg
           className="h-4 w-4"
@@ -146,18 +183,23 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
         </svg>
       </button>
 
-      <div className="mt-4 flex justify-center gap-2">
+      <div className="mt-3 flex justify-center gap-1">
         {items.map((_, i) => (
           <button
             key={i}
             onClick={() => setIndex(i + CLONE)}
             aria-label={`Item ${i + 1}`}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === realIdx
-                ? "w-5 bg-accent-500"
-                : "w-1.5 bg-border-strong hover:bg-foreground-subtle"
-            }`}
-          />
+            aria-current={i === realIdx}
+            className="flex h-8 w-8 items-center justify-center"
+          >
+            <span
+              className={`block h-1.5 rounded-full transition-all duration-300 ${
+                i === realIdx
+                  ? "w-5 bg-accent-500"
+                  : "w-1.5 bg-border-strong"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>
