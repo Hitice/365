@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import ContactCta from "@/components/ContactCta";
 import Button from "@/components/Button";
 import FadeUp from "@/components/FadeUp";
+import HeroBackground from "@/components/HeroBackground";
 import { materiaisCatalogo } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -18,10 +19,7 @@ export default function ProdutosPage() {
       <Header />
       <main className="flex-1 bg-background">
         <section className="relative overflow-hidden bg-background pb-14 pt-28 sm:pb-16 sm:pt-36">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,196,0.08),transparent_55%)]"
-          />
+          <HeroBackground />
           <div className="relative mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">

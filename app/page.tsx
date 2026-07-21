@@ -6,6 +6,7 @@ import FadeUp from "@/components/FadeUp";
 import NichoWheel from "@/components/NichoWheel";
 import SectionHeading from "@/components/SectionHeading";
 import Button from "@/components/Button";
+import HeroBackground from "@/components/HeroBackground";
 import { vitrine } from "@/lib/data";
 
 export default function Home() {
@@ -15,20 +16,7 @@ export default function Home() {
       <main className="flex flex-1 flex-col bg-background">
         {/* Hero com a roda 360 */}
         <section className="relative overflow-hidden pt-4">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,196,0.08),transparent_60%)]"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-[0.03] dark:opacity-[0.06]"
-            style={{
-              backgroundImage:
-                "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
-              backgroundSize: "56px 56px",
-              color: "var(--foreground)",
-            }}
-          />
+          <HeroBackground position="top" />
           <div className="relative mx-auto grid w-full max-w-[1480px] items-start gap-8 px-4 pb-2 pt-4 sm:px-6 sm:pt-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
             <div className="text-center lg:text-left">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
