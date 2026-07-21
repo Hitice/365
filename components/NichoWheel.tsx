@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
@@ -67,6 +67,7 @@ export default function NichoWheel() {
   const [active, setActive] = useState<number | null>(null);
   const reduceMotion = usePrefersReducedMotion();
   const router = useRouter();
+  const uid = useId();
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -105,9 +106,18 @@ export default function NichoWheel() {
               ? "var(--accent-500)"
               : "var(--border-strong)";
 
-          // Rótulo reto (sem curvar letra a letra), centrado no meio da fatia.
+          // Rótulo curvo, acompanhando o arco no meio da fatia (igual ao
+          // "ajustar texto ao caminho" do Corel). Nas fatias da metade de
+          // baixo o arco é desenhado ao contrário para o texto não ficar
+          // de cabeça para baixo.
           const rMeio = (R1 + R2) / 2;
-          const [tx, ty] = polar(rMeio, mid);
+          const flip = mid > 0 && mid < 180;
+          const [ax1, ay1] = polar(rMeio, start);
+          const [ax2, ay2] = polar(rMeio, end);
+          const arcoId = `${uid}-arco-${i}`;
+          const arco = flip
+            ? `M${ax2.toFixed(2)} ${ay2.toFixed(2)} A${rMeio} ${rMeio} 0 0 0 ${ax1.toFixed(2)} ${ay1.toFixed(2)}`
+            : `M${ax1.toFixed(2)} ${ay1.toFixed(2)} A${rMeio} ${rMeio} 0 0 1 ${ax2.toFixed(2)} ${ay2.toFixed(2)}`;
 
           return (
             <a
@@ -153,9 +163,8 @@ export default function NichoWheel() {
                     opacity: isActive || nicho.laranja ? 1 : 0.9,
                   }}
                 />
+                <path id={arcoId} d={arco} fill="none" />
                 <text
-                  x={tx}
-                  y={ty}
                   textAnchor="middle"
                   dominantBaseline="central"
                   style={{
@@ -171,7 +180,9 @@ export default function NichoWheel() {
                     pointerEvents: "none",
                   }}
                 >
-                  {nicho.label}
+                  <textPath href={`#${arcoId}`} startOffset="50%">
+                    {nicho.label}
+                  </textPath>
                 </text>
               </g>
             </a>
