@@ -22,11 +22,11 @@ export default function Home() {
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
                 Uberlândia MG · Atendemos todo o Brasil
               </p>
-              <h1 className="mt-2 text-balance text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
+              <h1 className="mt-4 text-balance text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl">
                 Soluções industriais para quem{" "}
                 <span className="text-accent-600">não pode parar a produção.</span>
               </h1>
-              <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-foreground-muted sm:text-lg lg:mx-0">
+              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-foreground-muted lg:mx-0">
                 Fabricamos peças usinadas, fornecemos plásticos de engenharia,
                 desenvolvemos moldes e construímos máquinas CNC para
                 indústrias em todo o Brasil.

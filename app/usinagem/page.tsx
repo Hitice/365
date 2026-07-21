@@ -4,15 +4,14 @@ import Footer from "@/components/Footer";
 import ContactCta from "@/components/ContactCta";
 import ProductCard from "@/components/ProductCard";
 import SectionHeading from "@/components/SectionHeading";
-import CaseCard from "@/components/CaseCard";
 import FadeUp from "@/components/FadeUp";
 import HeroBackground from "@/components/HeroBackground";
-import { usinagem, ferramentaria, casesIndustria } from "@/lib/data";
+import { usinagem, ferramentaria } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Usinagem CNC",
   description:
-    "Peças sob desenho, moldes para injeção, ferramentaria e engenharia reversa. Recebemos desenho, STEP, PDF, foto ou amostra.",
+    "Peças sob desenho, moldes para injeção, ferramentaria e engenharia. Recebemos desenho, STEP, PDF, foto ou amostra.",
 };
 
 const formatos = [
@@ -38,7 +37,7 @@ export default function UsinagemPage() {
                 Usinagem CNC
               </p>
               <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-                Peças técnicas, ferramentaria e{" "}
+                Peças técnicas, projetos e{" "}
                 <span className="text-accent-600">engenharia reversa</span>
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground-muted">
@@ -85,21 +84,6 @@ export default function UsinagemPage() {
                   imagem={servico.imagem}
                   compact
                 />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Cases */}
-        <section className="border-t border-border bg-surface-alt py-14 sm:py-16">
-          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
-            <SectionHeading
-              eyebrow="Cases"
-              title="Problema, solução e resultado"
-            />
-            <div className="mt-10 grid gap-6 sm:mt-12 lg:grid-cols-2">
-              {casesIndustria.map((caso) => (
-                <CaseCard key={caso.id} caso={caso} />
               ))}
             </div>
           </div>

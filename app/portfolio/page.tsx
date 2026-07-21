@@ -4,12 +4,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactCta from "@/components/ContactCta";
 import Button from "@/components/Button";
-import SectionHeading from "@/components/SectionHeading";
-import CaseCard from "@/components/CaseCard";
 import FadeUp from "@/components/FadeUp";
 import PortfolioFilter, { type PortfolioItem } from "@/components/PortfolioFilter";
 import HeroBackground from "@/components/HeroBackground";
-import { usinagem, ferramentaria, maquinasProdutos, casesIndustria } from "@/lib/data";
+import { usinagem, ferramentaria, maquinasProdutos } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Portfólio",
@@ -97,20 +95,6 @@ export default function PortfolioPage() {
                   />
                 </div>
               </FadeUp>
-            </div>
-          </div>
-        </section>
-
-        {/* Resultados */}
-        <section className="border-t border-border py-14 sm:py-16">
-          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
-            <FadeUp>
-              <SectionHeading eyebrow="Resultados" title="Problema, solução e resultado" />
-            </FadeUp>
-            <div className="mt-10 grid gap-6 sm:mt-12 lg:grid-cols-2">
-              {casesIndustria.map((caso) => (
-                <CaseCard key={caso.id} caso={caso} />
-              ))}
             </div>
           </div>
         </section>

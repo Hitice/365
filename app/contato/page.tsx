@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import FadeUp from "@/components/FadeUp";
+import HeroBackground from "@/components/HeroBackground";
 
 export const metadata: Metadata = {
   title: "Contato",
@@ -16,12 +17,62 @@ const WHATSAPP_ICON = (
   </svg>
 );
 
+const ICON_PROPS = {
+  className: "h-5 w-5",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  "aria-hidden": true,
+} as const;
+
+const PHONE_ICON = (
+  <svg {...ICON_PROPS}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.372a1.5 1.5 0 00-1.077-1.44l-4.193-1.198a1.5 1.5 0 00-1.586.44l-.911 1.093a12.06 12.06 0 01-5.183-5.183l1.093-.911a1.5 1.5 0 00.44-1.587L8.373 3.327a1.5 1.5 0 00-1.44-1.077H5.25A2.25 2.25 0 003 4.5v2.25z"
+    />
+  </svg>
+);
+
+const MAIL_ICON = (
+  <svg {...ICON_PROPS}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M2.25 6.75c0-.966.784-1.75 1.75-1.75h16c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0120 19H4a1.75 1.75 0 01-1.75-1.75V6.75z"
+    />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 7l9 6 9-6" />
+  </svg>
+);
+
+const PIN_ICON = (
+  <svg {...ICON_PROPS}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+    />
+  </svg>
+);
+
+const BUILDING_ICON = (
+  <svg {...ICON_PROPS}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M4 21V6.5L12 3l8 3.5V21M4 21h16M4 21H2m18 0h2M9 9h1M9 13h1m4-4h1m-1 4h1m-6 8v-4h6v4"
+    />
+  </svg>
+);
+
 const info = [
-  { label: "Telefone", value: "+55 (34) 99117-6599" },
-  { label: "E-mail", value: "adm.nuvem@protonmail.com" },
-  { label: "Endereço", value: "Tubalina, Uberlândia - MG, CEP 38412-044" },
-  { label: "CNPJ", value: "39.914.870/0001-01" },
-  { label: "Horário", value: "Segunda a sexta, horário comercial", center: true },
+  { label: "Telefone", value: "+55 (34) 99117-6599", icon: PHONE_ICON },
+  { label: "E-mail", value: "adm.nuvem@protonmail.com", icon: MAIL_ICON },
+  { label: "Endereço", value: "Tubalina, Uberlândia - MG, CEP 38412-044", icon: PIN_ICON },
+  { label: "CNPJ", value: "39.914.870/0001-01", icon: BUILDING_ICON },
 ];
 
 export default function ContatoPage() {
@@ -29,46 +80,68 @@ export default function ContatoPage() {
     <>
       <Header />
       <main className="flex-1 bg-background">
-        <section className="mx-auto max-w-3xl px-4 pb-28 pt-[calc(4rem+10mm)] text-center sm:px-6 sm:pb-36 lg:px-8">
-          <FadeUp>
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
-              Contato
-            </p>
-            <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl">
-              Envie seu projeto
-            </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-foreground-muted">
-              Anexe um desenho, PDF, STEP, foto ou amostra. Em até 24 horas
-              úteis retornamos com análise técnica e orçamento.
-            </p>
+        <section className="relative overflow-hidden bg-background pb-14 pt-[calc(4rem+10mm)] sm:pb-16">
+          <HeroBackground />
+          <div className="relative mx-auto max-w-[1480px] px-4 text-center sm:px-6 lg:px-8">
+            <FadeUp className="mx-auto max-w-3xl">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
+                Contato
+              </p>
+              <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                Envie seu projeto
+              </h1>
+              <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-foreground-muted">
+                Anexe um desenho, PDF, STEP, foto ou amostra. Em até 24 horas
+                úteis retornamos com análise técnica e orçamento.
+              </p>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button
-                href="https://wa.me/5534991176599?text=Ol%C3%A1!%20Quero%20enviar%20um%20projeto%20para%20or%C3%A7amento."
-                target="_blank"
-                rel="noopener noreferrer"
-                icon={WHATSAPP_ICON}
-              >
-                WhatsApp
-              </Button>
-              <Button href="mailto:adm.nuvem@protonmail.com" variant="secondary">
-                Enviar e-mail
-              </Button>
-            </div>
-          </FadeUp>
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <Button
+                  href="https://wa.me/5534991176599?text=Ol%C3%A1!%20Quero%20enviar%20um%20projeto%20para%20or%C3%A7amento."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  icon={WHATSAPP_ICON}
+                >
+                  WhatsApp
+                </Button>
+                <Button href="mailto:adm.nuvem@protonmail.com" variant="secondary">
+                  Enviar e-mail
+                </Button>
+              </div>
+            </FadeUp>
+          </div>
+        </section>
 
-          <FadeUp delay={120} className="mt-16 border-t border-border pt-10 text-left">
-            <dl className="grid gap-6 sm:grid-cols-2">
-              {info.map((item) => (
-                <div key={item.label} className={item.center ? "sm:col-span-2 text-center" : undefined}>
-                  <dt className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground-subtle">
-                    {item.label}
-                  </dt>
-                  <dd className="mt-1.5 text-sm text-foreground-muted">{item.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </FadeUp>
+        <section className="border-t border-border py-14 sm:py-16">
+          <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
+            <FadeUp className="mx-auto max-w-2xl">
+              <dl className="grid gap-4 sm:grid-cols-2">
+                {info.map((item) => (
+                  <div
+                    key={item.label}
+                    className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 text-left"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-accent-500/15 text-accent-600"
+                    >
+                      {item.icon}
+                    </span>
+                    <div>
+                      <dt className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground-subtle">
+                        {item.label}
+                      </dt>
+                      <dd className="mt-1 text-sm text-foreground-muted">{item.value}</dd>
+                    </div>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-6 text-center text-sm text-foreground-muted">
+                <span className="font-semibold text-foreground-subtle">Horário: </span>
+                Segunda a sexta, das 8h às 18h
+              </p>
+            </FadeUp>
+          </div>
         </section>
       </main>
       <Footer />

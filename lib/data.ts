@@ -21,35 +21,35 @@ export const usinagem: Servico[] = [
   },
   {
     id: "moldes-plasticos",
-    titulo: "Peças em PEAD e tecnil",
+    titulo: "Peças em PEAD, tecnil e poliacetal",
     descricao:
       "Corte, furação e fresagem de peças de desgaste, guias, batentes e chapas em PEAD e tecnil.",
     imagem: "/images/usinagem/moldes-plasticos.jpg",
   },
   {
     id: "acrilicos",
-    titulo: "Acrílicos e policarbonato",
+    titulo: "Corte em acrílico e policarbonato",
     descricao:
       "Corte e usinagem de precisão em acrílico e policarbonato para proteções, visores e peças técnicas.",
     imagem: "/images/usinagem/acrilicos.jpg",
   },
   {
     id: "gabaritos",
-    titulo: "Fabricação de gabaritos",
+    titulo: "Projeto e fabricação de gabaritos",
     descricao:
       "Guias de precisão em policarbonato, acrílico ou alumínio para produção que fura, corta ou monta sempre no mesmo padrão.",
     imagem: "/images/usinagem/gabaritos.jpg",
   },
   {
     id: "torno",
-    titulo: "Torneamento",
+    titulo: "Torneamento, engrenagens e buchas",
     descricao:
       "Buchas, engrenagens, roletes e peças rotativas em poliacetal, PEAD e outros polímeros de engenharia, feitas no torno e na CNC.",
     imagem: "/images/usinagem/torno.jpg",
   },
   {
     id: "reposicao",
-    titulo: "Reposição e nacionalização",
+    titulo: "Reposição e nacionalização de peças",
     descricao:
       "Refazemos peça quebrada ou fora de linha e reproduzimos localmente peças que hoje vêm de fora, sem prazo de importação.",
     imagem: "/images/usinagem/reposicao.jpg",
@@ -76,11 +76,12 @@ export type MaquinaProduto = {
 export const maquinasProdutos: MaquinaProduto[] = [
   {
     id: "cnc-aluminio",
-    titulo: "Linha Compacta",
+    titulo: "CNC Usinagem",
     descricao:
       "Usinagem de alumínio, moldes, eletrodos e gravações de precisão. Três tamanhos, mesma engenharia.",
     base: [
-      "Fuso de esferas com patins de 20 mm",
+      "Fuso de esferas",
+      "Patins de 20 mm",
       "Guias lineares",
       "Fim de curso nos eixos X, Y e Z",
       "Base em alumínio estrutural",
@@ -117,13 +118,14 @@ export const maquinasProdutos: MaquinaProduto[] = [
   },
   {
     id: "cnc-router",
-    titulo: "Linha Router",
+    titulo: "Router CNC",
     descricao:
       "Grande formato para ACM, acrílico, MDF e madeira. Estrutura em aço com mesa de sacrifício, para produção pesada.",
     base: [
       "Controlador DDCS V4",
       "Cremalheira reta",
-      "Patins de 15 mm com guia linear",
+      "Patins de 15 mm",
+      "Guia linear",
       "Eixo Z com fuso de esferas",
       "Motores NEMA 23 com Easy Driver",
       "Estrutura em aço",
@@ -168,7 +170,7 @@ export const maquinasProdutos: MaquinaProduto[] = [
 export const ferramentaria: Servico[] = [
   {
     id: "aluminio",
-    titulo: "Usinagem de alumínio",
+    titulo: "Corte e usinagem em alumínio",
     descricao:
       "Corte, furação e fresagem de peças em alumínio conforme projeto, de gabaritos a componentes de moldes.",
     imagem: "/images/usinagem/aluminio.jpg",
@@ -189,61 +191,24 @@ export const ferramentaria: Servico[] = [
   },
   {
     id: "matrizes",
-    titulo: "Matrizes, punções e placas",
+    titulo: "Fabricação de matrizes, punções e placas",
     descricao:
       "Ferramental de corte e estampo sob medida, matrizes de remoldagem e placas de reposição para moldes de injeção.",
     imagem: "/images/usinagem/matrizes.jpg",
   },
   {
     id: "carimbos",
-    titulo: "Carimbos em aço inox",
+    titulo: "Confecção de carimbos em aço inox",
     descricao:
       "Ferramentas de marcação personalizadas em aço inox, resistentes à corrosão e ao uso contínuo.",
     imagem: "/images/usinagem/carimbos.jpg",
   },
   {
     id: "eletrodos",
-    titulo: "Eletrodos personalizados",
+    titulo: "Eletrodos personalizados e eletroerosão",
     descricao:
       "Eletrodos industriais sob medida para eletroerosão, produzidos a partir do seu desenho ou da peça.",
     imagem: "/images/usinagem/eletrodos.jpg",
-  },
-];
-
-export type Case = {
-  id: string;
-  titulo: string;
-  setor: string;
-  problema: string;
-  solucao: string;
-  resultado: string;
-  tags: string[];
-};
-
-export const casesIndustria: Case[] = [
-  {
-    id: "peca-importada",
-    titulo: "Peça importada substituída em 72 horas",
-    setor: "Metalurgia · Uberlândia MG",
-    problema:
-      "Componente crítico importado da Alemanha: 45 dias de prazo, R$ 14.000 por peça. Linha parada à espera.",
-    solucao:
-      "Engenharia reversa e usinagem CNC em aço ABNT 1045. Lote piloto com validação em operação real.",
-    resultado:
-      "62% mais barato. Entregue em 72h. Desempenho equivalente em 900h de operação.",
-    tags: ["CNC", "Engenharia reversa"],
-  },
-  {
-    id: "retrofit-sem-parada",
-    titulo: "Retrofit sem parada de produção",
-    setor: "Fabricação de embalagens · MG",
-    problema:
-      "Linha com 15 anos controlada por relés sem documentação. Manutenção dependia de técnico aposentado.",
-    solucao:
-      "Retrofit completo: mapeamento da lógica, CLP S7-1200 com IHM, código documentado. Laudo ART incluso.",
-    resultado:
-      "Diagnóstico de falhas em segundos. Zero parada não planejada em 18 semanas.",
-    tags: ["CLP Siemens", "Retrofit", "ART"],
   },
 ];
 
@@ -259,7 +224,7 @@ export const vitrine: VitrineItem[] = [
   {
     id: "maquinas-cnc",
     titulo: "Máquinas CNC",
-    nota: "Linha Compacta e Linha Router, fabricação própria",
+    nota: "CNC Usinagem e Router CNC, fabricação própria",
     imagem: "/images/hero/cnc-usinagem.png",
     href: "/maquinas",
   },

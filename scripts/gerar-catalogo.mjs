@@ -379,7 +379,7 @@ doc
   let y = novaPagina({
     secao: "02 · Usinagem CNC",
     numero: "02",
-    titulo: "Peças técnicas, ferramentaria e engenharia reversa",
+    titulo: "Peças técnicas, ferramentaria e engenharia",
     subtitulo:
       "Peça avulsa, reposição urgente ou lote pequeno, sem pedido mínimo. Orçado a partir de desenho, STEP, PDF, foto ou amostra.",
   });

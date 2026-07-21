@@ -19,7 +19,7 @@ export default function HeroBackground({ position = "top-right" }: HeroBackgroun
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[url('/images/particles-bg-light.webp')] bg-cover bg-center opacity-[0.05] dark:bg-[url('/images/particles-bg-dark.webp')] dark:opacity-[0.12]"
+        className="absolute inset-0 bg-[url('/images/particles-bg-light.webp')] bg-cover bg-center opacity-40 dark:bg-[url('/images/particles-bg-dark.webp')] dark:opacity-50"
       />
     </>
   );

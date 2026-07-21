@@ -1,39 +1,32 @@
-"use client";
-
-import { useState } from "react";
-
 const CHIP_CLASS =
-  "rounded-full border border-border bg-surface px-3.5 py-1.5 font-mono text-xs font-medium text-foreground-muted";
+  "shrink-0 rounded-full border border-border bg-surface px-3.5 py-1.5 font-mono text-xs font-medium text-foreground-muted";
 
-export default function ChipList({
-  items,
-  limit = 6,
-}: {
-  items: string[];
-  limit?: number;
-}) {
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? items : items.slice(0, limit);
-  const hidden = items.length - limit;
-
+/*
+  Faixa de chips rolando devagar e continuamente (tipo ticker), em vez de
+  truncar com "Ver mais". O segundo bloco (oculto de leitor de tela e da
+  arvore com prefers-reduced-motion) so existe pra fechar o loop sem
+  emenda, ja que a animacao anda exatamente 50% da largura total.
+*/
+export default function ChipList({ items }: { items: string[] }) {
   return (
-    <ul className="flex flex-wrap gap-2">
-      {visible.map((item) => (
-        <li key={item} className={CHIP_CLASS}>
-          {item}
-        </li>
-      ))}
-      {!expanded && hidden > 0 && (
-        <li className="flex">
-          <button
-            type="button"
-            onClick={() => setExpanded(true)}
-            className={`${CHIP_CLASS} inline-flex min-h-11 items-center text-accent-600 hover:bg-surface-alt`}
-          >
-            Ver mais (+{hidden})
-          </button>
-        </li>
-      )}
-    </ul>
+    <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)] motion-reduce:[mask-image:none]">
+      <div
+        role="list"
+        className="chip-marquee flex w-max gap-2 motion-reduce:w-full motion-reduce:flex-wrap"
+      >
+        {items.map((item) => (
+          <span key={item} role="listitem" className={CHIP_CLASS}>
+            {item}
+          </span>
+        ))}
+        <div aria-hidden="true" className="flex gap-2 motion-reduce:hidden">
+          {items.map((item, i) => (
+            <span key={i} className={CHIP_CLASS}>
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

@@ -19,7 +19,7 @@ const links = [
 
 const DownloadIcon = (
   <svg
-    className="h-4 w-4 text-accent-600"
+    className="h-4 w-4"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -36,7 +36,7 @@ const DownloadIcon = (
 
 const LoginIcon = (
   <svg
-    className="h-4 w-4 text-accent-600"
+    className="h-4 w-4"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -113,7 +113,7 @@ export default function Header() {
         scrolled && !open ? "shadow-sm" : ""
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between px-4 sm:px-6 lg:px-8 xl:pr-20">
+      <div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between px-4 sm:px-6 lg:px-8 xl:pr-80">
         <Link
           href="/"
           className="flex items-center gap-2.5 text-foreground"
@@ -140,19 +140,6 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-
-          <Button
-            href="/catalogo-catech360.pdf"
-            download
-            variant="secondary"
-            size="compact"
-            icon={DownloadIcon}
-          >
-            Catálogo
-          </Button>
-          <Button href="/login" variant="secondary" size="compact" icon={LoginIcon}>
-            Entrar
-          </Button>
         </nav>
 
         <div className="flex items-center gap-1 xl:hidden">
@@ -185,8 +172,18 @@ export default function Header() {
       </div>
 
       {/* Fora do container centralizado, alinhada com a mesma margem do botão de WhatsApp */}
-      <div className="absolute right-5 top-1/2 hidden -translate-y-1/2 xl:block">
+      <div className="absolute right-5 top-1/2 hidden -translate-y-1/2 items-center gap-4 xl:flex">
+        <Link
+          href="/login"
+          className="flex items-center gap-1.5 whitespace-nowrap text-sm font-medium text-foreground-muted transition-colors hover:text-accent-600"
+        >
+          <span className="text-accent-600">{LoginIcon}</span>
+          Entrar
+        </Link>
         <ThemeToggle />
+        <Button href="/catalogo-catech360.pdf" download size="compact" icon={DownloadIcon}>
+          Catálogo
+        </Button>
       </div>
 
       {open && (
@@ -214,7 +211,7 @@ export default function Header() {
             className="flex items-center gap-2 rounded-md px-3 py-3 text-lg font-medium text-foreground-muted transition-colors hover:bg-surface-alt"
             onClick={() => setOpen(false)}
           >
-            {DownloadIcon}
+            <span className="text-accent-600">{DownloadIcon}</span>
             Baixar catálogo (PDF)
           </a>
           <Link
@@ -222,7 +219,7 @@ export default function Header() {
             className="mt-4 flex items-center gap-2 self-start rounded-md border border-border-strong px-6 py-3 text-sm font-semibold text-foreground"
             onClick={() => setOpen(false)}
           >
-            {LoginIcon}
+            <span className="text-accent-600">{LoginIcon}</span>
             Entrar
           </Link>
         </nav>

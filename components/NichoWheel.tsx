@@ -78,7 +78,7 @@ export default function NichoWheel() {
   return (
     <div className="relative mx-auto flex h-full w-fit max-w-[380px] min-w-[200px] items-center justify-center lg:mx-0 lg:ml-auto">
       <svg
-        viewBox="0 0 400 400"
+        viewBox="24 24 352 352"
         role="navigation"
         aria-label="Áreas da Catech 360"
         className="aspect-square h-full max-w-full w-auto select-none"
@@ -137,9 +137,9 @@ export default function NichoWheel() {
               <g
                 style={
                   reduceMotion
-                    ? { transformOrigin: "200px 200px" }
+                    ? { transformOrigin: "50% 50%" }
                     : {
-                        transformOrigin: "200px 200px",
+                        transformOrigin: "50% 50%",
                         transform: mounted
                           ? isActive
                             ? "scale(1.015) rotate(0deg)"
@@ -170,7 +170,7 @@ export default function NichoWheel() {
                   style={{
                     fill:
                       isActive || nicho.laranja
-                        ? "var(--navy-950)"
+                        ? "var(--wheel-text-on-orange)"
                         : "var(--foreground-muted)",
                     fontSize: "14px",
                     fontWeight: 700,

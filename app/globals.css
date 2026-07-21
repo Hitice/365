@@ -61,6 +61,7 @@
   --selection-bg: var(--steel-100);
   --selection-fg: var(--navy-900);
   --wheel-ring: var(--accent-500);
+  --wheel-text-on-orange: #ffffff;
 }
 
 .dark {
@@ -78,12 +79,15 @@
   --selection-bg: #3a3a3a;
   --selection-fg: #ffffff;
 
-  /* Reajusta os tons usados como texto direto sobre o fundo (fora de chips
-     com fundo próprio) para manter contraste no escuro. */
-  --accent-600: #fb9a52;
+  /* accent-600 igual ao accent-500 no escuro: mesmo laranja do texto e dos
+     botoes (contraste 6.4:1 sobre o fundo, confirmado). O hover dos botoes
+     usa brightness em vez de trocar de cor, entao nao depende mais de
+     accent-600 ser diferente de accent-500. */
+  --accent-600: var(--accent-500);
   --steel-700: #d4d4d4;
   --steel-100: #262626;
   --wheel-ring: var(--border-strong);
+  --wheel-text-on-orange: var(--navy-950);
 }
 
 @theme inline {
@@ -162,11 +166,32 @@ body {
 
 .wheel-ring {
   animation: wheel-spin 50s linear infinite;
-  transform-origin: 200px 200px;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .wheel-ring {
+    animation: none;
+  }
+}
+
+@keyframes chip-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.chip-marquee {
+  animation: chip-marquee 26s linear infinite;
+}
+
+.chip-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip-marquee {
     animation: none;
   }
 }

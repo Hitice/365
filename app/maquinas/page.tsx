@@ -2,16 +2,14 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactCta from "@/components/ContactCta";
-import ModelCarousel from "@/components/ModelCarousel";
-import ChipList from "@/components/ChipList";
-import FadeUp from "@/components/FadeUp";
+import MaquinasTabs from "@/components/MaquinasTabs";
 import HeroBackground from "@/components/HeroBackground";
 import { maquinasProdutos } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Máquinas CNC",
   description:
-    "Linha Compacta (300x300, 400x400, 500x500) e Linha Router (3000x1500, 4000x2000) de fabricação própria em Uberlândia MG, a partir de R$ 25.000.",
+    "CNC Usinagem (300x300, 400x400, 500x500) e Router CNC (3000x1500, 4000x2000) de fabricação própria em Uberlândia MG, a partir de R$ 25.000.",
 };
 
 export default function MaquinasPage() {
@@ -42,33 +40,7 @@ export default function MaquinasPage() {
         </section>
 
         {/* Linhas de máquinas */}
-        {maquinasProdutos.map((produto) => (
-          <section key={produto.id} id={produto.id} className="border-t border-border py-14 sm:py-16">
-            <div className="mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
-              <FadeUp>
-                <div className="max-w-3xl">
-                  <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
-                    {produto.modelos.length} modelos
-                  </p>
-                  <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                    {produto.titulo}
-                  </h2>
-                  <p className="mt-4 text-base leading-relaxed text-foreground-muted sm:text-lg">
-                    {produto.descricao}
-                  </p>
-                </div>
-
-                <div className="mt-6">
-                  <ChipList items={produto.base} />
-                </div>
-              </FadeUp>
-
-              <FadeUp delay={120} className="mt-8">
-                <ModelCarousel produto={produto} />
-              </FadeUp>
-            </div>
-          </section>
-        ))}
+        <MaquinasTabs produtos={maquinasProdutos} />
 
         <ContactCta
           titulo="Qual máquina faz sentido para a sua produção?"
