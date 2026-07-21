@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoIcon from "./LogoIcon";
 import ThemeToggle from "./ThemeToggle";
-import Button from "./Button";
 
 const links = [
   { href: "/", label: "Home" },
@@ -16,23 +15,6 @@ const links = [
   { href: "/portfolio", label: "Portfólio" },
   { href: "/sobre", label: "Sobre" },
 ];
-
-const DownloadIcon = (
-  <svg
-    className="h-4 w-4"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-    aria-hidden="true"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14"
-    />
-  </svg>
-);
 
 const LoginIcon = (
   <svg
@@ -109,11 +91,11 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-border bg-surface/95 backdrop-blur transition-shadow duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b border-border bg-surface-alt/95 backdrop-blur transition-shadow duration-300 dark:bg-surface/95 ${
         scrolled && !open ? "shadow-sm" : ""
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between px-4 sm:px-6 lg:px-8 xl:pr-80">
+      <div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between px-4 sm:px-6 lg:px-8 xl:pr-40 min-[1720px]:!pr-8">
         <Link
           href="/"
           className="flex items-center gap-2.5 text-foreground"
@@ -181,9 +163,6 @@ export default function Header() {
           Entrar
         </Link>
         <ThemeToggle />
-        <Button href="/catalogo-catech360.pdf" download size="compact" icon={DownloadIcon}>
-          Catálogo
-        </Button>
       </div>
 
       {open && (
@@ -205,15 +184,6 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-          <a
-            href="/catalogo-catech360.pdf"
-            download
-            className="flex items-center gap-2 rounded-md px-3 py-3 text-lg font-medium text-foreground-muted transition-colors hover:bg-surface-alt"
-            onClick={() => setOpen(false)}
-          >
-            <span className="text-accent-600">{DownloadIcon}</span>
-            Baixar catálogo (PDF)
-          </a>
           <Link
             href="/login"
             className="mt-4 flex items-center gap-2 self-start rounded-md border border-border-strong px-6 py-3 text-sm font-semibold text-foreground"
