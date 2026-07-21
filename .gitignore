@@ -42,3 +42,8 @@ next-env.d.ts
 
 .vercel
 .env*
+!.env.local.example
+
+# claude code local config (settings.local.json e symlinks de skills sao
+# especificos da maquina; .mcp.json e .agents/skills ficam versionados)
+.claude/
