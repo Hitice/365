@@ -15,24 +15,35 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Catech 360 | Produtos, Serviços e Máquinas CNC em Uberlândia",
+    default: "Catech 360 | Usinagem CNC, Plásticos Industriais e Máquinas",
     template: "%s | Catech 360",
   },
   description:
-    "Produtos, serviços e máquinas: plásticos industriais em estoque, usinagem de precisão, moldes injetáveis e CNCs de fabricação própria em Uberlândia MG.",
+    "Peças sob desenho, engenharia reversa, plásticos industriais e máquinas CNC de fabricação própria. Assistência técnica e retrofit em Uberlândia MG.",
   openGraph: {
     siteName: "Catech 360",
     type: "website",
     locale: "pt_BR",
-    title: "Catech 360 | Produtos, Serviços e Máquinas CNC em Uberlândia",
+    title: "Catech 360 | Usinagem CNC, Plásticos Industriais e Máquinas",
     description:
-      "Produtos, serviços e máquinas: plásticos industriais em estoque, usinagem de precisão, moldes injetáveis e CNCs de fabricação própria em Uberlândia MG.",
+      "Peças sob desenho, engenharia reversa, plásticos industriais e máquinas CNC de fabricação própria. Assistência técnica e retrofit em Uberlândia MG.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#060d17" },
+  ],
 };
+
+const THEME_INIT_SCRIPT = `
+  try {
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  } catch (e) {}
+`;
 
 export default function RootLayout({
   children,
@@ -42,9 +53,13 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        {/* Aplica o tema salvo antes da primeira pintura, evitando flash do tema errado. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         {children}
         <WhatsAppButton />
       </body>
