@@ -246,7 +246,7 @@ export const vitrine: VitrineItem[] = [
     id: "manutencao",
     titulo: "Assistência técnica",
     nota: "Retrofit, manutenção e migração para DDCS",
-    imagem: "/images/catech/industrial-maintenance.png",
+    imagem: "/images/catech/Retrofit.png",
     href: "/assistencia-tecnica",
   },
   {
@@ -260,29 +260,34 @@ export const vitrine: VitrineItem[] = [
     id: "plasticos-industriais",
     titulo: "Plásticos industriais",
     nota: "Chapas, buchas e tarugos prontos para entrega",
-    imagem: "/images/catech/industry-workshop.jpg",
+    imagem: "/images/brand/plasticos/chapa-acrilico.jpg",
     href: "/produtos",
   },
 ];
 
-export const materiaisCatalogo = [
-  "Acrílico",
-  "Celeron",
-  "Fenolite",
-  "Nylon",
-  "Nylon Cast",
-  "Polietileno (PEAD)",
-  "PEEK",
-  "Poliacetal (POM)",
-  "Policarbonato",
-  "Polipropileno",
-  "Poliestireno",
-  "PTFE",
-  "Poliuretano",
-  "Plastiprene",
-  "PVC",
-  "PVDF",
-  "UHMW",
+export type Material = {
+  nome: string;
+  imagem: string;
+};
+
+export const materiaisCatalogo: Material[] = [
+  { nome: "Acrílico", imagem: "/images/brand/plasticos/chapa-acrilico.jpg" },
+  { nome: "Celeron", imagem: "/images/brand/plasticos/Celeron.webp" },
+  { nome: "Fenolite", imagem: "/images/brand/plasticos/Fenolite.jpg" },
+  { nome: "Nylon", imagem: "/images/brand/plasticos/Nylon.jpg" },
+  { nome: "Nylon Cast", imagem: "/images/brand/plasticos/Ny-Cast.webp" },
+  { nome: "Polietileno (PEAD)", imagem: "/images/brand/plasticos/Pead.webp" },
+  { nome: "PEEK", imagem: "/images/brand/plasticos/peek.jpg" },
+  { nome: "Poliacetal (POM)", imagem: "/images/brand/plasticos/pom.jpg" },
+  { nome: "Policarbonato", imagem: "/images/brand/plasticos/policarbonato.jpg" },
+  { nome: "Polipropileno", imagem: "/images/brand/plasticos/polipropileno.webp" },
+  { nome: "Poliestireno", imagem: "/images/brand/plasticos/poliestireno.avif" },
+  { nome: "PTFE", imagem: "/images/brand/plasticos/ptfe.webp" },
+  { nome: "Poliuretano", imagem: "/images/brand/plasticos/poliuretano.jpg" },
+  { nome: "Plastiprene", imagem: "/images/brand/plasticos/pastiplene.jpg" },
+  { nome: "PVC", imagem: "/images/brand/plasticos/pvc.jpg" },
+  { nome: "PVDF", imagem: "/images/brand/plasticos/pvdf.jpeg" },
+  { nome: "UHMW", imagem: "/images/brand/plasticos/uhmw.jpg" },
 ];
 
 // A navegação agora é única para o site inteiro e vive em components/Header.tsx.

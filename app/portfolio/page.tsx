@@ -7,15 +7,15 @@ import Button from "@/components/Button";
 import FadeUp from "@/components/FadeUp";
 import PortfolioFilter, { type PortfolioItem } from "@/components/PortfolioFilter";
 import HeroBackground from "@/components/HeroBackground";
-import { usinagem, ferramentaria, maquinasProdutos } from "@/lib/data";
+import { usinagem, ferramentaria, maquinasProdutos, materiaisCatalogo } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Portfólio",
   description:
-    "Peças usinadas, ferramentaria e máquinas CNC fabricadas pela Catech 360 em Uberlândia MG.",
+    "Peças usinadas, ferramentaria, máquinas CNC e plásticos industriais fabricados e fornecidos pela Catech 360 em Uberlândia MG.",
 };
 
-const categorias = ["Usinagem", "Máquinas"];
+const categorias = ["Usinagem", "Máquinas", "Plásticos"];
 
 export default function PortfolioPage() {
   const maquinas: PortfolioItem[] = maquinasProdutos.flatMap((produto) =>
@@ -28,17 +28,26 @@ export default function PortfolioPage() {
     })),
   );
 
+  const plasticos: PortfolioItem[] = materiaisCatalogo.map((material) => ({
+    id: material.nome.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+    titulo: material.nome,
+    descricao: "Chapas, tarugos e buchas em estoque, prontos para usinagem.",
+    imagem: material.imagem,
+    categoria: "Plásticos",
+  }));
+
   const items: PortfolioItem[] = [
     ...usinagem.map((i) => ({ ...i, categoria: "Usinagem" })),
     ...ferramentaria.map((i) => ({ ...i, categoria: "Usinagem" })),
     ...maquinas,
+    ...plasticos,
   ];
 
   return (
     <>
       <Header />
       <main className="flex-1 bg-background">
-        <section className="relative overflow-hidden bg-background pb-14 pt-[calc(4rem+10mm)] sm:pb-16">
+        <section className="relative overflow-hidden bg-surface-alt pb-14 pt-[calc(4rem+10mm)] sm:pb-16">
           <HeroBackground />
           <div className="relative mx-auto max-w-[1480px] px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
@@ -49,8 +58,8 @@ export default function PortfolioPage() {
                 Projetos realizados
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground-muted">
-                Peças usinadas, ferramentaria e máquinas CNC de fabricação
-                própria.
+                Peças usinadas, ferramentaria, máquinas CNC de fabricação
+                própria e plásticos industriais em estoque.
               </p>
             </div>
           </div>
@@ -87,7 +96,7 @@ export default function PortfolioPage() {
               <FadeUp delay={120}>
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border">
                   <Image
-                    src="/images/catech/industrial-maintenance.png"
+                    src="/images/catech/Retrofit.png"
                     alt="Assistência técnica e retrofit de CNC"
                     fill
                     sizes="(min-width: 1024px) 50vw, 100vw"
