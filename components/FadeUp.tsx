@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 type FadeUpProps = {
   children: ReactNode;
@@ -15,8 +16,10 @@ export default function FadeUp({
 }: FadeUpProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
+  const reduceMotion = usePrefersReducedMotion();
 
   useEffect(() => {
+    if (reduceMotion) return;
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
@@ -30,16 +33,20 @@ export default function FadeUp({
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [reduceMotion]);
+
+  const visible = reduceMotion || show;
 
   return (
     <div
       ref={ref}
       className={className}
       style={{
-        opacity: show ? 1 : 0,
-        transform: show ? "translateY(0)" : "translateY(18px)",
-        transition: `opacity 0.65s ease-out ${delay}ms, transform 0.65s ease-out ${delay}ms`,
+        opacity: visible ? 1 : 0,
+        transform: reduceMotion ? "none" : visible ? "translateY(0)" : "translateY(18px)",
+        transition: reduceMotion
+          ? "opacity 0.3s ease-out"
+          : `opacity 0.65s ease-out ${delay}ms, transform 0.65s ease-out ${delay}ms`,
       }}
     >
       {children}

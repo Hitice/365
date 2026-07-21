@@ -131,7 +131,7 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 inline-flex min-h-11 items-center justify-center self-start rounded-md bg-accent-500 px-6 text-sm font-semibold text-white transition-all duration-150 hover:bg-accent-600 active:scale-[0.98]"
+                  className="mt-6 inline-flex min-h-11 items-center justify-center self-start rounded-md bg-accent-500 px-6 text-sm font-semibold text-navy-950 transition-all duration-150 hover:bg-accent-600 active:scale-[0.98]"
                 >
                   Cotar este modelo
                 </a>
@@ -166,7 +166,7 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
               onClick={() => setIndex(i)}
               aria-label={modelo.nome}
               aria-current={i === index}
-              className="flex h-8 w-8 items-center justify-center"
+              className="flex h-11 w-11 items-center justify-center"
             >
               <span
                 className={`block h-1.5 rounded-full transition-all duration-300 ${

@@ -24,11 +24,11 @@ export default function ChipList({
         </li>
       ))}
       {!expanded && hidden > 0 && (
-        <li>
+        <li className="flex">
           <button
             type="button"
             onClick={() => setExpanded(true)}
-            className={`${CHIP_CLASS} text-accent-600 hover:bg-surface-alt`}
+            className={`${CHIP_CLASS} inline-flex min-h-11 items-center text-accent-600 hover:bg-surface-alt`}
           >
             Ver mais (+{hidden})
           </button>

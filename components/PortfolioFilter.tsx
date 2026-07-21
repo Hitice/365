@@ -26,9 +26,9 @@ export default function PortfolioFilter({
             type="button"
             onClick={() => setAtivo(opcao)}
             aria-pressed={ativo === opcao}
-            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+            className={`inline-flex min-h-11 items-center rounded-full border px-4 text-sm font-semibold transition-colors active:scale-95 ${
               ativo === opcao
-                ? "border-accent-500 bg-accent-500 text-white"
+                ? "border-accent-500 bg-accent-500 text-navy-950"
                 : "border-border text-foreground-muted hover:border-border-strong hover:text-foreground"
             }`}
           >

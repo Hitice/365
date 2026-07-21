@@ -190,7 +190,7 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
             onClick={() => setIndex(i + CLONE)}
             aria-label={`Item ${i + 1}`}
             aria-current={i === realIdx}
-            className="flex h-8 w-8 items-center justify-center"
+            className="flex h-11 w-11 items-center justify-center"
           >
             <span
               className={`block h-1.5 rounded-full transition-all duration-300 ${

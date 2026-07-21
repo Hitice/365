@@ -12,7 +12,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
       type="button"
       onClick={toggleTheme}
       aria-label="Alternar tema claro/escuro"
-      className={`inline-flex h-9 w-9 flex-none items-center justify-center rounded-md text-foreground-muted transition-colors hover:bg-surface-alt hover:text-foreground ${className}`}
+      className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-md text-foreground-muted transition-colors hover:bg-surface-alt hover:text-foreground active:scale-95 ${className}`}
     >
       {/* Lua: visível no tema claro, clique leva ao escuro */}
       <svg

@@ -4,11 +4,14 @@
 
 /*
   Paleta 360 | B2B industrial, foco em confiança e tecnologia
-  Contrastes validados para WCAG AA no tema claro:
+  Contrastes validados para WCAG AA no tema claro (auditado com axe-core):
   - ink-900 sobre branco: 16.9:1
   - steel-700 sobre branco: 7.2:1
   - branco sobre navy-900: 15.8:1
-  - branco sobre accent-600: 4.6:1 (botões)
+  - navy-950 sobre accent-500: 6.6:1 (texto escuro no botao/CTA laranja;
+    branco sobre accent-500 falhava em 3.1:1, entao o botao usa texto
+    escuro em vez de mudar a cor de marca)
+  - navy-950 sobre accent-600: 5.0:1 (idem, hover do botao)
 
   Os tokens abaixo têm duas camadas:
   1. paleta crua (navy-*, steel-*, accent-*, ink-*) — valores fixos de marca.
@@ -31,7 +34,9 @@
   --steel-100: #dbeafd;
   --steel-50: #eff6fe;
 
-  /* Laranja industrial (ação e conversão) */
+  /* Laranja industrial (ação e conversão) — cor da logo, intocada. Os
+     botoes usam texto escuro (navy-950) em vez de branco em cima desse
+     laranja, porque texto branco nao teria contraste suficiente. */
   --accent-600: #d9530b;
   --accent-500: #f2680f;
   --accent-400: #fb8b3c;
@@ -55,25 +60,30 @@
   --border-strong: var(--ink-300);
   --selection-bg: var(--steel-100);
   --selection-fg: var(--navy-900);
+  --wheel-ring: var(--accent-500);
 }
 
 .dark {
-  --background: var(--navy-950);
-  --surface: var(--navy-900);
-  --surface-alt: var(--navy-800);
-  --foreground: #f4f6f8;
-  --foreground-muted: #c2c9d6;
-  --foreground-subtle: #8b93a3;
-  --border: var(--navy-700);
-  --border-strong: var(--steel-700);
-  --selection-bg: var(--steel-700);
+  /* Tema escuro: cinza, preto, laranja e branco, sem azul. Os tokens navy
+     e steel sao da paleta clara (institucional) e nao entram aqui; o
+     escuro usa uma escala neutra propria. */
+  --background: #0a0a0a;
+  --surface: #171717;
+  --surface-alt: #222222;
+  --foreground: #f7f7f7;
+  --foreground-muted: #bdbdbd;
+  --foreground-subtle: #8a8a8a;
+  --border: #2e2e2e;
+  --border-strong: #4d4d4d;
+  --selection-bg: #3a3a3a;
   --selection-fg: #ffffff;
 
   /* Reajusta os tons usados como texto direto sobre o fundo (fora de chips
      com fundo próprio) para manter contraste no escuro. */
   --accent-600: #fb9a52;
-  --steel-700: #7db2e0;
-  --steel-100: var(--navy-700);
+  --steel-700: #d4d4d4;
+  --steel-100: #262626;
+  --wheel-ring: var(--border-strong);
 }
 
 @theme inline {
@@ -138,6 +148,10 @@ body {
   outline: 2px solid var(--steel-500);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+.dark :focus-visible {
+  outline-color: var(--accent-600);
 }
 
 @keyframes wheel-spin {

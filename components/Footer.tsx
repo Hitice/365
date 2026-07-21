@@ -15,7 +15,7 @@ export default function Footer() {
         <p>
           <a
             href="mailto:adm.nuvem@protonmail.com"
-            className="transition-colors hover:text-foreground"
+            className="inline-block py-2 transition-colors hover:text-foreground"
           >
             adm.nuvem@protonmail.com
           </a>{" "}
@@ -24,7 +24,7 @@ export default function Footer() {
             href="https://wa.me/5534991176599"
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-foreground"
+            className="inline-block py-2 transition-colors hover:text-foreground"
           >
             +55 (34) 99117-6599
           </a>{" "}

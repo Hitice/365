@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoIcon from "./LogoIcon";
@@ -8,6 +8,7 @@ import ThemeToggle from "./ThemeToggle";
 import Button from "./Button";
 
 const links = [
+  { href: "/", label: "Home" },
   { href: "/maquinas", label: "Máquinas" },
   { href: "/usinagem", label: "Usinagem" },
   { href: "/assistencia-tecnica", label: "Assistência" },
@@ -18,7 +19,7 @@ const links = [
 
 const DownloadIcon = (
   <svg
-    className="h-4 w-4"
+    className="h-4 w-4 text-accent-600"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -35,7 +36,7 @@ const DownloadIcon = (
 
 const LoginIcon = (
   <svg
-    className="h-4 w-4"
+    className="h-4 w-4 text-accent-600"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -54,6 +55,9 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const skipFocusOnMount = useRef(true);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -62,14 +66,46 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Fecha com Escape, bloqueia o scroll da página e tira o conteúdo por
+  // trás do menu do foco/leitor de tela (senão dá pra tabular "por trás").
   useEffect(() => {
+    const main = document.querySelector("main");
+    const footer = document.querySelector("footer");
     document.body.style.overflow = open ? "hidden" : "";
+    if (open) {
+      main?.setAttribute("inert", "");
+      footer?.setAttribute("inert", "");
+    } else {
+      main?.removeAttribute("inert");
+      footer?.removeAttribute("inert");
+    }
+
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
     return () => {
+      document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
+      main?.removeAttribute("inert");
+      footer?.removeAttribute("inert");
     };
   }, [open]);
 
-  const isActive = (href: string) => pathname.startsWith(href);
+  // Move o foco pro primeiro link ao abrir e devolve pro botão ao fechar
+  // (sem disparar no carregamento inicial da página).
+  useEffect(() => {
+    if (skipFocusOnMount.current) {
+      skipFocusOnMount.current = false;
+      return;
+    }
+    if (open) firstLinkRef.current?.focus();
+    else toggleRef.current?.focus();
+  }, [open]);
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <header
@@ -98,7 +134,7 @@ export default function Header() {
               className={`whitespace-nowrap text-sm font-medium transition-colors ${
                 isActive(link.href)
                   ? "font-semibold text-accent-600"
-                  : "text-foreground-muted hover:text-foreground"
+                  : "text-foreground-muted hover:text-accent-600"
               }`}
             >
               {link.label}
@@ -122,8 +158,9 @@ export default function Header() {
         <div className="flex items-center gap-1 xl:hidden">
           <ThemeToggle />
           <button
+            ref={toggleRef}
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground active:scale-95"
             aria-expanded={open}
             aria-controls="menu-mobile"
             aria-label={open ? "Fechar menu" : "Abrir menu"}
@@ -158,10 +195,11 @@ export default function Header() {
           aria-label="Menu principal"
           className="flex h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto bg-surface px-4 pb-8 pt-4 xl:hidden"
         >
-          {links.map((link) => (
+          {links.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
+              ref={i === 0 ? firstLinkRef : undefined}
               className={`rounded-md px-3 py-3 text-lg font-medium transition-colors hover:bg-surface-alt ${
                 isActive(link.href) ? "text-accent-600" : "text-foreground"
               }`}

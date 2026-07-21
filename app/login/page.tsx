@@ -51,7 +51,7 @@ export default async function LoginPage({
                 type="email"
                 required
                 autoComplete="email"
-                className="mt-1.5 w-full rounded-md border border-border bg-background px-3.5 py-2.5 text-sm text-foreground outline-none focus-visible:border-accent-500"
+                className="mt-1.5 min-h-11 w-full rounded-md border border-border bg-background px-3.5 text-sm text-foreground focus-visible:border-accent-500"
               />
             </div>
             <div>
@@ -64,7 +64,7 @@ export default async function LoginPage({
                 type="password"
                 required
                 autoComplete="current-password"
-                className="mt-1.5 w-full rounded-md border border-border bg-background px-3.5 py-2.5 text-sm text-foreground outline-none focus-visible:border-accent-500"
+                className="mt-1.5 min-h-11 w-full rounded-md border border-border bg-background px-3.5 text-sm text-foreground focus-visible:border-accent-500"
               />
             </div>
             <Button type="submit" className="w-full">

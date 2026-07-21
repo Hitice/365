@@ -26,7 +26,7 @@ type ButtonAsButton = CommonProps & {
 type ButtonProps = ButtonAsLink | ButtonAsButton;
 
 const VARIANT = {
-  primary: "bg-accent-500 text-white hover:bg-accent-600",
+  primary: "bg-accent-500 text-navy-950 hover:bg-accent-600",
   secondary:
     "border border-border-strong text-foreground hover:bg-surface-alt",
 };
