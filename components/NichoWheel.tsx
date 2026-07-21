@@ -75,12 +75,12 @@ export default function NichoWheel() {
   }, [reduceMotion]);
 
   return (
-    <div className="mx-auto w-full max-w-[294px]">
+    <div className="relative mx-auto flex h-full w-full max-w-[380px] min-w-[200px] items-center justify-center">
       <svg
         viewBox="0 0 400 400"
         role="navigation"
         aria-label="Áreas da Catech 360"
-        className="w-full select-none"
+        className="aspect-square h-full max-w-full w-auto select-none"
       >
         {/* anel decorativo girando */}
         <circle
@@ -216,7 +216,7 @@ export default function NichoWheel() {
       </svg>
 
       <p
-        className="mt-3 min-h-10 text-center text-sm leading-relaxed text-foreground-muted"
+        className="absolute left-1/2 top-full mt-3 min-h-10 w-full -translate-x-1/2 text-center text-sm leading-relaxed text-foreground-muted"
         aria-live="polite"
       >
         {active !== null ? nichos[active].desc : ""}

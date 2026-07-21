@@ -17,7 +17,7 @@ export default function Home() {
         {/* Hero com a roda 360 */}
         <section className="relative overflow-hidden pt-4">
           <HeroBackground position="top" />
-          <div className="relative mx-auto grid w-full max-w-[1480px] items-start gap-8 px-4 pb-2 pt-4 sm:px-6 sm:pt-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
+          <div className="relative mx-auto grid w-full max-w-[1480px] items-stretch gap-8 px-4 pb-2 pt-4 sm:px-6 sm:pt-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
             <div className="text-center lg:text-left">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
                 Uberlândia MG · Atendemos todo o Brasil
@@ -38,7 +38,7 @@ export default function Home() {
               </div>
             </div>
 
-            <FadeUp delay={150}>
+            <FadeUp delay={150} className="h-full">
               <NichoWheel />
             </FadeUp>
           </div>
