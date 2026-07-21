@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://catech.ind.br"),
   title: {
     default: "Catech 360 | Usinagem CNC, Plásticos Industriais e Máquinas",
     template: "%s | Catech 360",

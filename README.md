@@ -9,11 +9,13 @@ Site institucional da Catech 360 (Uberlândia MG): plásticos industriais, usina
 - **TypeScript**
 - **Tailwind CSS v4** — configurado via `@theme` direto em `app/globals.css`, sem `tailwind.config.js`.
 - **pdfkit** + **sharp** — geram o catálogo em PDF a partir dos mesmos dados do site.
+- **Supabase** (`@supabase/ssr` + `@supabase/supabase-js`) — autenticação do painel interno (`/login`, `/painel`), base para o CRM futuro.
 
 ## Rodar localmente
 
 ```bash
 npm install
+cp .env.local.example .env.local   # preencha com as chaves do Supabase
 npm run dev
 ```
 
@@ -29,9 +31,28 @@ npm run lint    # ESLint
 
 ## Deploy
 
-O projeto não tem infraestrutura própria (sem banco, sem API routes) — é 100% estático/SSR simples, então roda em qualquer plataforma que suporte Next.js (Vercel é a mais direta: `vercel deploy` ou conectar o repositório).
+Hospedado na Vercel, projeto `365` na conta `pedromuska-6439s-projects`, conectado ao repositório do GitHub — todo push em `main` dispara um deploy automático. Domínio final: `catech.ind.br`.
 
-Defina a variável de ambiente `NEXT_PUBLIC_SITE_URL` com o domínio final antes de publicar — ela é usada em `app/sitemap.ts` e `app/robots.ts`. Sem ela, o site cai no domínio placeholder `https://catech360.com.br`.
+Variáveis de ambiente necessárias no projeto Vercel (Settings → Environment Variables):
+
+| Variável | Onde pegar |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Painel Supabase → Project Settings → API |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Painel Supabase → Project Settings → API |
+| `NEXT_PUBLIC_SITE_URL` | `https://catech.ind.br` |
+
+Sem `NEXT_PUBLIC_SITE_URL`, `app/sitemap.ts`, `app/robots.ts` e o `metadataBase` caem no domínio `https://catech.ind.br` como padrão mesmo assim (já configurado como fallback).
+
+## Autenticação e painel interno
+
+Base para o CRM que vem depois — hoje só tem login e uma página de painel vazia.
+
+- **`lib/supabase/server.ts`** / **`lib/supabase/client.ts`**: clientes Supabase para Server Components/Actions e para Client Components, respectivamente.
+- **`proxy.ts`** (equivalente ao `middleware.ts` do Next 15 — renomeado no Next 16): roda em toda rota, atualiza a sessão do Supabase e redireciona pra `/login` quem tentar acessar `/painel` sem sessão válida.
+- **`/login`**: formulário de e-mail/senha, autentica via Server Action (`app/login/actions.ts`).
+- **`/painel`**: rota protegida, placeholder para as telas do CRM. Verifica a sessão de novo no próprio Server Component (não confia só no `proxy.ts` — é o padrão recomendado pelo Next.js).
+
+Não existe cadastro público: crie os usuários direto no painel do Supabase (Authentication → Users → Add user). O login é só e-mail/senha por enquanto.
 
 ## Tema claro/escuro
 
@@ -57,6 +78,8 @@ Para adicionar uma nova cor de superfície ou texto, adicione o token semântico
 | `/portfolio` | Projetos realizados, com filtro por categoria |
 | `/sobre` | Quem é a Catech 360 |
 | `/contato` | WhatsApp, e-mail, endereço e horário |
+| `/login` | Acesso ao painel interno (fora do sitemap, `noindex`) |
+| `/painel` | Área restrita, base do CRM (fora do sitemap, `noindex`) |
 
 O catálogo em PDF é um download (`public/catalogo-catech360.pdf`), com botão único no Header — não é uma rota.
 

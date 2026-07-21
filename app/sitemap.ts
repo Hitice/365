@@ -1,8 +1,6 @@
 import type { MetadataRoute } from "next";
 
-// Troque pelo domínio definitivo quando ele existir (ou defina
-// NEXT_PUBLIC_SITE_URL no ambiente de deploy).
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://catech360.com.br";
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://catech.ind.br";
 
 const PATHS = [
   "",
