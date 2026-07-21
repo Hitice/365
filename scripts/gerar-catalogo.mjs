@@ -15,9 +15,7 @@ import {
   maquinasProdutos,
   usinagem,
   ferramentaria,
-  materiais,
   materiaisCatalogo,
-  suprimentosSetores,
 } from "../lib/data.ts";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -318,9 +316,9 @@ doc
 {
   let y = novaPagina({
     secao: "Quem somos",
-    titulo: "Nascemos da vontade de juntar tudo em um lugar só",
+    titulo: "Engenharia aplicada à indústria",
     subtitulo:
-      "Transformamos conhecimento técnico em soluções que aumentam a eficiência, reduzem desperdícios e impulsionam a competitividade industrial.",
+      "Fabricação, usinagem CNC, plásticos de engenharia e automação industrial em uma única empresa em Uberlândia MG.",
   });
 
   faixaFoto(await foto("/images/catech/USI1.jpg", 1100), y, 118);
@@ -331,145 +329,59 @@ doc
     .fontSize(9.5)
     .fillColor(TEXTO)
     .text(
-      "A Catech 360 reúne três frentes em uma única oficina em Uberlândia MG: revenda de plásticos industriais com estoque próprio, serviços de usinagem, moldes e ferramentaria sob demanda, e a fabricação de máquinas CNC com suporte direto de quem projetou e montou.",
+      "Atendemos desde a reposição urgente de uma peça até o desenvolvimento completo de dispositivos, moldes e máquinas especiais. Peça avulsa, reposição urgente ou lote pequeno, sem pedido mínimo.",
       M,
       y,
       { width: LARGURA, lineGap: 3 },
     );
   y = doc.y + 8;
   doc.text(
-    "Somos uma equipe enxuta, e é por isso que conseguimos atender com rapidez o que as fábricas grandes deixam na fila: peça avulsa, reposição urgente e lote pequeno, sem pedido mínimo. Todo serviço é orçado individualmente: mande uma peça, foto ou desenho pelo WhatsApp e devolvemos o orçamento sem compromisso.",
+    "Cada serviço é orçado a partir do seu desenho, foto ou amostra, com retorno em até 24 horas úteis.",
     M,
     y,
     { width: LARGURA, lineGap: 3 },
   );
-  y = doc.y + 18;
-
-  const cards = [
-    ["Missão", "Transformar desafios em soluções através da engenharia, tecnologia e inovação aplicada."],
-    ["Visão", "Construir um futuro onde conhecimento, tecnologia e produção ampliem continuamente o potencial das pessoas e das organizações."],
-  ];
-  const cardLargura = (LARGURA - 16) / 2;
-  let cardAltura = 0;
-  cards.forEach(([titulo, texto], i) => {
-    const x = M + i * (cardLargura + 16);
-    doc.font("Helvetica").fontSize(8.5);
-    const h = doc.heightOfString(texto, { width: cardLargura - 26 }) + 42;
-    cardAltura = Math.max(cardAltura, h);
-    doc.roundedRect(x, y, cardLargura, h, 8).fill(CINZA_CLARO);
-    doc.rect(x, y, 3, h).fill(LARANJA);
-    doc
-      .font("Helvetica-Bold")
-      .fontSize(10.5)
-      .fillColor(INK)
-      .text(titulo, x + 15, y + 12);
-    doc
-      .font("Helvetica")
-      .fontSize(8.5)
-      .fillColor(CINZA)
-      .text(texto, x + 15, y + 27, { width: cardLargura - 26, lineGap: 2 });
-  });
-  y += cardAltura + 22;
-
-  const numeros = [
-    ["+5", "máquinas entregues"],
-    ["17", "materiais em catálogo"],
-    ["72h", "reposição recorde de peça"],
-    ["0", "pedido mínimo"],
-  ];
-  const numLargura = LARGURA / 4;
-  numeros.forEach(([valor, rotulo], i) => {
-    const x = M + i * numLargura;
-    doc.rect(x, y, 2.5, 32).fill(LARANJA);
-    doc
-      .font("Helvetica-Bold")
-      .fontSize(16)
-      .fillColor(INK)
-      .text(valor, x + 11, y, { width: numLargura - 14, lineBreak: false });
-    doc
-      .font("Helvetica")
-      .fontSize(7.5)
-      .fillColor(CINZA)
-      .text(rotulo, x + 11, y + 19, { width: numLargura - 14 });
-  });
 }
 
-/* ==================== 01 PRODUTOS ==================== */
+/* ==================== 01 PLÁSTICOS INDUSTRIAIS ==================== */
 
 {
   let y = novaPagina({
-    secao: "01 · Produtos",
+    secao: "01 · Plásticos Industriais",
     numero: "01",
     titulo: "Plásticos industriais em estoque",
     subtitulo:
-      "Chapas, buchas e tarugos em plásticos industriais semiacabados, prontos para entrega. Quem usina internamente também pode comprar direto.",
+      "Chapas, buchas e tarugos nos principais polímeros de engenharia, prontos para entrega em Uberlândia MG.",
   });
 
   faixaFoto(await foto("/images/catech/industry-workshop.jpg", 1100), y, 104);
   y += 122;
 
-  y = tituloBloco("Guia rápido: qual material para qual peça?", y);
-  tabela(
-    ["Material", "Característica", "Onde usamos"],
-    materiais.map((m) => [m.nome, m.caracteristica, m.usos]),
-    y,
-    [LARGURA * 0.24, LARGURA * 0.33, LARGURA * 0.43],
-  );
-}
-
-{
-  let y = novaPagina({
-    secao: "01 · Produtos",
-    numero: "01",
-    titulo: "Catálogo e aplicações",
-    subtitulo:
-      "Dezessete materiais em catálogo e peças técnicas para os principais setores da indústria.",
-  });
-
-  trilhaFotos(
-    [
-      await foto("/images/usinagem/moldes-plasticos.jpg", 600),
-      await foto("/images/usinagem/torno.jpg", 600),
-      await foto("/images/usinagem/acrilicos.jpg", 600),
-    ],
-    y,
-    96,
-  );
-  y += 114;
-
   y = tituloBloco("Catálogo completo", y);
   y = chips(materiaisCatalogo.join("  ·  "), y);
   y += 4;
-
-  y = tituloBloco("Aplicações por setor", y);
-  y = tabela(
-    ["Setor", "Peças típicas"],
-    suprimentosSetores.map((s) => [s.setor, s.itens]),
-    y,
-    [LARGURA * 0.38, LARGURA * 0.62],
-  );
 
   doc
     .font("Helvetica")
     .fontSize(8.5)
     .fillColor(CINZA)
     .text(
-      "Também fornecemos vedações de válvulas e cilindros hidráulicos, roldanas em nylon, poliacetal e polipropileno, e perfis guia para todos os segmentos industriais.",
+      "Atendemos indústria de bebidas, alimentícia, metalúrgica e de embalagens, com peças como estrelas, roscas sem fim, guias, raspadores e placas de desgaste. Também fabricamos peças técnicas sob desenho utilizando esses materiais.",
       M,
       y,
       { width: LARGURA, lineGap: 2 },
     );
 }
 
-/* ==================== 02 SERVIÇOS ==================== */
+/* ==================== 02 USINAGEM CNC ==================== */
 
 {
   let y = novaPagina({
-    secao: "02 · Serviços",
+    secao: "02 · Usinagem CNC",
     numero: "02",
-    titulo: "Usinagem, moldes e fabricação sob demanda",
+    titulo: "Peças técnicas, ferramentaria e engenharia reversa",
     subtitulo:
-      "Todo serviço é orçado individualmente por foto, desenho ou amostra. Sem pedido mínimo.",
+      "Peça avulsa, reposição urgente ou lote pequeno, sem pedido mínimo. Orçado a partir de desenho, STEP, PDF, foto ou amostra.",
   });
 
   trilhaFotos(
@@ -489,68 +401,6 @@ doc
 
   y = tituloBloco("Metal e ferramentaria", y);
   listaDuasColunas(ferramentaria, y);
-}
-
-{
-  let y = novaPagina({
-    secao: "02 · Serviços",
-    numero: "02",
-    titulo: "Manutenção e Retrofit de CNC",
-    subtitulo:
-      "Suporte técnico completo em Uberlândia e região, do reparo emergencial à modernização total da sua máquina.",
-  });
-
-  faixaFoto(
-    await foto("/images/catech/industrial-maintenance.png", 1100),
-    y,
-    118,
-  );
-  y += 136;
-
-  y = tituloBloco("Manutenção", y);
-  y = listaDuasColunas(
-    [
-      {
-        titulo: "Reparos e peças",
-        descricao:
-          "Diagnóstico, troca de componentes e recuperação de máquinas CNC de qualquer fabricante.",
-      },
-      {
-        titulo: "Atendimento remoto",
-        descricao:
-          "Suporte por acesso remoto para configuração, parametrização e resolução rápida de falhas de software.",
-      },
-      {
-        titulo: "Atendimento presencial",
-        descricao:
-          "Equipe técnica em Uberlândia e região para visitas programadas e chamados emergenciais.",
-      },
-    ],
-    y,
-  );
-  y += 8;
-
-  y = tituloBloco("Retrofit", y);
-  listaDuasColunas(
-    [
-      {
-        titulo: "Atualização de comandos",
-        descricao:
-          "Migração para DDCS e controladores atuais, com ganho real de velocidade, precisão e confiabilidade.",
-      },
-      {
-        titulo: "Nova eletrônica",
-        descricao:
-          "Substituição de drivers, motores e fiação por componentes modernos com peças de reposição disponíveis.",
-      },
-      {
-        titulo: "Sua máquina valorizada",
-        descricao:
-          "A estrutura mecânica que você já tem passa a operar como uma máquina nova, por uma fração do custo.",
-      },
-    ],
-    y,
-  );
 }
 
 /* ==================== 03 MÁQUINAS ==================== */
@@ -599,6 +449,70 @@ for (const [i, produto] of maquinasProdutos.entries()) {
     );
 }
 
+/* ==================== 04 ASSISTÊNCIA TÉCNICA ==================== */
+
+{
+  let y = novaPagina({
+    secao: "04 · Assistência Técnica",
+    numero: "04",
+    titulo: "Manutenção e Retrofit de CNC",
+    subtitulo:
+      "Reparo, retrofit e migração de comando para máquinas CNC de qualquer fabricante, com atendimento remoto e presencial.",
+  });
+
+  faixaFoto(
+    await foto("/images/catech/industrial-maintenance.png", 1100),
+    y,
+    118,
+  );
+  y += 136;
+
+  y = tituloBloco("Manutenção", y);
+  y = listaDuasColunas(
+    [
+      {
+        titulo: "Reparos e peças",
+        descricao:
+          "Diagnóstico, troca de componentes e recuperação de máquinas CNC de qualquer fabricante.",
+      },
+      {
+        titulo: "Atendimento remoto",
+        descricao:
+          "Suporte por acesso remoto para configuração, parametrização e resolução rápida de falhas de software.",
+      },
+      {
+        titulo: "Atendimento presencial",
+        descricao:
+          "Equipe técnica em Uberlândia e região para visitas programadas e chamados emergenciais.",
+      },
+    ],
+    y,
+  );
+  y += 8;
+
+  y = tituloBloco("Retrofit", y);
+  listaDuasColunas(
+    [
+      {
+        titulo: "Atualização de comandos",
+        descricao:
+          "Migração para DDCS e controladores atuais, com ganho de velocidade e precisão.",
+      },
+      {
+        titulo: "Nova eletrônica",
+        descricao:
+          "Substituição de drivers, motores e fiação por componentes com peças de reposição disponíveis.",
+      },
+      {
+        titulo: "Estrutura aproveitada",
+        descricao:
+          "A mecânica que você já tem passa a operar com comando atual, por uma fração do custo de uma máquina nova.",
+      },
+    ],
+    y,
+  );
+}
+
 /* ==================== CONTRACAPA ==================== */
 
 doc.addPage();
@@ -612,7 +526,7 @@ doc
   .font("Helvetica-Bold")
   .fontSize(24)
   .fillColor("#ffffff")
-  .text("Vamos tirar o seu projeto do papel?", M, 356, {
+  .text("Envie seu projeto", M, 356, {
     width: LARGURA,
     align: "center",
   });
@@ -622,7 +536,7 @@ doc
   .fontSize(10.5)
   .fillColor("#c8cdd6")
   .text(
-    "Mande uma peça, foto ou desenho pelo WhatsApp e devolvemos o orçamento sem compromisso, com prazo e valores claros.",
+    "Anexe um desenho, PDF, STEP, foto ou amostra. Em até 24 horas úteis retornamos com análise técnica e orçamento.",
     M + 60,
     398,
     { width: LARGURA - 120, align: "center", lineGap: 3 },
@@ -662,7 +576,7 @@ doc
 
 doc.end();
 
-const ESPERADO = 9;
+const ESPERADO = 8;
 if (paginas !== ESPERADO) {
   console.warn(
     `ATENÇÃO: ${paginas} páginas geradas (esperado ${ESPERADO}). Alguma seção estourou o espaço da página.`,

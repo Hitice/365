@@ -4,8 +4,8 @@
 
 - `brand/logo.png`: logotipo oficial da Catech 360, usado no header e no rodapé.
 - `catech/`: imagens aproveitadas do site antigo (tech-hero, CLP1, IOT1, MONT1,
-  cases1/2/3, 3d-printer, cnc-real, USI1 etc.), usadas na página /tecnologia,
-  na vitrine da home e no card de impressão 3D. Pode substituir qualquer uma
+  cases1/2/3, 3d-printer, cnc-real, USI1 etc.), usadas na vitrine da Home e
+  na categoria "Tecnologia" de /portfolio. Pode substituir qualquer uma
   mantendo o mesmo nome de arquivo.
 
 Salve cada foto com o nome exato indicado abaixo (formato .jpg). Assim que o
@@ -18,33 +18,33 @@ Tamanho recomendado: 1200 x 900 px (proporção 4:3), até 300 KB cada.
 
 | Arquivo | Máquina |
 |---|---|
-| comunicacao-visual-1.jpg | Router CNC CV Pro |
-| comunicacao-visual-2.jpg | Router CNC CV Compact |
-| moldes-1.jpg | CNC Mold Maker |
-| moldes-2.jpg | CNC Mold Grav |
-| marcenaria-1.jpg | Router CNC Wood Master |
-| marcenaria-2.jpg | Router CNC Wood Flex |
+| comunicacao-visual-1.jpg | Router 3000x1500 |
+| comunicacao-visual-2.jpg | Router 4000x2000 |
+| moldes-1.jpg | CNC 300x300 |
+| moldes-2.jpg | CNC 400x400 |
+| marcenaria-1.jpg | Router 4000x2000 Full |
+| marcenaria-2.jpg | (livre) |
 
-## usinagem/
+## usinagem/ (usadas em /usinagem, seção "O que fabricamos")
 
 | Arquivo | Serviço |
 |---|---|
-| moldes-injetaveis.jpg | Fabricação de moldes injetáveis (FALTA) |
+| moldes-injetaveis.jpg | Fabricação de moldes injetáveis |
 | moldes-plasticos.jpg | Peças em PEAD e tecnil |
 | acrilicos.jpg | Acrílicos e policarbonato |
 | gabaritos.jpg | Fabricação de gabaritos |
 | torno.jpg | Torneamento (buchas, engrenagens, roletes) |
-| reposicao.jpg | Reposição e nacionalização de peças (FALTA) |
-| aluminio.jpg | Usinagem de alumínio (FALTA) |
+| reposicao.jpg | Reposição e nacionalização de peças |
+| aluminio.jpg | Usinagem de alumínio |
 | gravacoes.jpg | Gravação de moldes e talões |
-| baixo-relevo.jpg | Gravação em baixo e alto relevo (FALTA) |
-| matrizes.jpg | Matrizes, punções e placas (FALTA) |
-| carimbos.jpg | Carimbos em aço inox (FALTA) |
+| baixo-relevo.jpg | Gravação em baixo e alto relevo |
+| matrizes.jpg | Matrizes, punções e placas |
+| carimbos.jpg | Carimbos em aço inox |
 | eletrodos.jpg | Eletrodos personalizados |
 
-## arquitetura-producao/
+## arquitetura-producao/ (usadas em /portfolio, categoria "Produção")
 
-| Arquivo | Serviço |
+| Arquivo | Projeto |
 |---|---|
 | corte-laser.jpg | Projetos em corte a laser |
 | corten.jpg | Aço corten |
@@ -53,9 +53,9 @@ Tamanho recomendado: 1200 x 900 px (proporção 4:3), até 300 KB cada.
 | fachadas.jpg | Fachadas internas e prediais |
 | letras-caixa.jpg | Letras caixa |
 
-## arquitetura-automacao/
+## arquitetura-automacao/ (usadas em /portfolio, categoria "Automação")
 
-| Arquivo | Serviço |
+| Arquivo | Projeto |
 |---|---|
 | instalacoes.jpg | Instalações e serviços |
 | biometria.jpg | Fechaduras biométricas |
@@ -64,22 +64,11 @@ Tamanho recomendado: 1200 x 900 px (proporção 4:3), até 300 KB cada.
 | moveis-exclusivos.jpg | Móveis exclusivos |
 | projetos-arquitetos.jpg | Projetos de arquitetos |
 
-## materiais/ (página de plásticos industriais)
+## materiais/
 
-| Arquivo | Card |
-|---|---|
-| pead.jpg | PEAD (tarugos e chapas) |
-| pom.jpg | Poliacetal POM |
-| nylon.jpg | Nylon e Nylon Cast |
-| ptfe.jpg | PTFE (vedações) |
-| uhmw.jpg | UHMW (placas de deslize) |
-| policarbonato.jpg | Policarbonato e acrílico |
-| peek.jpg | PEEK e técnicos especiais |
-| poliuretano.jpg | Poliuretano e borrachas técnicas |
-| setor-bebidas.jpg | Indústria de bebidas (estrelas, roscas sem fim) |
-| setor-alimenticia.jpg | Indústria alimentícia (chapas de corte, raspadores) |
-| setor-metalurgica.jpg | Indústria metalúrgica (placas de desgaste) |
-| setor-embalagens.jpg | Indústria de embalagens (placas de deslize) |
+Pasta reservada para uma futura página de detalhe por material. Não é usada
+pelo site hoje — a página /produtos mostra o catálogo como lista de chips
+(`materiaisCatalogo` em `lib/data.ts`), sem foto por material.
 
 ## hero/
 
