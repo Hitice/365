@@ -17,11 +17,11 @@ const WHATSAPP_ICON = (
 );
 
 const info = [
-  { label: "WhatsApp", value: "+55 (34) 99117-6599" },
+  { label: "Telefone", value: "+55 (34) 99117-6599" },
   { label: "E-mail", value: "adm.nuvem@protonmail.com" },
   { label: "Endereço", value: "Tubalina, Uberlândia - MG, CEP 38412-044" },
-  { label: "Horário", value: "Segunda a sexta, horário comercial" },
   { label: "CNPJ", value: "39.914.870/0001-01" },
+  { label: "Horário", value: "Segunda a sexta, horário comercial", center: true },
 ];
 
 export default function ContatoPage() {
@@ -49,7 +49,7 @@ export default function ContatoPage() {
                 rel="noopener noreferrer"
                 icon={WHATSAPP_ICON}
               >
-                Chamar no WhatsApp
+                WhatsApp
               </Button>
               <Button href="mailto:adm.nuvem@protonmail.com" variant="secondary">
                 Enviar e-mail
@@ -60,7 +60,7 @@ export default function ContatoPage() {
           <FadeUp delay={120} className="mt-16 border-t border-border pt-10 text-left">
             <dl className="grid gap-6 sm:grid-cols-2">
               {info.map((item) => (
-                <div key={item.label}>
+                <div key={item.label} className={item.center ? "sm:col-span-2 text-center" : undefined}>
                   <dt className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground-subtle">
                     {item.label}
                   </dt>

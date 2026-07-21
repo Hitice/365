@@ -17,13 +17,14 @@ export default function Home() {
         {/* Hero com a roda 360 */}
         <section className="relative overflow-hidden pt-[calc(4rem+10mm)]">
           <HeroBackground position="top" />
-          <div className="relative mx-auto grid w-full max-w-[1480px] items-stretch gap-8 px-4 pb-2 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
+          <div className="relative mx-auto grid w-full max-w-[1480px] items-stretch gap-8 px-4 pb-2 sm:px-6 lg:grid-cols-[3fr_2fr] lg:gap-14 lg:px-8">
             <div className="text-center lg:text-left">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
                 Uberlândia MG · Atendemos todo o Brasil
               </p>
-              <h1 className="mt-2 text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
-                Soluções industriais para quem não pode parar a produção.
+              <h1 className="mt-2 text-balance text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl">
+                Soluções industriais para quem{" "}
+                <span className="text-accent-600">não pode parar a produção.</span>
               </h1>
               <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-foreground-muted sm:text-lg lg:mx-0">
                 Fabricamos peças usinadas, fornecemos plásticos de engenharia,
@@ -31,7 +32,7 @@ export default function Home() {
                 indústrias em todo o Brasil.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-3 lg:justify-start">
-                <Button href="/contato">Solicitar orçamento</Button>
+                <Button href="/contato">Orçamento</Button>
                 <Button href="/portfolio" variant="secondary">
                   Ver portfólio
                 </Button>

@@ -76,7 +76,7 @@ export default function NichoWheel() {
   }, [reduceMotion]);
 
   return (
-    <div className="relative mx-auto flex h-full w-full max-w-[380px] min-w-[200px] items-center justify-center">
+    <div className="relative mx-auto flex h-full w-fit max-w-[380px] min-w-[200px] items-center justify-center lg:mx-0 lg:ml-auto">
       <svg
         viewBox="0 0 400 400"
         role="navigation"

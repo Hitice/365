@@ -31,7 +31,7 @@ export default function ContactCta({
             rel="noopener noreferrer"
             icon={WHATSAPP_ICON}
           >
-            Chamar no WhatsApp
+            WhatsApp
           </Button>
           <Button href="mailto:adm.nuvem@protonmail.com" variant="secondary">
             Enviar e-mail
@@ -39,7 +39,7 @@ export default function ContactCta({
         </div>
         <p className="mt-6 text-xs text-foreground-subtle">
           WhatsApp em horário comercial · E-mail respondido em até 24h ·
-          Tubalina, Uberlândia - MG · Atendimento remoto em todo o Brasil
+          Uberlândia - MG · Atendimento remoto em todo o território nacional
         </p>
       </div>
     </section>
