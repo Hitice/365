@@ -12,13 +12,14 @@ type ProductCardProps = {
   tags?: string[];
   ctaLabel?: string;
   ctaHref?: string;
+  compact?: boolean;
 };
 
 /*
-  Card responsivo de produto ou serviço.
-  Enquanto a imagem definitiva não existe em public/images, o card mostra
-  um placeholder com o caminho esperado do arquivo. Ao salvar a imagem
-  com esse nome, ela aparece automaticamente.
+  Card de produto ou serviço. Enquanto a imagem definitiva não existe em
+  public/images, o card mostra um placeholder com o caminho esperado do
+  arquivo — ao salvar a imagem com esse nome, ela aparece automaticamente.
+  Em modo compact, mostra só imagem + título, para grades densas.
 */
 export default function ProductCard({
   nome,
@@ -29,12 +30,13 @@ export default function ProductCard({
   tags,
   ctaLabel = "Saiba mais",
   ctaHref = "#contato",
+  compact = false,
 }: ProductCardProps) {
   const [imgOk, setImgOk] = useState(true);
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-ink-100 bg-white transition-shadow duration-300 hover:shadow-lg hover:shadow-navy-900/10">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-ink-100">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-shadow duration-300 hover:shadow-lg hover:shadow-navy-900/10">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-alt">
         {imgOk ? (
           <Image
             src={imagem}
@@ -51,7 +53,7 @@ export default function ProductCard({
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              strokeWidth={1.5}
+              strokeWidth={2}
               aria-hidden="true"
             >
               <path
@@ -72,56 +74,62 @@ export default function ProductCard({
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-5">
-        <h3 className="text-lg font-semibold text-ink-900">{nome}</h3>
-        {bullets && bullets.length > 0 ? (
-          <ul className="flex-1 space-y-2">
-            {bullets.map((item) => (
-              <li key={item} className="flex gap-2.5 text-sm text-ink-700">
-                <svg
-                  className="mt-0.5 h-4 w-4 flex-none text-accent-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2.5}
-                  aria-hidden="true"
+      {compact ? (
+        <div className="p-3.5">
+          <h3 className="text-sm font-semibold text-foreground">{nome}</h3>
+        </div>
+      ) : (
+        <div className="flex flex-1 flex-col gap-3 p-5">
+          <h3 className="text-lg font-semibold text-foreground">{nome}</h3>
+          {bullets && bullets.length > 0 ? (
+            <ul className="flex-1 space-y-2">
+              {bullets.map((item) => (
+                <li key={item} className="flex gap-2.5 text-sm text-foreground-muted">
+                  <svg
+                    className="mt-0.5 h-4 w-4 flex-none text-accent-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="flex-1 text-sm leading-relaxed text-foreground-muted">
+              {descricao}
+            </p>
+          )}
+
+          {tags && tags.length > 0 && (
+            <ul className="flex flex-wrap gap-1.5">
+              {tags.map((tag) => (
+                <li
+                  key={tag}
+                  className="rounded-full bg-steel-50 px-2.5 py-0.5 text-xs font-medium text-steel-700"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                {item}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="flex-1 text-sm leading-relaxed text-ink-700">
-            {descricao}
-          </p>
-        )}
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          )}
 
-        {tags && tags.length > 0 && (
-          <ul className="flex flex-wrap gap-1.5">
-            {tags.map((tag) => (
-              <li
-                key={tag}
-                className="rounded-full bg-steel-50 px-2.5 py-0.5 text-xs font-medium text-steel-700"
-              >
-                {tag}
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <a
-          href={ctaHref}
-          className="mt-2 inline-flex min-h-11 items-center justify-center rounded-md border border-steel-700 px-4 text-sm font-semibold text-steel-700 transition-colors hover:bg-steel-700 hover:text-white"
-        >
-          {ctaLabel}
-        </a>
-      </div>
+          <a
+            href={ctaHref}
+            className="mt-2 inline-flex min-h-11 items-center justify-center rounded-md border border-steel-700 px-4 text-sm font-semibold text-steel-700 transition-colors hover:bg-steel-700 hover:text-white"
+          >
+            {ctaLabel}
+          </a>
+        </div>
+      )}
     </article>
   );
 }

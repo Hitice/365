@@ -22,7 +22,7 @@ export default function SectionHeading({
       </p>
       <h2
         className={`mt-3 text-3xl font-bold tracking-tight sm:text-4xl ${
-          dark ? "text-white" : "text-ink-900"
+          dark ? "text-white" : "text-foreground"
         }`}
       >
         {title}
@@ -30,7 +30,7 @@ export default function SectionHeading({
       {subtitle && (
         <p
           className={`mt-4 text-base leading-relaxed sm:text-lg ${
-            dark ? "text-white/70" : "text-ink-700"
+            dark ? "text-white/70" : "text-foreground-muted"
           }`}
         >
           {subtitle}

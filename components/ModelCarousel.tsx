@@ -16,7 +16,7 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
   const next = () => setIndex((i) => (i + 1) % total);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-ink-100 bg-white">
+    <div className="overflow-hidden rounded-2xl border border-border bg-surface">
       <div className="overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-in-out"
@@ -41,10 +41,10 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
               </div>
 
               <div className="flex flex-col p-6 sm:p-8">
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-ink-500">
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-foreground-subtle">
                   {modelo.area}
                 </p>
-                <h4 className="mt-2 text-2xl font-bold text-ink-900 sm:text-3xl">
+                <h4 className="mt-2 text-2xl font-bold text-foreground sm:text-3xl">
                   {modelo.nome}
                 </h4>
                 <p className="mt-3 font-mono text-lg font-bold text-accent-600">
@@ -55,14 +55,14 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
                   {modelo.specs.map((spec) => (
                     <li
                       key={spec}
-                      className="flex gap-2.5 text-sm text-ink-700"
+                      className="flex gap-2.5 text-sm text-foreground-muted"
                     >
                       <svg
                         className="mt-0.5 h-4 w-4 flex-none text-accent-600"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        strokeWidth={2.5}
+                        strokeWidth={2}
                         aria-hidden="true"
                       >
                         <path
@@ -74,9 +74,6 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
                       {spec}
                     </li>
                   ))}
-                  <li className="pt-1 text-xs text-ink-500">
-                    + todos os itens de série da linha listados acima
-                  </li>
                 </ul>
 
                 <a
@@ -85,7 +82,7 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 inline-flex min-h-11 items-center justify-center self-start rounded-md bg-accent-500 px-6 text-sm font-semibold text-white transition-colors hover:bg-accent-600"
+                  className="mt-6 inline-flex min-h-11 items-center justify-center self-start rounded-md bg-accent-500 px-6 text-sm font-semibold text-white transition-all duration-150 hover:bg-accent-600 active:scale-[0.98]"
                 >
                   Cotar este modelo
                 </a>
@@ -95,18 +92,18 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
         </div>
       </div>
 
-      <div className="flex items-center justify-between border-t border-ink-100 px-4 py-3">
+      <div className="flex items-center justify-between border-t border-border px-4 py-3">
         <button
           onClick={prev}
           aria-label="Modelo anterior"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-ink-300 text-ink-700 transition-colors hover:border-accent-500/60 hover:text-accent-600"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border-strong text-foreground-muted transition-colors hover:border-accent-500/60 hover:text-accent-600"
         >
           <svg
             className="h-4 w-4"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            strokeWidth={2.5}
+            strokeWidth={2}
             aria-hidden="true"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -122,7 +119,7 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === index
                   ? "w-6 bg-accent-500"
-                  : "w-1.5 bg-ink-300 hover:bg-ink-500"
+                  : "w-1.5 bg-border-strong hover:bg-foreground-subtle"
               }`}
             />
           ))}
@@ -131,14 +128,14 @@ export default function ModelCarousel({ produto }: { produto: MaquinaProduto }) 
         <button
           onClick={next}
           aria-label="Próximo modelo"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-ink-300 text-ink-700 transition-colors hover:border-accent-500/60 hover:text-accent-600"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border-strong text-foreground-muted transition-colors hover:border-accent-500/60 hover:text-accent-600"
         >
           <svg
             className="h-4 w-4"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            strokeWidth={2.5}
+            strokeWidth={2}
             aria-hidden="true"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

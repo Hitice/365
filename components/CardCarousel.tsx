@@ -87,7 +87,7 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
             <Link
               key={`${item.id}-${i}`}
               href={item.href}
-              className="group flex-shrink-0 overflow-hidden rounded-xl border border-ink-100 bg-white transition-colors duration-200 hover:border-accent-500/60 hover:shadow-md"
+              className="group flex-shrink-0 overflow-hidden rounded-xl border border-border bg-surface transition-colors duration-200 hover:border-accent-500/60 hover:shadow-md"
               style={{
                 width: `calc((100% - ${GAP * (visible - 1)}px) / ${visible})`,
               }}
@@ -103,10 +103,10 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
                 />
               </div>
               <div className="p-4">
-                <h3 className="text-sm font-semibold text-ink-900 sm:text-base">
+                <h3 className="text-sm font-semibold text-foreground sm:text-base">
                   {item.titulo}
                 </h3>
-                <p className="mt-1 text-xs text-ink-500">{item.nota}</p>
+                <p className="mt-1 text-xs text-foreground-subtle">{item.nota}</p>
               </div>
             </Link>
           ))}
@@ -116,14 +116,14 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
       <button
         onClick={prev}
         aria-label="Anterior"
-        className="absolute -left-4 top-[38%] z-10 flex h-9 w-9 items-center justify-center rounded-full border border-ink-300 bg-white text-ink-700 shadow-sm opacity-0 transition-all duration-200 hover:border-accent-500/60 hover:text-accent-600 group-hover/carousel:opacity-100"
+        className="absolute -left-4 top-[38%] z-10 flex h-9 w-9 items-center justify-center rounded-full border border-border-strong bg-surface text-foreground-muted shadow-sm opacity-0 transition-all duration-200 hover:border-accent-500/60 hover:text-accent-600 group-hover/carousel:opacity-100"
       >
         <svg
           className="h-4 w-4"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          strokeWidth={2.5}
+          strokeWidth={2}
           aria-hidden="true"
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -132,14 +132,14 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
       <button
         onClick={next}
         aria-label="Próximo"
-        className="absolute -right-4 top-[38%] z-10 flex h-9 w-9 items-center justify-center rounded-full border border-ink-300 bg-white text-ink-700 shadow-sm opacity-0 transition-all duration-200 hover:border-accent-500/60 hover:text-accent-600 group-hover/carousel:opacity-100"
+        className="absolute -right-4 top-[38%] z-10 flex h-9 w-9 items-center justify-center rounded-full border border-border-strong bg-surface text-foreground-muted shadow-sm opacity-0 transition-all duration-200 hover:border-accent-500/60 hover:text-accent-600 group-hover/carousel:opacity-100"
       >
         <svg
           className="h-4 w-4"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          strokeWidth={2.5}
+          strokeWidth={2}
           aria-hidden="true"
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -155,7 +155,7 @@ export default function CardCarousel({ items }: { items: VitrineItem[] }) {
             className={`h-1.5 rounded-full transition-all duration-300 ${
               i === realIdx
                 ? "w-5 bg-accent-500"
-                : "w-1.5 bg-ink-300 hover:bg-ink-500"
+                : "w-1.5 bg-border-strong hover:bg-foreground-subtle"
             }`}
           />
         ))}

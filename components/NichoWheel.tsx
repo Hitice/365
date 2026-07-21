@@ -11,8 +11,8 @@ type Nicho = {
 };
 
 /*
-  Ordem horária a partir do topo. Seis nichos, um por fatia, cada um levando
-  a uma seção única do site.
+  Ordem horária a partir do topo. Um nicho por fatia, cada um é um dos
+  quatro pilares do site.
 */
 const nichos: Nicho[] = [
   {
@@ -23,32 +23,20 @@ const nichos: Nicho[] = [
   },
   {
     label: "Usinagem",
-    desc: "Peças, moldes e fabricação sob demanda",
-    href: "/servicos#usinagem",
+    desc: "Peças sob desenho, moldes e engenharia reversa",
+    href: "/usinagem",
     laranja: false,
   },
   {
-    label: "Insumos",
-    desc: "Chapas, buchas e tarugos em plásticos industriais",
+    label: "Plásticos",
+    desc: "Chapas, buchas e tarugos em estoque",
     href: "/produtos",
     laranja: true,
   },
   {
-    label: "Ferramental",
-    desc: "Matrizes, punções, carimbos, eletrodos e gravações",
-    href: "/servicos#ferramentaria",
-    laranja: false,
-  },
-  {
-    label: "Manutenção",
-    desc: "Reparos com atendimento remoto e presencial",
-    href: "/servicos#manutencao",
-    laranja: true,
-  },
-  {
-    label: "Retrofit",
-    desc: "Migração para DDCS e comandos atuais",
-    href: "/servicos#retrofit",
+    label: "Assistência",
+    desc: "Retrofit e manutenção de CNC",
+    href: "/assistencia-tecnica",
     laranja: false,
   },
 ];
@@ -97,7 +85,7 @@ export default function NichoWheel() {
           cy={CY}
           r={172}
           fill="none"
-          stroke="var(--ink-300)"
+          stroke="var(--border-strong)"
           strokeWidth="1"
           strokeDasharray="3 9"
           className="wheel-ring"
@@ -112,7 +100,7 @@ export default function NichoWheel() {
             ? "var(--accent-500)"
             : nicho.laranja
               ? "var(--accent-500)"
-              : "var(--ink-300)";
+              : "var(--border-strong)";
 
           // Arco no meio da fatia para o texto curvo (textPath). Nas fatias
           // da metade de baixo o arco é invertido para o texto ficar legível.
@@ -170,7 +158,7 @@ export default function NichoWheel() {
                     fill:
                       isActive || nicho.laranja
                         ? "#ffffff"
-                        : "var(--ink-700)",
+                        : "var(--foreground-muted)",
                     fontSize: nicho.label.length > 9 ? "12.5px" : "14px",
                     fontWeight: 700,
                     letterSpacing: "0.1em",
@@ -195,7 +183,7 @@ export default function NichoWheel() {
           textAnchor="middle"
           dominantBaseline="central"
           style={{
-            fill: "var(--ink-700)",
+            fill: "var(--foreground-muted)",
             fontSize: active === null ? "52px" : "22px",
             fontWeight: 800,
             letterSpacing: "0.06em",
@@ -226,7 +214,7 @@ export default function NichoWheel() {
       </svg>
 
       <p
-        className="mt-3 min-h-10 text-center text-sm leading-relaxed text-ink-700"
+        className="mt-3 min-h-10 text-center text-sm leading-relaxed text-foreground-muted"
         aria-live="polite"
       >
         {active !== null ? nichos[active].desc : ""}
