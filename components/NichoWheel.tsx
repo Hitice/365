@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 type Nicho = {
   label: string;
@@ -64,15 +65,17 @@ function segmentPath(a1: number, a2: number): string {
 export default function NichoWheel() {
   const [mounted, setMounted] = useState(false);
   const [active, setActive] = useState<number | null>(null);
+  const reduceMotion = usePrefersReducedMotion();
   const router = useRouter();
 
   useEffect(() => {
+    if (reduceMotion) return;
     const t = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(t);
-  }, []);
+  }, [reduceMotion]);
 
   return (
-    <div className="mx-auto w-full max-w-[440px]">
+    <div className="mx-auto w-full max-w-[294px]">
       <svg
         viewBox="0 0 400 400"
         role="navigation"
@@ -85,7 +88,7 @@ export default function NichoWheel() {
           cy={CY}
           r={172}
           fill="none"
-          stroke="var(--border-strong)"
+          stroke="var(--wheel-ring)"
           strokeWidth="1"
           strokeDasharray="3 9"
           className="wheel-ring"
@@ -122,18 +125,22 @@ export default function NichoWheel() {
               className="cursor-pointer outline-none"
             >
               <g
-                style={{
-                  transformOrigin: "200px 200px",
-                  transform: mounted
-                    ? isActive
-                      ? "scale(1.05) rotate(0deg)"
-                      : "scale(1) rotate(0deg)"
-                    : "scale(0.55) rotate(-40deg)",
-                  opacity: mounted ? 1 : 0,
-                  transition: `transform 0.45s cubic-bezier(0.34,1.4,0.64,1) ${
-                    mounted ? "0ms" : `${i * 80}ms`
-                  }, opacity 0.5s ease-out ${mounted ? "0ms" : `${i * 80}ms`}`,
-                }}
+                style={
+                  reduceMotion
+                    ? { transformOrigin: "200px 200px" }
+                    : {
+                        transformOrigin: "200px 200px",
+                        transform: mounted
+                          ? isActive
+                            ? "scale(1.015) rotate(0deg)"
+                            : "scale(1) rotate(0deg)"
+                          : "scale(0.55) rotate(-40deg)",
+                        opacity: mounted ? 1 : 0,
+                        transition: `transform 0.45s cubic-bezier(0.34,1.4,0.64,1) ${
+                          mounted ? "0ms" : `${i * 80}ms`
+                        }, opacity 0.5s ease-out ${mounted ? "0ms" : `${i * 80}ms`}`,
+                      }
+                }
               >
                 <path
                   d={segmentPath(start, end)}
@@ -154,7 +161,7 @@ export default function NichoWheel() {
                   style={{
                     fill:
                       isActive || nicho.laranja
-                        ? "#ffffff"
+                        ? "var(--navy-950)"
                         : "var(--foreground-muted)",
                     fontSize: nicho.label.length > 9 ? "12.5px" : "14px",
                     fontWeight: 700,
