@@ -8,10 +8,10 @@ import ThemeToggle from "./ThemeToggle";
 import Button from "./Button";
 
 const links = [
-  { href: "/produtos", label: "Plásticos" },
-  { href: "/usinagem", label: "Usinagem" },
   { href: "/maquinas", label: "Máquinas" },
+  { href: "/usinagem", label: "Usinagem" },
   { href: "/assistencia-tecnica", label: "Assistência" },
+  { href: "/produtos", label: "Plásticos" },
   { href: "/portfolio", label: "Portfólio" },
   { href: "/sobre", label: "Sobre" },
 ];
@@ -29,6 +29,23 @@ const DownloadIcon = (
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14"
+    />
+  </svg>
+);
+
+const LoginIcon = (
+  <svg
+    className="h-4 w-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"
     />
   </svg>
 );
@@ -60,7 +77,7 @@ export default function Header() {
         scrolled && !open ? "shadow-sm" : ""
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8 xl:pr-20">
         <Link
           href="/"
           className="flex items-center gap-2.5 text-foreground"
@@ -88,8 +105,6 @@ export default function Header() {
             </Link>
           ))}
 
-          <ThemeToggle className="ml-1" />
-
           <Button
             href="/catalogo-catech360.pdf"
             download
@@ -99,8 +114,8 @@ export default function Header() {
           >
             Catálogo
           </Button>
-          <Button href="/contato" size="compact">
-            Solicitar orçamento
+          <Button href="/login" variant="secondary" size="compact" icon={LoginIcon}>
+            Entrar
           </Button>
         </nav>
 
@@ -132,6 +147,11 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Fora do container centralizado, alinhada com a mesma margem do botão de WhatsApp */}
+      <div className="absolute right-5 top-1/2 hidden -translate-y-1/2 xl:block">
+        <ThemeToggle />
+      </div>
+
       {open && (
         <nav
           id="menu-mobile"
@@ -160,11 +180,12 @@ export default function Header() {
             Baixar catálogo (PDF)
           </a>
           <Link
-            href="/contato"
-            className="mt-4 self-start rounded-md bg-accent-500 px-6 py-3 text-center text-sm font-semibold text-white"
+            href="/login"
+            className="mt-4 flex items-center gap-2 self-start rounded-md border border-border-strong px-6 py-3 text-sm font-semibold text-foreground"
             onClick={() => setOpen(false)}
           >
-            Solicitar orçamento
+            {LoginIcon}
+            Entrar
           </Link>
         </nav>
       )}
