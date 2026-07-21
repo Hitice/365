@@ -29,7 +29,7 @@ export default function ContatoPage() {
     <>
       <Header />
       <main className="flex-1 bg-background">
-        <section className="mx-auto max-w-3xl px-4 py-28 text-center sm:px-6 sm:py-36 lg:px-8">
+        <section className="mx-auto max-w-3xl px-4 pb-28 pt-[calc(4rem+10mm)] text-center sm:px-6 sm:pb-36 lg:px-8">
           <FadeUp>
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
               Contato

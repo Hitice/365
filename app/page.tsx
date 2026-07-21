@@ -15,9 +15,9 @@ export default function Home() {
       <Header />
       <main className="flex flex-1 flex-col bg-background">
         {/* Hero com a roda 360 */}
-        <section className="relative overflow-hidden pt-4">
+        <section className="relative overflow-hidden pt-[calc(4rem+10mm)]">
           <HeroBackground position="top" />
-          <div className="relative mx-auto grid w-full max-w-[1480px] items-stretch gap-8 px-4 pb-2 pt-4 sm:px-6 sm:pt-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
+          <div className="relative mx-auto grid w-full max-w-[1480px] items-stretch gap-8 px-4 pb-2 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
             <div className="text-center lg:text-left">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-accent-600">
                 Uberlândia MG · Atendemos todo o Brasil
