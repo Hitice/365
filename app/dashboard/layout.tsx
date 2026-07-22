@@ -30,7 +30,7 @@ export default async function DashboardLayout({
     .is("deleted_at", null);
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="dashboard-theme">
       <AppSidebar
         perfil={{ nome: profile.nome, email: profile.email, role: profile.role }}
         badges={{ "/dashboard/negocios": followupsPendentes ?? 0 }}

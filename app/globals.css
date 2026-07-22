@@ -244,6 +244,47 @@ body {
   outline-color: var(--accent-600);
 }
 
+/*
+  Tema do sistema interno (/dashboard): fundo cinza (claro e escuro),
+  cards flutuando por sombra em vez de linha de borda. Escopado pela
+  classe .dashboard-theme — o site institucional nao muda.
+*/
+.dashboard-theme {
+  --background: #f2f3f5;
+  --surface: #ffffff;
+  --surface-alt: #f7f8f9;
+  --border: #ebecee;
+  --sidebar: #ececef;
+  --sidebar-border: #e3e4e7;
+}
+
+.dark .dashboard-theme {
+  --background: #161618;
+  --surface: #1e1e21;
+  --surface-alt: #242428;
+  --border: #28282c;
+  --popover: #242428;
+  --accent: #2c2c30;
+  --sidebar: #121214;
+  --sidebar-accent: #222226;
+  --sidebar-border: #202024;
+}
+
+/* Sombra mais presente nos cards, ja que a borda quase sumiu. */
+.dashboard-theme .shadow-sm,
+.dashboard-theme [data-slot="card"] {
+  box-shadow:
+    0 1px 2px rgb(16 24 40 / 0.05),
+    0 4px 16px rgb(16 24 40 / 0.06);
+}
+
+.dark .dashboard-theme .shadow-sm,
+.dark .dashboard-theme [data-slot="card"] {
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.4),
+    0 6px 20px rgb(0 0 0 / 0.35);
+}
+
 @keyframes wheel-spin {
   to {
     transform: rotate(360deg);

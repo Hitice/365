@@ -42,15 +42,15 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { title: "Negócios", href: "/dashboard/negocios", icon: SquareKanban, ready: true },
       { title: "Clientes", href: "/dashboard/clientes", icon: Building2, ready: true },
-      { title: "Orçamentos", href: "/dashboard/orcamentos", icon: FileText, ready: false },
+      { title: "Orçamentos", href: "/dashboard/orcamentos", icon: FileText, ready: true },
     ],
   },
   {
     label: "Operações",
     items: [
-      { title: "Projetos", href: "/dashboard/projetos", icon: FolderKanban, ready: false },
+      { title: "Projetos", href: "/dashboard/projetos", icon: FolderKanban, ready: true },
       { title: "Produção", href: "/dashboard/producao", icon: Factory, ready: false },
-      { title: "Assistência", href: "/dashboard/assistencia", icon: Wrench, ready: false },
+      { title: "Assistência", href: "/dashboard/assistencia", icon: Wrench, ready: true },
       { title: "Catálogo", href: "/dashboard/produtos", icon: Package, ready: true },
       { title: "Arquivos", href: "/dashboard/arquivos", icon: FolderOpen, ready: false },
     ],
@@ -58,8 +58,8 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Gestão",
     items: [
-      { title: "Financeiro", href: "/dashboard/financeiro", icon: CircleDollarSign, ready: false },
-      { title: "Agenda", href: "/dashboard/agenda", icon: CalendarDays, ready: false },
+      { title: "Financeiro", href: "/dashboard/financeiro", icon: CircleDollarSign, ready: true },
+      { title: "Agenda", href: "/dashboard/agenda", icon: CalendarDays, ready: true },
     ],
   },
   {

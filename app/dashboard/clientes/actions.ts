@@ -298,11 +298,21 @@ export async function sincronizarAsaas() {
   const clientesAsaas = lista.data;
 
   const supabase = await createClient();
-  const { data: empresas } = await supabase
+  const { data: empresas, error: erroEmpresas } = await supabase
     .from("empresas")
     .select(
       "id, cnpj, asaas_customer_id, email, telefone, endereco, cidade, estado, cep, razao_social",
     );
+
+  // Se a tabela nao existe (migracao 0005 nao rodada), avisa em vez de
+  // reportar "0 importadas" enganosamente.
+  if (erroEmpresas) {
+    redirect(
+      `/dashboard/clientes?error=${encodeURIComponent(
+        `Banco não preparado (${erroEmpresas.message}). Rode a migração 0005_erp_core.sql no Supabase.`,
+      )}`,
+    );
+  }
 
   const porAsaasId = new Map(
     (empresas ?? []).filter((e) => e.asaas_customer_id).map((e) => [e.asaas_customer_id, e]),
