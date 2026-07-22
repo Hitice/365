@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Button from "@/components/Button";
+import { Combobox } from "@/components/ui/combobox";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/crm/session";
 import { criarProjeto } from "../actions";
@@ -39,21 +40,20 @@ export default async function NovoProjetoPage({
         </p>
       )}
 
-      <form action={criarProjeto} className="mt-6 space-y-4 rounded-2xl border border-border bg-surface p-6 shadow-sm sm:p-8">
+      <form action={criarProjeto} className="mt-6 space-y-4 rounded-2xl bg-surface p-6 shadow-sm sm:p-8">
         <div>
           <label htmlFor="empresa_id" className={LABEL_CLASS}>
             Empresa *
           </label>
-          <select id="empresa_id" name="empresa_id" required defaultValue="" className={INPUT_CLASS}>
-            <option value="" disabled>
-              Selecione
-            </option>
-            {(empresas ?? []).map((e) => (
-              <option key={e.id} value={e.id}>
-                {e.nome_fantasia}
-              </option>
-            ))}
-          </select>
+          <Combobox
+            id="empresa_id"
+            name="empresa_id"
+            className="mt-1.5 min-h-11"
+            placeholder="Selecione a empresa"
+            searchPlaceholder="Buscar empresa..."
+            emptyText="Nenhuma empresa."
+            options={(empresas ?? []).map((e) => ({ value: e.id, label: e.nome_fantasia }))}
+          />
         </div>
         <div>
           <label htmlFor="titulo" className={LABEL_CLASS}>

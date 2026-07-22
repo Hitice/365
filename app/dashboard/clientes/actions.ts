@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/crm/session";
 import { criarCliente, listarClientes } from "@/lib/asaas";
 import type { EtapaNegocio, FuncaoPessoa, Nicho } from "@/lib/crm/types";
+import type { EmpresaLinha, FiltrosEmpresas } from "./lista";
 
 const NICHO_VALIDOS: Nicho[] = ["marcenaria", "comunicacao_visual", "industria", "transformacao"];
 const ETAPA_VALIDAS: EtapaNegocio[] = [
@@ -33,6 +34,31 @@ function lerValor(bruto: string | null): number | null {
 
 function lerData(bruto: string | null): string | null {
   return bruto && /^\d{4}-\d{2}-\d{2}$/.test(bruto) ? bruto : null;
+}
+
+// ------------------------------------------------------------ listagem (scroll)
+// Um lote da lista de empresas, ja com os filtros aplicados. A rolagem
+// infinita chama isto com offset crescente ate vir menos que o limite.
+export async function listarEmpresas(
+  filtros: FiltrosEmpresas,
+  offset: number,
+  limit: number,
+): Promise<EmpresaLinha[]> {
+  const supabase = await createClient();
+  let query = supabase
+    .from("empresas")
+    .select(
+      "id, nome_fantasia, razao_social, status, telefone, email, nicho, cidade, asaas_customer_id, pessoas ( id, nome, deleted_at )",
+    )
+    .is("deleted_at", null)
+    .order("nome_fantasia");
+  if (filtros.status === "lead" || filtros.status === "cliente") query = query.eq("status", filtros.status);
+  if (filtros.nicho) query = query.eq("nicho", filtros.nicho);
+  const termo = filtros.q?.trim();
+  if (termo) query = query.or(`nome_fantasia.ilike.%${termo}%,razao_social.ilike.%${termo}%`);
+
+  const { data } = await query.range(offset, offset + limit - 1).returns<EmpresaLinha[]>();
+  return data ?? [];
 }
 
 // ------------------------------------------------------------------ empresas
@@ -212,11 +238,44 @@ export async function atualizarEtapaNegocio(negocioId: string, etapa: EtapaNegoc
     .from("negocios")
     .update({ etapa })
     .eq("id", negocioId)
-    .select("id");
+    .select("id, empresa_id");
 
   if (error) return { ok: false as const, error: error.message };
   if (!rows || rows.length === 0) {
     return { ok: false as const, error: "Sem permissão para mover este negócio." };
+  }
+
+  // Negocio fechado: a empresa ja virou cliente (trigger no banco);
+  // se tiver CNPJ e ainda nao estiver no Asaas, cria la na hora
+  // (modelo event-driven). Best-effort: falha no Asaas nao desfaz o
+  // fechamento — a proxima sincronizacao reconcilia.
+  if (etapa === "fechado") {
+    const { data: e } = await supabase
+      .from("empresas")
+      .select("*")
+      .eq("id", rows[0].empresa_id)
+      .single();
+    if (e && e.cnpj && !e.asaas_customer_id) {
+      const r = await criarCliente({
+        nome: e.nome_fantasia,
+        documento: e.cnpj,
+        razaoSocial: e.razao_social,
+        inscricaoEstadual: e.inscricao_estadual,
+        email: e.email,
+        telefone: e.telefone,
+        endereco: e.endereco,
+        numero: e.numero,
+        bairro: e.bairro,
+        cep: e.cep,
+        referenciaExterna: e.id,
+      });
+      if (r.ok) {
+        await supabase
+          .from("empresas")
+          .update({ asaas_customer_id: r.data.id })
+          .eq("id", e.id);
+      }
+    }
   }
 
   revalidatePath("/dashboard/negocios");
@@ -408,9 +467,9 @@ export async function sincronizarAsaas() {
   }
 
   revalidatePath("/dashboard/clientes");
-  redirect(
-    `/dashboard/clientes?ok=${encodeURIComponent(
-      `Sincronizado: ${criadas} importada(s) do Asaas, ${vinculadas} vinculada(s), ${enviadas} enviada(s) pro Asaas.`,
-    )}`,
-  );
+  const mensagem =
+    criadas + vinculadas + enviadas === 0
+      ? "Tudo em dia com o Asaas: nada novo pra importar, vincular ou enviar."
+      : `Sincronizado: ${criadas} importada(s) do Asaas, ${vinculadas} vinculada(s), ${enviadas} enviada(s) pro Asaas.`;
+  redirect(`/dashboard/clientes?ok=${encodeURIComponent(mensagem)}`);
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Combobox } from "@/components/ui/combobox";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/crm/session";
 import { formatarValor, labelStatusCobranca, type Cobranca } from "@/lib/crm/types";
@@ -116,16 +117,15 @@ export default async function FinanceiroPage({
               <label htmlFor="empresa_id" className="text-xs font-semibold text-foreground-subtle">
                 Cliente (no Asaas) *
               </label>
-              <select id="empresa_id" name="empresa_id" required defaultValue="" className={INPUT_CLASS}>
-                <option value="" disabled>
-                  Selecione
-                </option>
-                {(empresasAsaas ?? []).map((e) => (
-                  <option key={e.id} value={e.id}>
-                    {e.nome_fantasia}
-                  </option>
-                ))}
-              </select>
+              <Combobox
+                id="empresa_id"
+                name="empresa_id"
+                className="mt-1"
+                placeholder="Selecione o cliente"
+                searchPlaceholder="Buscar cliente..."
+                emptyText="Nenhuma empresa no Asaas."
+                options={(empresasAsaas ?? []).map((e) => ({ value: e.id, label: e.nome_fantasia }))}
+              />
             </div>
             <div>
               <label htmlFor="valor" className="text-xs font-semibold text-foreground-subtle">
@@ -143,12 +143,18 @@ export default async function FinanceiroPage({
               <label htmlFor="forma" className="text-xs font-semibold text-foreground-subtle">
                 Forma
               </label>
-              <select id="forma" name="forma" defaultValue="UNDEFINED" className={INPUT_CLASS}>
-                <option value="UNDEFINED">Cliente escolhe</option>
-                <option value="PIX">PIX</option>
-                <option value="BOLETO">Boleto</option>
-                <option value="CREDIT_CARD">Cartão</option>
-              </select>
+              <Combobox
+                id="forma"
+                name="forma"
+                defaultValue="UNDEFINED"
+                className="mt-1"
+                options={[
+                  { value: "UNDEFINED", label: "Cliente escolhe" },
+                  { value: "PIX", label: "PIX" },
+                  { value: "BOLETO", label: "Boleto" },
+                  { value: "CREDIT_CARD", label: "Cartão" },
+                ]}
+              />
             </div>
             <Button type="submit" size="compact">
               Gerar
@@ -163,7 +169,7 @@ export default async function FinanceiroPage({
         </CardContent>
       </Card>
 
-      <div className="overflow-x-auto rounded-2xl border border-border bg-surface shadow-sm">
+      <div className="overflow-x-auto rounded-2xl bg-surface shadow-sm">
         <table className="w-full min-w-[720px] border-collapse text-sm">
           <thead>
             <tr className="border-b border-border bg-surface-alt text-left text-xs font-semibold uppercase tracking-wide text-foreground-subtle">

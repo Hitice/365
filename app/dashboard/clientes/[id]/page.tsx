@@ -124,7 +124,7 @@ export default async function ClienteFichaPage({
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         {/* Coluna 1: dados + pessoas */}
         <div className="space-y-6">
-          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+          <div className="rounded-2xl bg-surface p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground">Dados cadastrais</h2>
             <form action={atualizarComId} className="mt-4 space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
@@ -217,7 +217,7 @@ export default async function ClienteFichaPage({
             )}
           </div>
 
-          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+          <div className="rounded-2xl bg-surface p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground">Pessoas</h2>
             {(pessoas ?? []).length > 0 && (
               <ul className="mt-3 divide-y divide-border">
@@ -262,7 +262,7 @@ export default async function ClienteFichaPage({
 
         {/* Coluna 2: negocios + timeline */}
         <div className="space-y-6">
-          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+          <div className="rounded-2xl bg-surface p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground">Negócios</h2>
             {(negocios ?? []).length > 0 ? (
               <ul className="mt-3 divide-y divide-border">
@@ -298,7 +298,7 @@ export default async function ClienteFichaPage({
             </form>
           </div>
 
-          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+          <div className="rounded-2xl bg-surface p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground">Registrar contato</h2>
             <form action={registrarEventoComId} className="mt-3 space-y-3">
               <select name="tipo" defaultValue="ligacao" className={INPUT_CLASS.replace("mt-1.5 ", "")}>
@@ -316,7 +316,7 @@ export default async function ClienteFichaPage({
             </form>
           </div>
 
-          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+          <div className="rounded-2xl bg-surface p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground">Timeline</h2>
             {(eventos ?? []).length === 0 ? (
               <p className="mt-2 text-sm text-foreground-muted">Nenhum evento ainda.</p>

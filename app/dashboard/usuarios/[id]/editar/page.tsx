@@ -47,7 +47,7 @@ export default async function EditarUsuarioPage({
 
       <form
         action={atualizarUsuarioComId}
-        className="mt-6 space-y-4 rounded-2xl border border-border bg-surface p-6 shadow-sm sm:p-8"
+        className="mt-6 space-y-4 rounded-2xl bg-surface p-6 shadow-sm sm:p-8"
       >
         <div>
           <label htmlFor="nome" className={LABEL_CLASS}>

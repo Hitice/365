@@ -250,24 +250,38 @@ body {
   classe .dashboard-theme — o site institucional nao muda.
 */
 .dashboard-theme {
-  --background: #f2f3f5;
+  --background: #fcfcfd;
   --surface: #ffffff;
-  --surface-alt: #f7f8f9;
-  --border: #ebecee;
-  --sidebar: #ececef;
-  --sidebar-border: #e3e4e7;
+  /* surface-alt = mesmo cinza da sidebar: a faixa de header do card (e o
+     thead das tabelas) usa o tom da barra do dashboard, mais fechado que
+     o card branco. */
+  --surface-alt: #e8eaee;
+  --border: #e6e8ec;
+  --sidebar: #e8eaee;
+  --sidebar-border: #dcdfe4;
+  --sidebar-accent: #dfe2e7;
 }
 
 .dark .dashboard-theme {
-  --background: #161618;
-  --surface: #1e1e21;
-  --surface-alt: #242428;
-  --border: #28282c;
-  --popover: #242428;
-  --accent: #2c2c30;
-  --sidebar: #121214;
-  --sidebar-accent: #222226;
-  --sidebar-border: #202024;
+  /* Slate azulado: os cards ganham subtom frio (azul) em vez de cinza
+     chapado. Fundo mais fundo, superficie elevada, sidebar mais clara
+     ainda pra ler como elevada. */
+  --background: #10131b;
+  --surface: #1c2130;
+  --surface-alt: #262c3d;
+  --border: #2c3243;
+  --popover: #202634;
+  --accent: #272d3e;
+  --sidebar: #1e2331;
+  --sidebar-accent: #2b3244;
+  --sidebar-border: #2e3446;
+  /* Tokens shadcn derivados de surface: precisam ser repontados AQUI, senao
+     o var(--surface) resolvido no escopo .dark antigo continua valendo e os
+     cards (bg-card) ficam no cinza neutro (preto chapado). */
+  --card: var(--surface);
+  --muted: var(--surface-alt);
+  --secondary: var(--surface-alt);
+  --accent-foreground: var(--foreground);
 }
 
 /* Sombra mais presente nos cards, ja que a borda quase sumiu. */
@@ -283,6 +297,81 @@ body {
   box-shadow:
     0 1px 2px rgb(0 0 0 / 0.4),
     0 6px 20px rgb(0 0 0 / 0.35);
+}
+
+/*
+  UX dos <select> nativos do painel: some com a setinha padrao feia do
+  browser e coloca um chevron proprio, com espaco a direita pra ele nao
+  encostar no texto. Vale pra todo select dentro de .dashboard-theme —
+  nao precisa mexer em cada formulario.
+*/
+.dashboard-theme select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a8a8a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 1rem;
+  padding-right: 2.25rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  /* accent-color pinta o item destacado do popup nativo de laranja; o
+     color-scheme faz o popup seguir o tema (claro/escuro) do dashboard em
+     vez do padrao azulado do sistema. */
+  accent-color: var(--accent-500);
+}
+
+/* Opcoes do popup nativo com o fundo e o texto do app, pra o dropdown nao
+   parecer de outra aplicacao. O item selecionado ganha um leve laranja. */
+.dashboard-theme option {
+  background-color: var(--surface);
+  color: var(--foreground);
+}
+
+.dashboard-theme option:checked,
+.dashboard-theme option:hover {
+  background-color: color-mix(in srgb, var(--accent-500) 22%, var(--surface));
+  color: var(--foreground);
+}
+
+.dashboard-theme select:hover {
+  border-color: var(--border-strong);
+}
+
+.dashboard-theme select:focus-visible {
+  outline: none;
+  border-color: var(--accent-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-500) 25%, transparent);
+}
+
+/* Chevron mais claro no dark pra continuar visivel. */
+.dark .dashboard-theme select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+}
+
+/* Inputs/textarea do painel: mesmo foco com anel dos selects, mais coeso. */
+.dashboard-theme input:focus-visible,
+.dashboard-theme textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-500) 22%, transparent);
+}
+
+/*
+  Combobox/Popover: o corpo do popover recebe foco ao abrir e o campo de
+  busca ao digitar — sem isto, o outline/anel laranja global vaza e aparece
+  como um contorno solto. O destaque de foco fica so na borda do trigger.
+  Nao escopado em .dashboard-theme porque o popover e portalado pro body.
+*/
+[data-slot="popover-content"]:focus,
+[data-slot="popover-content"]:focus-visible {
+  outline: none;
+}
+
+[data-slot="command-input"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border-color: transparent;
 }
 
 @keyframes wheel-spin {

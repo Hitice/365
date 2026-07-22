@@ -70,7 +70,7 @@ export default async function ProjetoFichaPage({
         </form>
       </div>
 
-      <div className="mt-6 space-y-4 rounded-2xl border border-border bg-surface p-6 shadow-sm">
+      <div className="mt-6 space-y-4 rounded-2xl bg-surface p-6 shadow-sm">
         <div className="grid gap-3 text-sm sm:grid-cols-2">
           <div>
             <p className="text-xs font-semibold uppercase text-foreground-subtle">Previsão de entrega</p>

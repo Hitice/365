@@ -9,7 +9,6 @@ import {
   LayoutDashboard,
   Package,
   Settings,
-  SquareKanban,
   UserCog,
   Wrench,
   type LucideIcon,
@@ -40,7 +39,6 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Comercial",
     items: [
-      { title: "Negócios", href: "/dashboard/negocios", icon: SquareKanban, ready: true },
       { title: "Clientes", href: "/dashboard/clientes", icon: Building2, ready: true },
       { title: "Orçamentos", href: "/dashboard/orcamentos", icon: FileText, ready: true },
     ],

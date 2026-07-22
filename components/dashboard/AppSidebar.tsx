@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronsUpDown, LogOut } from "lucide-react";
+import LogoIcon from "@/components/LogoIcon";
 import {
   Sidebar,
   SidebarContent,
@@ -16,6 +16,7 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
@@ -55,21 +56,18 @@ export default function AppSidebar({
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2.5 px-2 py-1.5 text-base font-bold tracking-tight text-sidebar-foreground"
-        >
-          <Image
-            src="/images/brand/logo.png"
-            alt="Catech"
-            width={32}
-            height={32}
-            className="size-8 flex-none rounded-md object-contain"
-          />
-          <span className="group-data-[collapsible=icon]:hidden">
-            Catech <span className="text-primary">360</span>
-          </span>
-        </Link>
+        <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]:justify-center">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2.5 px-2 py-1.5 text-base font-bold tracking-tight text-sidebar-foreground group-data-[collapsible=icon]:hidden"
+          >
+            <LogoIcon className="size-8 flex-none" />
+            <span>
+              Catech <span className="text-primary">360</span>
+            </span>
+          </Link>
+          <SidebarTrigger className="text-sidebar-foreground" />
+        </div>
       </SidebarHeader>
 
       <SidebarContent>

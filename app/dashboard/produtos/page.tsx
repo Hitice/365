@@ -48,7 +48,7 @@ export default async function ProdutosPage({
         </p>
       )}
 
-      <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+      <div className="mt-6 overflow-hidden rounded-2xl bg-surface shadow-sm">
         {!produtos || produtos.length === 0 ? (
           <p className="p-6 text-sm text-foreground-muted">Nenhum produto cadastrado ainda.</p>
         ) : (

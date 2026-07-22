@@ -145,7 +145,7 @@ export default async function PainelPage() {
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Link href="/dashboard/negocios">
-          <Card className="h-full transition-colors hover:border-primary/50">
+          <Card className="h-full transition-transform hover:-translate-y-0.5">
             <CardContent className="pt-5">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Follow-ups
@@ -162,7 +162,7 @@ export default async function PainelPage() {
           </Card>
         </Link>
         <Link href="/dashboard/negocios?etapa=novo">
-          <Card className="h-full transition-colors hover:border-primary/50">
+          <Card className="h-full transition-transform hover:-translate-y-0.5">
             <CardContent className="pt-5">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Leads novos
@@ -173,7 +173,7 @@ export default async function PainelPage() {
           </Card>
         </Link>
         <Link href="/dashboard/negocios?etapa=negociacao">
-          <Card className="h-full transition-colors hover:border-primary/50">
+          <Card className="h-full transition-transform hover:-translate-y-0.5">
             <CardContent className="pt-5">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Negociação
@@ -202,7 +202,7 @@ export default async function PainelPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader>
             <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               Pipeline
             </CardTitle>
@@ -232,7 +232,7 @@ export default async function PainelPage() {
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader>
             <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               Agenda de hoje
             </CardTitle>
@@ -272,8 +272,8 @@ export default async function PainelPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-dashed">
-          <CardHeader className="pb-2">
+        <Card className="border border-dashed border-border shadow-none">
+          <CardHeader>
             <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               Cobranças
             </CardTitle>
@@ -297,7 +297,7 @@ export default async function PainelPage() {
       </div>
 
       <Card>
-        <CardHeader className="pb-2">
+        <CardHeader>
           <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             Últimas atividades
           </CardTitle>

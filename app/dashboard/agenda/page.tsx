@@ -68,7 +68,7 @@ export default async function AgendaPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader>
             <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               Follow-ups comerciais
             </CardTitle>
@@ -103,7 +103,7 @@ export default async function AgendaPage() {
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader>
             <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               Atendimentos técnicos
             </CardTitle>

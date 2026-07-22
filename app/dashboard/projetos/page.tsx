@@ -50,7 +50,7 @@ export default async function ProjetosPage({
         </p>
       )}
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-border bg-surface shadow-sm">
+      <div className="mt-6 overflow-x-auto rounded-2xl bg-surface shadow-sm">
         <table className="w-full min-w-[680px] border-collapse text-sm">
           <thead>
             <tr className="border-b border-border bg-surface-alt text-left text-xs font-semibold uppercase tracking-wide text-foreground-subtle">

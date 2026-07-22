@@ -48,7 +48,7 @@ export default async function UsuariosPage({
         </p>
       )}
 
-      <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+      <div className="mt-6 overflow-hidden rounded-2xl bg-surface shadow-sm">
         {!usuarios || usuarios.length === 0 ? (
           <p className="p-6 text-sm text-foreground-muted">Nenhum usuário ainda.</p>
         ) : (

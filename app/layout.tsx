@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import "./globals.css";
@@ -60,7 +61,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {/* Aplica o tema salvo antes da primeira pintura, evitando flash do tema errado. */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <Script id="theme-init" strategy="beforeInteractive">
+          {THEME_INIT_SCRIPT}
+        </Script>
         {children}
         <WhatsAppButton />
       </body>

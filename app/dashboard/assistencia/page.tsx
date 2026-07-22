@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Button from "@/components/Button";
 import { Badge } from "@/components/ui/badge";
+import { Combobox } from "@/components/ui/combobox";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/crm/session";
 import {
@@ -66,21 +67,20 @@ export default async function AssistenciaPage({
         </p>
       )}
 
-      <form action={abrirChamado} className="grid gap-3 rounded-2xl border border-border bg-surface p-4 shadow-sm sm:grid-cols-[1.5fr_1fr_2fr_1fr_auto] sm:items-end">
+      <form action={abrirChamado} className="grid gap-3 rounded-2xl bg-surface p-4 shadow-sm sm:grid-cols-[1.5fr_1fr_2fr_1fr_auto] sm:items-end">
         <div>
           <label htmlFor="empresa_id" className="text-xs font-semibold text-foreground-subtle">
             Cliente *
           </label>
-          <select id="empresa_id" name="empresa_id" required defaultValue="" className={INPUT_CLASS}>
-            <option value="" disabled>
-              Selecione
-            </option>
-            {(empresas ?? []).map((e) => (
-              <option key={e.id} value={e.id}>
-                {e.nome_fantasia}
-              </option>
-            ))}
-          </select>
+          <Combobox
+            id="empresa_id"
+            name="empresa_id"
+            className="mt-1"
+            placeholder="Selecione o cliente"
+            searchPlaceholder="Buscar cliente..."
+            emptyText="Nenhuma empresa."
+            options={(empresas ?? []).map((e) => ({ value: e.id, label: e.nome_fantasia }))}
+          />
         </div>
         <div>
           <label htmlFor="maquina" className="text-xs font-semibold text-foreground-subtle">
@@ -98,20 +98,20 @@ export default async function AssistenciaPage({
           <label htmlFor="prioridade" className="text-xs font-semibold text-foreground-subtle">
             Prioridade
           </label>
-          <select id="prioridade" name="prioridade" defaultValue="media" className={INPUT_CLASS}>
-            {PRIORIDADES_CHAMADO.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.label}
-              </option>
-            ))}
-          </select>
+          <Combobox
+            id="prioridade"
+            name="prioridade"
+            defaultValue="media"
+            className="mt-1"
+            options={PRIORIDADES_CHAMADO.map((p) => ({ value: p.id, label: p.label }))}
+          />
         </div>
         <Button type="submit" size="compact">
           Abrir chamado
         </Button>
       </form>
 
-      <div className="overflow-x-auto rounded-2xl border border-border bg-surface shadow-sm">
+      <div className="overflow-x-auto rounded-2xl bg-surface shadow-sm">
         <table className="w-full min-w-[860px] border-collapse text-sm">
           <thead>
             <tr className="border-b border-border bg-surface-alt text-left text-xs font-semibold uppercase tracking-wide text-foreground-subtle">

@@ -114,7 +114,7 @@ export default async function OrcamentoFichaPage({
         </p>
       )}
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-border bg-surface shadow-sm">
+      <div className="mt-6 overflow-x-auto rounded-2xl bg-surface shadow-sm">
         <table className="w-full min-w-[640px] border-collapse text-sm">
           <thead>
             <tr className="border-b border-border bg-surface-alt text-left text-xs font-semibold uppercase tracking-wide text-foreground-subtle">
@@ -167,7 +167,7 @@ export default async function OrcamentoFichaPage({
         </table>
       </div>
 
-      <form action={adicionarItemComId} className="mt-4 grid gap-3 rounded-2xl border border-border bg-surface p-4 shadow-sm sm:grid-cols-[2fr_1fr_1fr_1fr_auto] sm:items-end">
+      <form action={adicionarItemComId} className="mt-4 grid gap-3 rounded-2xl bg-surface p-4 shadow-sm sm:grid-cols-[2fr_1fr_1fr_1fr_auto] sm:items-end">
         <div>
           <label htmlFor="descricao" className="text-xs font-semibold text-foreground-subtle">
             Item / serviço *

@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { Combobox } from "@/components/ui/combobox";
 import { atualizarEtapaNegocio } from "@/app/dashboard/clientes/actions";
 import { ETAPAS_NEGOCIO, type EtapaNegocio } from "@/lib/crm/types";
 
@@ -16,23 +17,18 @@ export default function EtapaSelect({
   const router = useRouter();
 
   return (
-    <select
+    <Combobox
       value={etapaAtual}
       disabled={isPending}
-      onChange={(e) => {
-        const nova = e.target.value as EtapaNegocio;
+      className="min-h-9 w-44 px-2 text-xs font-medium"
+      searchPlaceholder="Buscar etapa..."
+      options={ETAPAS_NEGOCIO.map((e) => ({ value: e.id, label: e.label }))}
+      onChange={(v) => {
         startTransition(async () => {
-          const r = await atualizarEtapaNegocio(negocioId, nova);
+          const r = await atualizarEtapaNegocio(negocioId, v as EtapaNegocio);
           if (r.ok) router.refresh();
         });
       }}
-      className="min-h-9 rounded-md border border-border bg-background px-2 text-xs font-medium text-foreground disabled:opacity-50"
-    >
-      {ETAPAS_NEGOCIO.map((etapa) => (
-        <option key={etapa.id} value={etapa.id}>
-          {etapa.label}
-        </option>
-      ))}
-    </select>
+    />
   );
 }

@@ -66,7 +66,7 @@ export default async function NegociosPage({
         <Button href="/dashboard/clientes">Ir para clientes</Button>
       </div>
 
-      <form method="get" className="mt-6 flex flex-wrap items-end gap-3 rounded-2xl border border-border bg-surface p-4">
+      <form method="get" className="mt-6 flex flex-wrap items-end gap-3 rounded-2xl bg-surface p-4 shadow-sm">
         <div className="flex flex-col gap-1">
           <label htmlFor="etapa" className="text-xs font-semibold uppercase tracking-[0.1em] text-foreground-subtle">
             Etapa
@@ -85,7 +85,7 @@ export default async function NegociosPage({
         </Button>
       </form>
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-border bg-surface shadow-sm">
+      <div className="mt-6 overflow-x-auto rounded-2xl bg-surface shadow-sm">
         <table className="w-full min-w-[860px] border-collapse text-sm">
           <thead>
             <tr className="border-b border-border bg-surface-alt text-left text-xs font-semibold uppercase tracking-wide text-foreground-subtle">
