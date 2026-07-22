@@ -1,4 +1,13 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 export default function WhatsAppButton() {
+  const pathname = usePathname();
+  // CTA de captacao do site institucional — nao faz sentido dentro do
+  // sistema interno nem na tela de login.
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/login")) return null;
+
   return (
     <a
       href="https://wa.me/5534991176599?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento."

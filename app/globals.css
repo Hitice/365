@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -62,6 +63,35 @@
   --selection-fg: var(--navy-900);
   --wheel-ring: var(--accent-500);
   --wheel-text-on-orange: #ffffff;
+  /* Tokens shadcn/ui — mapeados pra paleta Catech (nunca cores genericas).
+     primary = laranja da marca com texto escuro (navy-950): a auditoria de
+     contraste do site ja provou que branco sobre o laranja falha (3.1:1). */
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface);
+  --popover-foreground: var(--foreground);
+  --primary: var(--accent-500);
+  --primary-foreground: var(--navy-950);
+  --secondary: var(--surface-alt);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--surface-alt);
+  --muted-foreground: var(--foreground-subtle);
+  --accent: var(--ink-100);
+  --accent-foreground: var(--ink-900);
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --input: var(--border-strong);
+  --ring: var(--steel-500);
+  --radius: 0.625rem;
+
+  --sidebar: var(--ink-50);
+  --sidebar-foreground: var(--ink-700);
+  --sidebar-primary: var(--accent-500);
+  --sidebar-primary-foreground: var(--navy-950);
+  --sidebar-accent: var(--ink-100);
+  --sidebar-accent-foreground: var(--ink-900);
+  --sidebar-border: var(--ink-100);
+  --sidebar-ring: var(--steel-500);
 }
 
 .dark {
@@ -88,6 +118,32 @@
   --steel-100: #262626;
   --wheel-ring: var(--border-strong);
   --wheel-text-on-orange: var(--navy-950);
+  /* shadcn/ui no escuro: mesma escala neutra do site, laranja intacto. */
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: #1f1f1f;
+  --popover-foreground: var(--foreground);
+  --primary: var(--accent-500);
+  --primary-foreground: var(--navy-950);
+  --secondary: var(--surface-alt);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--surface-alt);
+  --muted-foreground: var(--foreground-subtle);
+  --accent: #2a2a2a;
+  --accent-foreground: var(--foreground);
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --input: var(--border-strong);
+  --ring: var(--accent-500);
+
+  --sidebar: #101010;
+  --sidebar-foreground: var(--foreground-muted);
+  --sidebar-primary: var(--accent-500);
+  --sidebar-primary-foreground: var(--navy-950);
+  --sidebar-accent: #232323;
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: #262626;
+  --sidebar-ring: var(--accent-500);
 }
 
 @theme inline {
@@ -124,6 +180,36 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
 }
 
 html {

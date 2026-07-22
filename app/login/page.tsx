@@ -14,7 +14,7 @@ export default async function LoginPage({
 }: {
   searchParams: Promise<{ error?: string; next?: string }>;
 }) {
-  const { error, next = "/painel" } = await searchParams;
+  const { error, next = "/dashboard" } = await searchParams;
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4">

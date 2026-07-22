@@ -11,7 +11,7 @@ import { materiaisCatalogo } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Plásticos Industriais",
   description:
-    "Chapas, tarugos e buchas em PEAD, UHMW, POM, Nylon, PTFE, Policarbonato, PVC, PEEK e PVDF. Estoque próprio em Uberlândia MG.",
+    "Chapas, tarugos e buchas em PEAD, UHMW, POM, Nylon, Policarbonato, PVC, PEEK e PVDF. Estoque próprio em Uberlândia MG.",
 };
 
 export default function ProdutosPage() {

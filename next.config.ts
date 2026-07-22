@@ -20,6 +20,12 @@ const nextConfig: NextConfig = {
         destination: "https://catech.ind.br/:path*",
         permanent: true,
       },
+      // O sistema interno morava em /painel; links salvos continuam validos.
+      { source: "/painel", destination: "/dashboard", permanent: true },
+      { source: "/painel/:path*", destination: "/dashboard/:path*", permanent: true },
+      // O funil de contatos virou o modulo de negocios (ERP v2).
+      { source: "/dashboard/contatos", destination: "/dashboard/negocios", permanent: true },
+      { source: "/dashboard/contatos/:path*", destination: "/dashboard/negocios", permanent: true },
     ];
   },
 };
