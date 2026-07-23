@@ -190,22 +190,34 @@ export default function NichoWheel() {
         })}
 
         {/* centro */}
-        <text
-          x={CX}
-          y={active === null ? CY : CY - 6}
-          textAnchor="middle"
-          dominantBaseline="central"
-          style={{
-            fill: "var(--foreground-muted)",
-            fontSize: active === null ? "52px" : "22px",
-            fontWeight: 800,
-            letterSpacing: "0.06em",
-            transition: "all 0.2s ease",
-            pointerEvents: "none",
-          }}
-        >
-          {active === null ? "360" : nichos[active].label}
-        </text>
+        {active === null ? (
+          // "360" da marca (mesma arte do logo), no lugar do texto.
+          <image
+            href="/images/brand/catech360/360.png"
+            x={CX - 60}
+            y={CY - 20.75}
+            width={120}
+            height={41.5}
+            style={{ pointerEvents: "none" }}
+          />
+        ) : (
+          <text
+            x={CX}
+            y={CY - 6}
+            textAnchor="middle"
+            dominantBaseline="central"
+            style={{
+              fill: "var(--foreground-muted)",
+              fontSize: "22px",
+              fontWeight: 800,
+              letterSpacing: "0.06em",
+              transition: "all 0.2s ease",
+              pointerEvents: "none",
+            }}
+          >
+            {nichos[active].label}
+          </text>
+        )}
         {active !== null && (
           <text
             x={CX}
