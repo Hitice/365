@@ -4,6 +4,7 @@ import { ArrowRight, CircleDollarSign } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/crm/session";
+import { podeFinanceiro } from "@/lib/crm/roles";
 import {
   ETAPAS_NEGOCIO,
   LABEL_EVENTO,
@@ -51,6 +52,7 @@ function saudacao(): string {
 */
 export default async function PainelPage() {
   const profile = await getCurrentProfile();
+  const verFinanceiro = podeFinanceiro(profile.role);
   const supabase = await createClient();
 
   const agora = new Date();
@@ -107,7 +109,7 @@ export default async function PainelPage() {
   }
   if (contagem.orcamento > 0) {
     resumoDia.push(
-      `${contagem.orcamento} proposta${contagem.orcamento > 1 ? "s" : ""} aguardando retorno`,
+      `${contagem.orcamento} negócio${contagem.orcamento > 1 ? "s" : ""} na etapa orçamento`,
     );
   }
   if (contagem.negociacao > 0) {
@@ -194,7 +196,7 @@ export default async function PainelPage() {
         </Card>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className={`grid gap-6 ${verFinanceiro ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
         <Card>
           <CardHeader>
             <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
@@ -260,28 +262,29 @@ export default async function PainelPage() {
           </CardContent>
         </Card>
 
-        <Card className="border border-dashed border-border shadow-none">
-          <CardHeader>
-            <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              Cobranças
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col items-start gap-3">
-              <CircleDollarSign className="size-8 text-muted-foreground/50" />
-              <p className="text-sm text-muted-foreground">
-                Vencimentos do dia, recebimentos do mês e cobranças atrasadas
-                aparecem aqui quando o módulo Financeiro (Asaas) entrar.
-              </p>
-              <Link
-                href="/dashboard/financeiro"
-                className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
-              >
-                Ver o plano do módulo <ArrowRight className="size-3.5" />
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        {verFinanceiro && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Cobranças
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col items-start gap-3">
+                <CircleDollarSign className="size-8 text-muted-foreground/50" />
+                <p className="text-sm text-muted-foreground">
+                  Vencimentos, recebimentos do mês e cobranças atrasadas ficam no Financeiro.
+                </p>
+                <Link
+                  href="/dashboard/financeiro"
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+                >
+                  Abrir Financeiro <ArrowRight className="size-3.5" />
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       <Card>

@@ -14,6 +14,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { Role } from "@/lib/crm/types";
+import { FINANCEIRO_ROLES } from "@/lib/crm/roles";
 
 /*
   Registro unico dos modulos do sistema. Sidebar, command palette e
@@ -26,7 +27,8 @@ export type NavItem = {
   href: string;
   icon: LucideIcon;
   ready: boolean;
-  somenteRole?: Role;
+  // Se definido, so estes papeis veem o item. Ausente = todos veem.
+  rolesPermitidos?: Role[];
 };
 
 export type NavGroup = { label: string; items: NavItem[] };
@@ -56,7 +58,13 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Gestão",
     items: [
-      { title: "Financeiro", href: "/dashboard/financeiro", icon: CircleDollarSign, ready: true },
+      {
+        title: "Financeiro",
+        href: "/dashboard/financeiro",
+        icon: CircleDollarSign,
+        ready: true,
+        rolesPermitidos: FINANCEIRO_ROLES,
+      },
       { title: "Agenda", href: "/dashboard/agenda", icon: CalendarDays, ready: true },
     ],
   },
@@ -68,14 +76,14 @@ export const NAV_GROUPS: NavGroup[] = [
         href: "/dashboard/usuarios",
         icon: UserCog,
         ready: true,
-        somenteRole: "team_leader",
+        rolesPermitidos: ["team_leader"],
       },
       {
         title: "Configurações",
         href: "/dashboard/configuracoes",
         icon: Settings,
         ready: false,
-        somenteRole: "team_leader",
+        rolesPermitidos: ["team_leader"],
       },
     ],
   },
@@ -103,6 +111,8 @@ export const SEGMENT_LABELS: Record<string, string> = {
 export function navItemsVisiveis(role: Role): NavGroup[] {
   return NAV_GROUPS.map((grupo) => ({
     ...grupo,
-    items: grupo.items.filter((item) => !item.somenteRole || item.somenteRole === role),
+    items: grupo.items.filter(
+      (item) => !item.rolesPermitidos || item.rolesPermitidos.includes(role),
+    ),
   })).filter((grupo) => grupo.items.length > 0);
 }

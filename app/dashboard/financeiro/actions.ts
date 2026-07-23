@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/crm/session";
+import { podeFinanceiro } from "@/lib/crm/roles";
 import { criarCobranca, listarClientes, type FormaPagamento } from "@/lib/asaas";
 
 function num(bruto: string): number {
@@ -17,7 +18,8 @@ function num(bruto: string): number {
   mantem o status atualizado dali pra frente.
 */
 export async function gerarCobranca(formData: FormData) {
-  await getCurrentProfile();
+  const profile = await getCurrentProfile();
+  if (!podeFinanceiro(profile.role)) redirect("/dashboard");
   const supabase = await createClient();
 
   const empresaId = String(formData.get("empresa_id") ?? "");
@@ -72,8 +74,8 @@ export async function gerarCobranca(formData: FormData) {
 // e atualiza o espelho local (caso algum webhook tenha se perdido).
 export async function sincronizarCobrancas() {
   const profile = await getCurrentProfile();
-  if (profile.role !== "team_leader") {
-    redirect("/dashboard/financeiro?error=Só o team leader pode sincronizar.");
+  if (!podeFinanceiro(profile.role)) {
+    redirect("/dashboard?error=Sem permissão.");
   }
 
   const { listarCobrancasDoCliente } = await import("@/lib/asaas");

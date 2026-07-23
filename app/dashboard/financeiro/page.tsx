@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import Button from "@/components/Button";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Combobox } from "@/components/ui/combobox";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/crm/session";
+import { podeFinanceiro } from "@/lib/crm/roles";
 import { formatarValor, labelStatusCobranca, type Cobranca } from "@/lib/crm/types";
 import { gerarCobranca, sincronizarCobrancas } from "./actions";
 
@@ -28,6 +30,7 @@ export default async function FinanceiroPage({
 }) {
   const sp = await searchParams;
   const profile = await getCurrentProfile();
+  if (!podeFinanceiro(profile.role)) redirect("/dashboard");
   const supabase = await createClient();
 
   const hoje = new Date().toISOString().slice(0, 10);
