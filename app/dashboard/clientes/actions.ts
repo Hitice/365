@@ -70,9 +70,11 @@ export async function criarEmpresa(formData: FormData) {
   if (!nome_fantasia) redirect("/dashboard/clientes/novo?error=Nome da empresa é obrigatório.");
 
   const nichoBruto = campo(formData, "nicho");
+  const status = campo(formData, "status") === "cliente" ? "cliente" : "lead";
   const { data, error } = await supabase
     .from("empresas")
     .insert({
+      status,
       nome_fantasia,
       razao_social: campo(formData, "razao_social"),
       cnpj: campo(formData, "cnpj"),
@@ -94,21 +96,26 @@ export async function criarEmpresa(formData: FormData) {
     .single();
 
   if (error || !data) {
+    // Loga o erro real do banco (RLS, constraint, migration faltando...) pra
+    // aparecer nos logs do servidor; a mensagem tambem vai pro form.
+    console.error("[criarEmpresa] insert empresa falhou:", error?.message, error?.details, error?.hint);
     redirect(
       `/dashboard/clientes/novo?error=${encodeURIComponent(error?.message ?? "Erro ao criar empresa.")}`,
     );
   }
 
-  // Pessoa de contato inicial (opcional, no mesmo form: zero redigitacao)
+  // Pessoa de contato inicial (opcional, no mesmo form: zero redigitacao).
+  // Nao derruba a criacao da empresa se a pessoa falhar — so registra.
   const pessoaNome = campo(formData, "pessoa_nome");
   if (pessoaNome) {
-    await supabase.from("pessoas").insert({
+    const { error: pessoaErro } = await supabase.from("pessoas").insert({
       empresa_id: data.id,
       nome: pessoaNome,
       cargo: campo(formData, "pessoa_cargo"),
       email: campo(formData, "pessoa_email"),
       telefone: campo(formData, "pessoa_telefone"),
     });
+    if (pessoaErro) console.error("[criarEmpresa] pessoa de contato nao inserida:", pessoaErro.message);
   }
 
   revalidatePath("/dashboard/clientes");

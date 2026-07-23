@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Button from "@/components/Button";
+import { Combobox } from "@/components/ui/combobox";
 import { getCurrentProfile } from "@/lib/crm/session";
 import { NICHOS } from "@/lib/crm/types";
 import { criarEmpresa } from "../actions";
@@ -77,19 +78,37 @@ export default async function NovaEmpresaPage({
             <input id="telefone" name="telefone" type="tel" className={INPUT_CLASS} />
           </div>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div>
+            <label htmlFor="status" className={LABEL_CLASS}>
+              Status
+            </label>
+            <Combobox
+              id="status"
+              name="status"
+              defaultValue="lead"
+              className="mt-1.5 min-h-11"
+              options={[
+                { value: "lead", label: "Lead" },
+                { value: "cliente", label: "Cliente" },
+              ]}
+            />
+          </div>
           <div>
             <label htmlFor="nicho" className={LABEL_CLASS}>
               Nicho
             </label>
-            <select id="nicho" name="nicho" defaultValue="" className={INPUT_CLASS}>
-              <option value="">Não definido</option>
-              {NICHOS.map((n) => (
-                <option key={n.id} value={n.id}>
-                  {n.label}
-                </option>
-              ))}
-            </select>
+            <Combobox
+              id="nicho"
+              name="nicho"
+              className="mt-1.5 min-h-11"
+              placeholder="Não definido"
+              searchPlaceholder="Buscar nicho..."
+              options={[
+                { value: "", label: "Não definido" },
+                ...NICHOS.map((n) => ({ value: n.id, label: n.label })),
+              ]}
+            />
           </div>
           <div>
             <label htmlFor="origem" className={LABEL_CLASS}>
