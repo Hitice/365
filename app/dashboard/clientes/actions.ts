@@ -233,7 +233,6 @@ export async function criarNegocio(empresaId: string, formData: FormData) {
   });
 
   revalidatePath(`/dashboard/clientes/${empresaId}`);
-  revalidatePath("/dashboard/negocios");
   redirect(`/dashboard/clientes/${empresaId}`);
 }
 
@@ -285,7 +284,6 @@ export async function atualizarEtapaNegocio(negocioId: string, etapa: EtapaNegoc
     }
   }
 
-  revalidatePath("/dashboard/negocios");
   revalidatePath("/dashboard");
   return { ok: true as const };
 }

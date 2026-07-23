@@ -4,7 +4,6 @@ import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
 import CommandPalette from "@/components/dashboard/CommandPalette";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { getCurrentProfile } from "@/lib/crm/session";
-import { createClient } from "@/lib/supabase/server";
 
 /*
   Shell do sistema interno: sidebar de modulos (colapsavel), topbar com
@@ -17,23 +16,10 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const profile = await getCurrentProfile();
-  const supabase = await createClient();
-
-  // Follow-ups pendentes (hoje ou atrasados) viram badge em Negocios.
-  const hoje = new Date().toISOString().slice(0, 10);
-  const { count: followupsPendentes } = await supabase
-    .from("negocios")
-    .select("id", { count: "exact", head: true })
-    .lte("proximo_contato", hoje)
-    .not("etapa", "in", "(fechado,perdido)")
-    .is("deleted_at", null);
 
   return (
     <SidebarProvider className="dashboard-theme">
-      <AppSidebar
-        perfil={{ nome: profile.nome, email: profile.email, role: profile.role }}
-        badges={{ "/dashboard/negocios": followupsPendentes ?? 0 }}
-      />
+      <AppSidebar perfil={{ nome: profile.nome, email: profile.email, role: profile.role }} />
       <SidebarInset className="bg-background">
         <header className="sticky top-0 z-10 flex h-14 flex-none items-center gap-3 px-4">
           <Breadcrumbs />

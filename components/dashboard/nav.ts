@@ -85,7 +85,6 @@ export const NAV_GROUPS: NavGroup[] = [
 // ids de contato viram "Detalhe").
 export const SEGMENT_LABELS: Record<string, string> = {
   dashboard: "Dashboard",
-  negocios: "Negócios",
   clientes: "Clientes",
   orcamentos: "Orçamentos",
   projetos: "Projetos",

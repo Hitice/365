@@ -38,15 +38,7 @@ function iniciais(nome: string): string {
   return ((partes[0]?.[0] ?? "") + (partes[1]?.[0] ?? "")).toUpperCase() || "?";
 }
 
-export default function AppSidebar({
-  perfil,
-  badges = {},
-}: {
-  perfil: PerfilProps;
-  // Contagens por rota (ex: { "/dashboard/contatos": 3 } = 3 follow-ups
-  // pendentes no funil). Aumenta a percepcao de utilidade da sidebar.
-  badges?: Record<string, number>;
-}) {
+export default function AppSidebar({ perfil }: { perfil: PerfilProps }) {
   const pathname = usePathname();
   const grupos = navItemsVisiveis(perfil.role);
 
@@ -73,33 +65,26 @@ export default function AppSidebar({
             <SidebarGroupLabel>{grupo.label}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {grupo.items.map((item) => {
-                  const contagem = badges[item.href];
-                  return (
-                    <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={isAtivo(item.href)}
-                        tooltip={item.title}
-                        className="[&>svg]:size-[18px]"
-                      >
-                        <Link href={item.href}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                      {contagem != null && contagem > 0 ? (
-                        <SidebarMenuBadge className="rounded-full bg-primary/15 px-1.5 font-semibold text-primary">
-                          {contagem}
-                        </SidebarMenuBadge>
-                      ) : !item.ready ? (
-                        <SidebarMenuBadge className="text-[10px] text-muted-foreground">
-                          breve
-                        </SidebarMenuBadge>
-                      ) : null}
-                    </SidebarMenuItem>
-                  );
-                })}
+                {grupo.items.map((item) => (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isAtivo(item.href)}
+                      tooltip={item.title}
+                      className="[&>svg]:size-[18px]"
+                    >
+                      <Link href={item.href}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                    {!item.ready && (
+                      <SidebarMenuBadge className="text-[10px] text-muted-foreground">
+                        breve
+                      </SidebarMenuBadge>
+                    )}
+                  </SidebarMenuItem>
+                ))}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

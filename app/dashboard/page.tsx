@@ -144,47 +144,41 @@ export default async function PainelPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Link href="/dashboard/negocios">
-          <Card className="h-full transition-transform hover:-translate-y-0.5">
-            <CardContent className="pt-5">
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Follow-ups
-              </p>
-              <p
-                className={`mt-1 text-5xl font-bold tracking-tight ${
-                  followups.length > 0 ? "text-primary" : ""
-                }`}
-              >
-                {followups.length}
-              </p>
-              <p className="mt-1.5 text-xs text-muted-foreground">{contextoFollowups}</p>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href="/dashboard/negocios?etapa=novo">
-          <Card className="h-full transition-transform hover:-translate-y-0.5">
-            <CardContent className="pt-5">
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Leads novos
-              </p>
-              <p className="mt-1 text-5xl font-bold tracking-tight">{contagem.novo}</p>
-              <p className="mt-1.5 text-xs text-muted-foreground">{contextoNovos}</p>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href="/dashboard/negocios?etapa=negociacao">
-          <Card className="h-full transition-transform hover:-translate-y-0.5">
-            <CardContent className="pt-5">
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Negociação
-              </p>
-              <p className="mt-1 text-5xl font-bold tracking-tight">{contagem.negociacao}</p>
-              <p className="mt-1.5 text-xs text-muted-foreground">
-                {valorNegociacao > 0 ? formatarValor(valorNegociacao) : "Sem valor estimado"}
-              </p>
-            </CardContent>
-          </Card>
-        </Link>
+        <Card className="h-full">
+          <CardContent className="pt-5">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Follow-ups
+            </p>
+            <p
+              className={`mt-1 text-5xl font-bold tracking-tight ${
+                followups.length > 0 ? "text-primary" : ""
+              }`}
+            >
+              {followups.length}
+            </p>
+            <p className="mt-1.5 text-xs text-muted-foreground">{contextoFollowups}</p>
+          </CardContent>
+        </Card>
+        <Card className="h-full">
+          <CardContent className="pt-5">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Leads novos
+            </p>
+            <p className="mt-1 text-5xl font-bold tracking-tight">{contagem.novo}</p>
+            <p className="mt-1.5 text-xs text-muted-foreground">{contextoNovos}</p>
+          </CardContent>
+        </Card>
+        <Card className="h-full">
+          <CardContent className="pt-5">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Negociação
+            </p>
+            <p className="mt-1 text-5xl font-bold tracking-tight">{contagem.negociacao}</p>
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              {valorNegociacao > 0 ? formatarValor(valorNegociacao) : "Sem valor estimado"}
+            </p>
+          </CardContent>
+        </Card>
         <Card className="h-full">
           <CardContent className="pt-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -209,15 +203,9 @@ export default async function PainelPage() {
           </CardHeader>
           <CardContent className="space-y-3">
             {etapasFunil.map((etapa) => (
-              <Link
-                key={etapa.id}
-                href={`/dashboard/negocios?etapa=${etapa.id}`}
-                className="group block"
-              >
+              <div key={etapa.id}>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground group-hover:text-foreground">
-                    {etapa.label}
-                  </span>
+                  <span className="text-muted-foreground">{etapa.label}</span>
                   <span className="font-semibold tabular-nums">{contagem[etapa.id]}</span>
                 </div>
                 <div className="mt-1 h-2 overflow-hidden rounded-full bg-muted">
@@ -226,7 +214,7 @@ export default async function PainelPage() {
                     style={{ width: `${(contagem[etapa.id] / maiorEtapa) * 100}%` }}
                   />
                 </div>
-              </Link>
+              </div>
             ))}
           </CardContent>
         </Card>
