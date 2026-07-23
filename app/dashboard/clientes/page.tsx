@@ -44,7 +44,7 @@ export default async function ClientesPage({
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-accent-600">Comercial</p>
           <h1 className="mt-1 text-2xl font-bold text-foreground">Clientes</h1>
           <p className="mt-1 text-sm text-foreground-muted">
-            Cadastro único de empresas — lead e cliente são status, nunca duplicam.
+            Cadastro único de empresas: lead e cliente são status.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">

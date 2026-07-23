@@ -117,7 +117,7 @@ export default async function AgendaPage() {
                   <li key={c.id} className="flex items-center justify-between gap-3 py-2.5">
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold">
-                        {c.maquina ? `${c.maquina} — ` : ""}
+                        {c.maquina ? `${c.maquina} · ` : ""}
                         {c.defeito}
                       </p>
                       {c.empresas && (

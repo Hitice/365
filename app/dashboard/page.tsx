@@ -116,7 +116,7 @@ export default async function PainelPage() {
     );
   }
   if (resumoDia.length === 0) {
-    resumoDia.push("nenhuma pendência no funil — bom momento pra prospectar");
+    resumoDia.push("nenhuma pendência no funil, bom momento pra prospectar");
   }
 
   const etapasFunil = ETAPAS_NEGOCIO.filter((e) => e.id !== "perdido");
@@ -324,7 +324,7 @@ export default async function PainelPage() {
                         </>
                       )}
                       {ev.descricao && (
-                        <span className="text-muted-foreground"> — {ev.descricao}</span>
+                        <span className="text-muted-foreground"> · {ev.descricao}</span>
                       )}
                     </p>
                   </div>

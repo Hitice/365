@@ -25,7 +25,7 @@ export default function ModulePlaceholder({
       <Card className="mt-6">
         <CardHeader>
           <CardTitle className="text-base">O que este módulo vai fazer</CardTitle>
-          <CardDescription>Escopo planejado — chega em uma das próximas etapas.</CardDescription>
+          <CardDescription>Escopo planejado. Chega em uma das próximas etapas.</CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2 text-sm text-muted-foreground">
