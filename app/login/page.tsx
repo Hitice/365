@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import LogoIcon from "@/components/LogoIcon";
+import { Logo } from "@/components/Logo";
 import Button from "@/components/Button";
 import { login } from "./actions";
 
@@ -20,11 +20,7 @@ export default async function LoginPage({
     <main className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm">
         <Link href="/" className="flex items-center justify-center gap-2.5 text-foreground">
-          <LogoIcon className="h-9 w-9" />
-          <span className="flex items-baseline gap-1.5">
-            <span className="text-xl font-bold tracking-tight">Catech</span>
-            <span className="text-xl font-bold text-accent-600">360</span>
-          </span>
+          <Logo className="h-9" priority />
         </Link>
 
         <div className="mt-8 rounded-2xl border border-border bg-surface p-8 shadow-sm">

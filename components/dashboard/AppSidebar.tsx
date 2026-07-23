@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronsUpDown, LogOut } from "lucide-react";
-import LogoIcon from "@/components/LogoIcon";
+import { Logo } from "@/components/Logo";
 import {
   Sidebar,
   SidebarContent,
@@ -59,12 +59,9 @@ export default function AppSidebar({
         <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]:justify-center">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2.5 px-2 py-1.5 text-base font-bold tracking-tight text-sidebar-foreground group-data-[collapsible=icon]:hidden"
+            className="flex items-center px-2 py-1 group-data-[collapsible=icon]:hidden"
           >
-            <LogoIcon className="size-8 flex-none" />
-            <span>
-              Catech <span className="text-primary">360</span>
-            </span>
+            <Logo className="h-7" />
           </Link>
           <SidebarTrigger className="text-sidebar-foreground" />
         </div>

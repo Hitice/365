@@ -29,6 +29,14 @@ export const metadata: Metadata = {
     title: "Catech 360 | Usinagem CNC, Plásticos Industriais e Máquinas",
     description:
       "Peças sob desenho, engenharia reversa, plásticos industriais e máquinas CNC de fabricação própria. Assistência técnica e retrofit em Uberlândia MG.",
+    images: [
+      {
+        url: "/images/brand/catech360/og-catech360-dark.png",
+        width: 1200,
+        height: 630,
+        alt: "Catech 360",
+      },
+    ],
   },
 };
 

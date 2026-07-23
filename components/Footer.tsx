@@ -1,11 +1,11 @@
-import LogoIcon from "./LogoIcon";
+import { LogoMark } from "./Logo";
 
 export default function Footer() {
   return (
     <footer className="border-t border-border bg-surface py-5">
       <div className="mx-auto flex max-w-[1480px] flex-wrap items-center justify-center gap-x-6 gap-y-2 px-4 text-xs text-foreground-subtle sm:justify-between sm:px-6 lg:px-8">
         <p className="flex items-center gap-2 text-foreground">
-          <LogoIcon className="h-5 w-5" />
+          <LogoMark className="h-5" />
           <span>
             <span className="font-semibold">Catech 360</span>
             <span className="text-foreground-subtle"> · Usinagem, plásticos e máquinas CNC</span>

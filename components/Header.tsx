@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import LogoIcon from "./LogoIcon";
+import { Logo } from "./Logo";
 import ThemeToggle from "./ThemeToggle";
 
 const links = [
@@ -101,11 +101,7 @@ export default function Header() {
           className="flex items-center gap-2.5 text-foreground"
           onClick={() => setOpen(false)}
         >
-          <LogoIcon className="h-9 w-9" />
-          <span className="flex items-baseline gap-1.5 whitespace-nowrap">
-            <span className="text-xl font-bold tracking-tight">Catech</span>
-            <span className="text-xl font-bold text-accent-600">360</span>
-          </span>
+          <Logo className="h-8" priority />
         </Link>
 
         <nav className="hidden items-center gap-5 xl:flex" aria-label="Principal">
