@@ -191,15 +191,28 @@ export default function NichoWheel() {
 
         {/* centro */}
         {active === null ? (
-          // "360" da marca (mesma arte do logo), no lugar do texto.
-          <image
-            href="/images/brand/catech360/360.png"
-            x={CX - 60}
-            y={CY - 20.75}
-            width={120}
-            height={41.5}
-            style={{ pointerEvents: "none" }}
-          />
+          // "360" da marca (arte do logo). Duas variantes trocadas por tema:
+          // navy no claro, branca no escuro (a bolinha do grau acompanha).
+          <>
+            <image
+              href="/images/brand/catech360/360-light.png"
+              x={CX - 60}
+              y={CY - 20.75}
+              width={120}
+              height={41.5}
+              className="dark:hidden"
+              style={{ pointerEvents: "none" }}
+            />
+            <image
+              href="/images/brand/catech360/360-dark.png"
+              x={CX - 60}
+              y={CY - 20.75}
+              width={120}
+              height={41.5}
+              className="hidden dark:block"
+              style={{ pointerEvents: "none" }}
+            />
+          </>
         ) : (
           <text
             x={CX}
