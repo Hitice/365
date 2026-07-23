@@ -20,7 +20,7 @@ export default async function LoginPage({
     <main className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm">
         <Link href="/" className="flex items-center justify-center gap-2.5 text-foreground">
-          <Logo className="h-9" priority />
+          <Logo className="h-[42px]" priority />
         </Link>
 
         <div className="mt-8 rounded-2xl border border-border bg-surface p-8 shadow-sm">

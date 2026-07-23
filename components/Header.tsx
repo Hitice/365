@@ -101,7 +101,7 @@ export default function Header() {
           className="flex items-center gap-2.5 text-foreground"
           onClick={() => setOpen(false)}
         >
-          <Logo className="h-8" priority />
+          <Logo className="h-[38px]" priority />
         </Link>
 
         <nav className="hidden items-center gap-5 xl:flex" aria-label="Principal">

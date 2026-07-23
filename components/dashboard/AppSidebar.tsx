@@ -61,7 +61,7 @@ export default function AppSidebar({
             href="/dashboard"
             className="flex items-center px-2 py-1 group-data-[collapsible=icon]:hidden"
           >
-            <Logo className="h-7" />
+            <Logo className="h-[34px]" />
           </Link>
           <SidebarTrigger className="text-sidebar-foreground" />
         </div>
