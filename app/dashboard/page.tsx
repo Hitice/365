@@ -130,8 +130,6 @@ export default async function PainelPage() {
       : atrasados > 0
         ? `${atrasados} atrasado${atrasados > 1 ? "s" : ""}`
         : "Todos pra hoje";
-  const contextoNovos =
-    novosSemana === 0 ? "Nenhum negócio novo esta semana" : `+${novosSemana} esta semana`;
 
   return (
     <div className="space-y-8">
@@ -164,10 +162,12 @@ export default async function PainelPage() {
         <Card className="h-full">
           <CardContent className="pt-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Leads novos
+              Novos na semana
             </p>
-            <p className="mt-1 text-5xl font-bold tracking-tight">{contagem.novo}</p>
-            <p className="mt-1.5 text-xs text-muted-foreground">{contextoNovos}</p>
+            <p className="mt-1 text-5xl font-bold tracking-tight">{novosSemana}</p>
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              {contagem.novo} na etapa novo
+            </p>
           </CardContent>
         </Card>
         <Card className="h-full">
